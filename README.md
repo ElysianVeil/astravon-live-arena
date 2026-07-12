@@ -1041,6 +1041,8 @@ astravon-live-arena/
 │   │   ├── websocket.py
 │   │   ├── alerts.py
 │   │   ├── statistics.py
+│   │   ├── routes/
+│   │   │   └──routes.py
 │   │   └── reports.py
 │   │
 │   ├── services/
@@ -1056,12 +1058,40 @@ astravon-live-arena/
 │   │   └── report.py
 │   │
 │   ├── middleware/
+│   │   ├── __init__.py
+│   │   ├── logging.py
+│   │   ├── exception_handler.py
+│   │   └── cors.py
 │   │
 │   ├── schemas/
+│   │   ├── __init__.py
+│   │   ├── common.py
+│   │   ├── detection.py
+│   │   ├── event.py
+│   │   ├── statistics.py
+│   │   ├── alert.py
+│   │   ├── report.py
+│   │   └── route.py
 │   │
+│   ├── database/
+│   │   ├── __init__.py
+│   │   ├── connection.py
+│   │   └── session.py
 │   ├── utils/
+│   │   ├── __init__.py
+│   │   ├── constants.py
+│   │   ├── responses.py
+│   │   ├── validators.py
+│   │   ├── helpers.py
+│   │   └── logger.py
 │   │
 │   └── tests/
+│       ├── __init__.py
+│       ├── test_routes.py
+│       ├── test_ai_service.py
+│       ├── test_event_service.py
+│       ├── test_report_service.py
+│       └── test_statistics.py
 │
 ├── ai_engine/
 │   │
