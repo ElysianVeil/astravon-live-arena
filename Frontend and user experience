@@ -1,0 +1,284 @@
+src/
+│── components/
+│     Navbar.jsx
+│     Sidebar.jsx
+│     StatCard.jsx
+│     CrowdChart.jsx
+│     AlertTable.jsx
+│
+│── pages/
+│     Dashboard.jsx
+│     Cameras.jsx
+│     Reports.jsx
+│     Settings.jsx
+│
+│── App.js
+│── main.jsx
+│
+└── theme.js
+npm install @mui/material @emotion/react @emotion/styled
+
+npm install @mui/icons-material
+
+npm install @nivo/bar
+
+npm install react-router-dom
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Dashboard from "./pages/Dashboard";
+import Cameras from "./pages/Cameras";
+import Reports from "./pages/Reports";
+import Settings from "./pages/Settings";
+
+function App() {
+  return (
+    <BrowserRouter>
+
+      <Routes>
+
+        <Route path="/" element={<Dashboard />} />
+
+        <Route path="/cameras" element={<Cameras />} />
+
+        <Route path="/reports" element={<Reports />} />
+
+        <Route path="/settings" element={<Settings />} />
+
+      </Routes>
+
+    </BrowserRouter>
+  );
+}
+
+export default App;
+import { Grid } from "@mui/material";
+
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
+import StatCard from "../components/StatCard";
+import CrowdChart from "../components/CrowdChart";
+import AlertTable from "../components/AlertTable";
+
+export default function Dashboard() {
+  return (
+    <>
+      <Navbar />
+
+      <Sidebar />
+
+      <Grid container spacing={3} sx={{ p: 4, ml: 30 }}>
+
+        <Grid item xs={12} md={3}>
+          <StatCard
+            title="People Detected"
+            value="1,245"
+            color="#1976d2"
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <StatCard
+            title="Safety Alerts"
+            value="16"
+            color="#d32f2f"
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <StatCard
+            title="Active Cameras"
+            value="24"
+            color="#2e7d32"
+          />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
+          <StatCard
+            title="Risk Level"
+            value="Medium"
+            color="#f57c00"
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <CrowdChart />
+        </Grid>
+
+        <Grid item xs={12}>
+          <AlertTable />
+        </Grid>
+
+      </Grid>
+
+    </>
+  );
+}
+import { Card, CardContent, Typography } from "@mui/material";
+
+export default function StatCard({ title, value, color }) {
+  return (
+    <Card
+      sx={{
+        background: color,
+        color: "white",
+        borderRadius: 3,
+      }}
+    >
+      <CardContent>
+
+        <Typography variant="h6">
+          {title}
+        </Typography>
+
+        <Typography variant="h3">
+          {value}
+        </Typography>
+
+      </CardContent>
+
+    </Card>
+  );
+}
+import { ResponsiveBar } from "@nivo/bar";
+
+const data = [
+  { hour: "09", crowd: 120 },
+  { hour: "10", crowd: 250 },
+  { hour: "11", crowd: 400 },
+  { hour: "12", crowd: 600 },
+  { hour: "13", crowd: 820 },
+  { hour: "14", crowd: 700 },
+];
+
+export default function CrowdChart() {
+  return (
+    <div style={{ height: 400 }}>
+
+      <ResponsiveBar
+        data={data}
+        keys={["crowd"]}
+        indexBy="hour"
+        margin={{ top: 30, right: 30, bottom: 60, left: 60 }}
+        padding={0.3}
+        colors={{ scheme: "blues" }}
+      />
+
+    </div>
+  );
+}
+import {
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Paper
+} from "@mui/material";
+
+const alerts = [
+  {
+    id: 1,
+    event: "Overcrowding",
+    location: "Gate A",
+    severity: "High",
+  },
+  {
+    id: 2,
+    event: "Restricted Area Access",
+    location: "VIP Zone",
+    severity: "Medium",
+  },
+  {
+    id: 3,
+    event: "Person Fell",
+    location: "Stage",
+    severity: "Critical",
+  },
+];
+
+export default function AlertTable() {
+  return (
+    <Paper>
+
+      <Table>
+
+        <TableHead>
+
+          <TableRow>
+
+            <TableCell>Alert</TableCell>
+
+            <TableCell>Location</TableCell>
+
+            <TableCell>Severity</TableCell>
+
+          </TableRow>
+
+        </TableHead>
+
+        <TableBody>
+
+          {alerts.map((a) => (
+            <TableRow key={a.id}>
+              <TableCell>{a.event}</TableCell>
+              <TableCell>{a.location}</TableCell>
+              <TableCell>{a.severity}</TableCell>
+            </TableRow>
+          ))}
+
+        </TableBody>
+
+      </Table>
+
+    </Paper>
+  );
+}
+import { AppBar, Toolbar, Typography } from "@mui/material";
+
+export default function Navbar() {
+  return (
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6">
+          AI Event Safety Monitoring Platform
+        </Typography>
+      </Toolbar>
+    </AppBar>
+  );
+}
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
+
+import { Link } from "react-router-dom";
+
+export default function Sidebar() {
+  return (
+    <Drawer variant="permanent">
+
+      <List sx={{ width: 240 }}>
+
+        <ListItem component={Link} to="/">
+          <ListItemText primary="Dashboard" />
+        </ListItem>
+
+        <ListItem component={Link} to="/cameras">
+          <ListItemText primary="Live Cameras" />
+        </ListItem>
+
+        <ListItem component={Link} to="/reports">
+          <ListItemText primary="Reports" />
+        </ListItem>
+
+        <ListItem component={Link} to="/settings">
+          <ListItemText primary="Settings" />
+        </ListItem>
+
+      </List>
+
+    </Drawer>
+  );
+}
