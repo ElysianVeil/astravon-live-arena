@@ -102,14 +102,25 @@ class AIService:
         )
 
         self.current_statistics = {
+            "id": len(self.statistics_history) + 1,
+
             "people_count": request.people_count,
-            "density": request.density,
             "occupancy": request.occupancy,
+            "density": request.density,
+
             "temperature": request.temperature,
             "humidity": request.humidity,
             "heat_index": request.heat_index,
+
             "risk_score": request.risk_score,
             "risk_level": request.risk_level,
+
+            "detected_objects": request.detected_objects,
+
+            "confidence": request.confidence,
+            "processing_time": request.processing_time,
+            "fps": request.fps,
+
             "timestamp": datetime.now().isoformat()
         }
 
@@ -122,6 +133,67 @@ class AIService:
         )
 
         return self.current_statistics
+    
+    # ========================================================
+    # Process Statistics
+    # ========================================================
+
+    def process_statistics(
+        self,
+        request: StatisticsRequest
+    ) -> dict:
+        """
+        Processes AI detection data.
+        """
+        if not validate_risk_score(
+            request.risk_score
+        ):
+
+            self.logger.warning(
+                "Invalid risk score detected"
+            )
+
+            raise ValueError(
+                "Invalid risk score"
+            )
+        
+        self.logger.info(
+            "Processing AI detection data"
+        )
+
+        self.current_statistics = {
+            "id": len(self.statistics_history) + 1,
+
+            "people_count": request.people_count,
+            "occupancy": request.occupancy,
+            "density": request.density,
+
+            "temperature": request.temperature,
+            "humidity": request.humidity,
+            "heat_index": request.heat_index,
+
+            "risk_score": request.risk_score,
+            "risk_level": request.risk_level,
+
+            "detected_objects": request.detected_objects,
+
+            "confidence": request.confidence,
+            "processing_time": request.processing_time,
+            "fps": request.fps,
+
+            "created_at": datetime.now().isoformat()
+        }
+
+        self.statistics_history.append(
+            self.current_statistics.copy()
+        )
+
+        self.logger.info(
+            "AI detection completed"
+        )
+
+        return self.current_statistics
+
 
     # ========================================================
     # Statistics
@@ -136,7 +208,7 @@ class AIService:
         request: StatisticsRequest
     ):
 
-        return self.process_detection(request)
+        return self.process_statistics(request)
 
     def get_statistics_history(self):
 

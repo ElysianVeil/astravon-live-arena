@@ -1104,17 +1104,19 @@ astravon-live-arena/
 │   ├── models/
 │   │   │
 │   │   ├── yolov_model/
-│   │   │   ├── best.pt
-│   │   │   ├── labels.txt
+│   │   │   ├── best.pt # YOLO model
+│   │   │   ├── labels.txt # COCO class labels
 │   │   │   └── loader.py
 │   │   │
 │   │   └── cache/
 │   │
 │   ├── vision/
-│   │   ├── camera.py
-│   │   ├── stream.py
-│   │   ├── detector.py
-│   │   ├── tracker.py
+│   │   ├── camera.py # Represents one camera
+│   │   ├── camera_manager.py # Handles multiple cameras
+│   │   ├── stream.py # Reads frames continuously
+│   │   ├── detector.py # YOLO detection
+│   │   ├── tracker.py # ByteTrack tracking
+│   │   ├── pipeline.py # connects camera -> YOLO -> tracking
 │   │   ├── preprocessing.py
 │   │   ├── calibration.py
 │   │   ├── drawing.py
@@ -1306,3 +1308,655 @@ Documentation
 Testing
 Final presentation
 Demo-ready application
+
+"Astravon Live Arena supports distributed camera monitoring. Multiple camera feeds are processed independently, and crowd intelligence is aggregated into a central safety dashboard"
+
+Multi-camera AI processing
+
+You don't want:
+
+Camera 1
+   |
+ YOLO
+   |
+ Camera 2
+   |
+ YOLO
+
+inside one huge loop.
+
+Instead:
+
+Camera 1
+ |
+Thread 1
+ |
+YOLO
+
+
+Camera 2
+ |
+Thread 2
+ |
+YOLO
+
+
+Camera 3
+ |
+Thread 3
+ |
+YOLO
+
+Each camera gets its own processing pipeline.
+
+Your AI engine folder is already designed like a production system. For a 4-week MVP, do **not** start by creating every file. Start from the **core pipeline**:
+
+```
+Camera → OpenCV → YOLO → ByteTrack → Crowd Analysis → Backend
+```
+
+Everything else can connect later.
+
+The correct development order is:
+
+---
+
+# Phase 1 — Create the AI Engine foundation
+
+First create the package structure:
+
+```
+ai_engine/
+│
+├── main.py
+├── config.py
+├── constants.py
+├── requirements.txt
+│
+├── models/
+│   └── yolov_model/
+│       └── loader.py
+│
+├── vision/
+│   ├── camera.py
+│   ├── stream.py
+│   ├── detector.py
+│   ├── tracker.py
+│   └── pipeline.py
+│
+├── crowd/
+│   ├── counter.py
+│   └── density.py
+│
+├── api/
+│   ├── http_client.py
+│   └── schemas.py
+│
+└── tests/
+```
+
+Ignore the other folders initially.
+
+---
+
+# Step 1 — Setup requirements.txt
+
+Start with:
+
+```txt
+ultralytics
+opencv-python
+numpy
+requests
+pydantic
+pyyaml
+python-dotenv
+```
+
+Later add:
+
+```txt
+lapx
+supervision
+```
+
+for tracking.
+
+Install:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+# Step 2 — Test YOLO first
+
+Create:
+
+```
+models/yolov_model/loader.py
+```
+
+Purpose:
+
+Load your AI model once.
+
+```python
+from ultralytics import YOLO
+
+
+class YOLOLoader:
+
+    def __init__(self):
+
+        self.model = YOLO(
+            "yolov8n.pt"
+        )
+
+
+    def get_model(self):
+
+        return self.model
+```
+
+Test:
+
+```python
+from models.yolov_model.loader import YOLOLoader
+
+
+model = YOLOLoader().get_model()
+
+print(model)
+```
+
+If this works, your AI foundation is alive.
+
+---
+
+# Step 3 — Create camera input
+
+`vision/camera.py`
+
+Purpose:
+
+Represent one camera.
+
+```python
+class Camera:
+
+    def __init__(
+        self,
+        camera_id,
+        source,
+        location
+    ):
+
+        self.camera_id = camera_id
+        self.source = source
+        self.location = location
+```
+
+Example:
+
+```python
+camera = Camera(
+    1,
+    "video.mp4",
+    "Main Entrance"
+)
+```
+
+---
+
+# Step 4 — Create video stream reader
+
+`vision/stream.py`
+
+This talks to OpenCV.
+
+```python
+import cv2
+
+
+class VideoStream:
+
+
+    def __init__(
+        self,
+        source
+    ):
+
+        self.capture = cv2.VideoCapture(
+            source
+        )
+
+
+    def read(self):
+
+        success, frame = self.capture.read()
+
+        if success:
+            return frame
+
+        return None
+```
+
+Now you can read:
+
+* phone stream
+* webcam
+* mp4 video
+
+---
+
+# Step 5 — Connect YOLO detection
+
+`vision/detector.py`
+
+```python
+class Detector:
+
+
+    def __init__(
+        self,
+        model
+    ):
+
+        self.model = model
+
+
+    def detect(
+        self,
+        frame
+    ):
+
+        results = self.model(
+            frame
+        )
+
+        return results
+```
+
+---
+
+# Step 6 — Create the pipeline
+
+This is the brain.
+
+`vision/pipeline.py`
+
+```python
+class VisionPipeline:
+
+
+    def __init__(
+        self,
+        stream,
+        detector
+    ):
+
+        self.stream = stream
+        self.detector = detector
+
+
+    def run(self):
+
+        while True:
+
+            frame = self.stream.read()
+
+            if frame is None:
+                break
+
+
+            results = self.detector.detect(
+                frame
+            )
+
+
+            print(results)
+```
+
+Flow:
+
+```
+Camera
+  |
+Stream
+  |
+Detector
+  |
+YOLO
+```
+
+---
+
+# Step 7 — Add people counting
+
+`crowd/counter.py`
+
+Start simple:
+
+```python
+class CrowdCounter:
+
+
+    def count(
+        self,
+        results
+    ):
+
+        people = 0
+
+
+        for result in results:
+
+            for box in result.boxes:
+
+                cls = int(
+                    box.cls[0]
+                )
+
+                if cls == 0:
+                    people += 1
+
+
+        return people
+```
+
+COCO:
+
+```
+class 0 = person
+```
+
+---
+
+# Step 8 — Main entry point
+
+`main.py`
+
+This starts everything.
+
+```python
+from models.yolov_model.loader import YOLOLoader
+
+from vision.stream import VideoStream
+from vision.detector import Detector
+from vision.pipeline import VisionPipeline
+
+
+
+model = YOLOLoader().get_model()
+
+
+stream = VideoStream(
+    "assets/sample_videos/test.mp4"
+)
+
+
+detector = Detector(
+    model
+)
+
+
+pipeline = VisionPipeline(
+    stream,
+    detector
+)
+
+
+pipeline.run()
+```
+
+Run:
+
+```bash
+python main.py
+```
+
+Expected:
+
+```
+YOLO loaded
+
+Frame received
+
+Detection results...
+
+```
+
+---
+
+# Phase 2 — Add multiple cameras
+
+After one camera works:
+
+Create:
+
+```
+vision/camera_manager.py
+```
+
+Example:
+
+```python
+class CameraManager:
+
+
+    def __init__(self):
+
+        self.cameras=[]
+
+
+    def add(
+        self,
+        camera
+    ):
+
+        self.cameras.append(camera)
+
+
+    def get_all(self):
+
+        return self.cameras
+```
+
+Then:
+
+```
+Camera 1
+   |
+Pipeline 1
+
+
+Camera 2
+   |
+Pipeline 2
+```
+
+---
+
+# Phase 3 — Add ByteTrack
+
+Only after detection works.
+
+Pipeline becomes:
+
+```
+OpenCV
+  |
+YOLO
+  |
+ByteTrack
+  |
+Person ID
+  |
+Crowd counting
+```
+
+---
+
+# Phase 4 — Connect to your completed backend
+
+Your backend already has:
+
+```
+POST /api/v1/ai/detection
+```
+
+The AI engine sends:
+
+```json
+{
+ "camera_id":1,
+ "people_count":45,
+ "density":"Medium",
+ "risk_score":30
+}
+```
+
+using:
+
+```
+api/http_client.py
+```
+
+---
+
+## Your first milestone should be:
+
+Do not think about heat, risk, reports, analytics yet.
+
+Your first success condition:
+
+> "I can give Astravon Live Arena a phone video, and it returns the number of people detected."
+
+Once that works, everything else becomes connecting modules.
+
+Your backend is already ready. The AI engine now only needs to become the **data generator**.
+
+
+For the **Astravon Live Arena AI Engine MVP**, install the core computer vision and integration libraries first.
+
+Run this inside your `ai_engine` environment:
+
+```bash
+pip install ultralytics opencv-python numpy requests pydantic pyyaml python-dotenv
+```
+
+These cover:
+
+| Library         | Purpose                                        |
+| --------------- | ---------------------------------------------- |
+| `ultralytics`   | YOLOv8/YOLO11 object detection                 |
+| `opencv-python` | Camera feeds, video processing, frame handling |
+| `numpy`         | Image/frame mathematical operations            |
+| `requests`      | Sending AI results to your FastAPI backend     |
+| `pydantic`      | Data validation schemas                        |
+| `pyyaml`        | Reading AI/camera/risk configuration files     |
+| `python-dotenv` | Environment variables                          |
+
+---
+
+For tracking with **ByteTrack**, install:
+
+```bash
+pip install supervision
+```
+
+`supervision` provides easy integration with ByteTrack.
+
+---
+
+For better video handling:
+
+```bash
+pip install av imageio
+```
+
+Useful for:
+
+* video streams
+* frame extraction
+* additional formats
+
+---
+
+For testing:
+
+```bash
+pip install pytest pytest-asyncio
+```
+
+---
+
+For development/debugging:
+
+```bash
+pip install tqdm matplotlib
+```
+
+Useful for:
+
+* progress bars
+* visualizing detections
+* testing AI outputs
+
+---
+
+Your complete initial `requirements.txt` could be:
+
+```txt
+ultralytics
+opencv-python
+numpy
+
+supervision
+
+requests
+pydantic
+pyyaml
+python-dotenv
+
+pytest
+pytest-asyncio
+
+tqdm
+matplotlib
+
+av
+imageio
+```
+
+Then install everything with:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+For your first AI milestone, you only need:
+
+```bash
+pip install ultralytics opencv-python numpy
+```
+
+That is enough to achieve:
+
+```
+Phone Camera
+      ↓
+OpenCV
+      ↓
+YOLO
+      ↓
+Person Detection
+      ↓
+People Count
+```
+
+Then add ByteTrack and backend communication after detection is working.

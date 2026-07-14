@@ -38,9 +38,7 @@ class StatisticsRequest(AstravonSchema):
         ge=0
     )
 
-    occupancy: int = Field(
-        ge=0
-    )
+    occupancy: float
 
     density: str
 
@@ -88,7 +86,7 @@ class StatisticsData(AstravonSchema):
 
     people_count: int
 
-    occupancy: int
+    occupancy: float
 
     density: str
 
@@ -158,7 +156,7 @@ class StatisticsHistoryResponse(
     Historical statistics response.
     """
 
-    data: List[StatisticsData] = []
+    data: List[StatisticsData] = Field(default_factory=list)
 
 
 # ============================================================
