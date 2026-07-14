@@ -1,0 +1,66 @@
+# ==========================================================
+# Camera Configuration
+# ==========================================================
+
+camera_manager:
+
+  auto_connect: true
+
+  reconnect_attempts: 5
+
+  reconnect_delay: 3
+
+  max_cameras: 8
+
+cameras:
+
+  - id: Camera-1
+    source: 0
+    enabled: true
+    name: Main Entrance
+
+  - id: Camera-2
+    source: 1
+    enabled: false
+    name: East Gate
+
+  - id: Camera-3
+    source: assets/sample_videos/demo.mp4
+    enabled: false
+    name: Demo Video
+
+stream:
+
+  width: 1280
+
+  height: 720
+
+  fps: 30
+
+  buffer_size: 2
+
+display:
+
+  show_window: true
+
+  window_name: Astravon Live Arena
+
+  fullscreen: false
+
+recording:
+
+  enabled: false
+
+  output_directory: outputs/recordings
+
+# Later, when you have IP cameras, you'll simply replace the source with something like:
+
+# source: rtsp://192.168.1.20:554/live
+
+# or
+
+# source: http://192.168.1.50:8080/video
+
+# If you use a phone as a camera (e.g., DroidCam or IP Webcam):
+
+# source: http://192.168.1.100:4747/video

@@ -1,0 +1,65 @@
+# ==========================================================
+# Risk Analysis Configuration
+# ==========================================================
+
+risk:
+
+  enabled: true
+
+  update_interval: 1
+
+weights:
+
+  people_count: 0.30
+
+  density: 0.30
+
+  temperature: 0.20
+
+  movement: 0.10
+
+  congestion: 0.10
+
+thresholds:
+
+  low: 25
+
+  medium: 50
+
+  high: 75
+
+  critical: 90
+
+temperature:
+
+  warning: 30
+
+  danger: 35
+
+humidity:
+
+  warning: 70
+
+  danger: 85
+
+occupancy:
+
+  warning: 70
+
+  danger: 90
+
+recommendations:
+
+  low: Continue monitoring.
+
+  medium: Increase observation.
+
+  high: Notify event staff.
+
+  critical: Initiate emergency response.
+
+alerts:
+
+  enable_notifications: true
+
+  cooldown_seconds: 30

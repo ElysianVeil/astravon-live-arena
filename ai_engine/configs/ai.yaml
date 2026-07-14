@@ -1,0 +1,36 @@
+# ==========================================================
+# Astravon Live Arena
+# AI Configuration
+# ==========================================================
+
+application:
+  name: Astravon Live Arena
+  version: 1.0.0
+
+model:
+  type: YOLOv8
+  weights: models/yolov_model/best.pt
+  device: auto          # auto, cpu, cuda
+  confidence: 0.50
+  iou: 0.45
+  max_detections: 300
+
+tracking:
+  enabled: true
+  tracker: ByteTrack
+  persist_tracks: true
+
+detection:
+  person_class: 0
+  draw_boxes: true
+  draw_labels: true
+  draw_confidence: true
+
+performance:
+  target_fps: 30
+  save_processed_frames: false
+  record_video: false
+
+api:
+  backend_url: http://localhost:8000
+  websocket_enabled: true
