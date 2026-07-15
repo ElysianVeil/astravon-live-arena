@@ -143,7 +143,8 @@ class VisionPipeline:
         """
         Stops the pipeline.
         """
-
+        self.output.shutdown()
+        
         self.stream.close()
 
     # ========================================================
@@ -176,10 +177,10 @@ class VisionPipeline:
         frame = self.preprocessor.process(frame)
         detection_result = self.detector.detect(frame)
 
-        for d in detection_result.detections:
-            print(d)
-            for k, v in d.items():
-                print(k, type(v), v)
+        # for d in detection_result.detections:
+        #     print(d)
+        #     for k, v in d.items():
+        #         print(k, type(v), v)
 
         objects = []
 
@@ -204,12 +205,12 @@ class VisionPipeline:
         tracked = self.tracker.update(
             detection_result.supervision
         )
-        print(f"Tracked: {tracked}")
+        # print(f"Tracked: {tracked}")
 
         tracks = self.tracker.get_tracks(
             tracked
         )
-        print(f"Tracks: {tracks}")
+        # print(f"Tracks: {tracks}")
         print(f"Track count: {len(tracks)}")
         people_count = self.counter.count_people(tracks)
 
@@ -283,6 +284,17 @@ class VisionPipeline:
             risk["risk_score"]
 
         )
+
+        height, width = output.shape[:2]
+
+        camera_payload = {
+            "frame": output,
+            "width": width,
+            "height": height,
+            "fps": float(self.metrics.average_fps())
+        }
+
+        self.output.send_camera_frame(camera_payload)
 
         processing_time = time.perf_counter() - start_time
 

@@ -1960,3 +1960,386 @@ People Count
 ```
 
 Then add ByteTrack and backend communication after detection is working.
+
+
+I actually think you're at a good milestone to stop adding features and strengthen the architecture before moving to multiple cameras. Looking at everything we've built, I'd prioritize it like this:
+
+---
+
+# Phase 1 — Stabilize the Dashboard (Do this now)
+
+**Priority: Critical**
+
+Before touching the AI engine, make the frontend and backend behave like a professional monitoring system.
+
+## 1. Fix page navigation ⭐⭐⭐⭐⭐
+
+This should be your first task.
+
+Right now you are loading HTML like:
+
+```javascript
+await fetch(`pages/${page}.html`)
+```
+
+then replacing
+
+```html
+<div id="mainContent"></div>
+```
+
+with new HTML.
+
+The problem is:
+
+* components are recreated
+* event listeners disappear
+* WebSocket callbacks still point to old DOM nodes
+* charts and maps are destroyed
+* camera panel is recreated
+
+This is why navigation feels fragile.
+
+### Better architecture
+
+```
+App
+│
+├── Navbar
+├── Sidebar
+├── Footer
+│
+├── Router
+│
+├── Dashboard Page
+├── Reports Page
+├── Settings Page
+└── About Page
+```
+
+Instead of replacing the entire page, keep all JS modules alive.
+
+Only replace the content area.
+
+Even better:
+
+```
+Dashboard
+    hide()
+
+Reports
+    show()
+
+Settings
+    show()
+```
+
+instead of recreating them.
+
+That alone will remove many subtle bugs.
+
+---
+
+## 2. Create a global State Manager ⭐⭐⭐⭐⭐
+
+Instead of
+
+```
+Statistics Component
+
+Camera Component
+
+Alerts Component
+
+Charts Component
+```
+
+all receiving websocket messages independently...
+
+have
+
+```
+WebSocket
+      │
+      ▼
+ State Manager
+      │
+ ├───────────────┐
+ ▼               ▼
+Camera       Statistics
+ ▼               ▼
+Charts       Alerts
+```
+
+Example
+
+```
+LiveState
+
+statistics
+
+frame
+
+alerts
+
+connection
+
+system
+
+camera
+```
+
+Every component subscribes to state changes.
+
+This becomes extremely useful once you have:
+
+* multiple cameras
+* recording
+* playback
+* analytics
+
+---
+
+## 3. System Integrity Card ⭐⭐⭐⭐☆
+
+Instead of fake
+
+```
+Backend Offline
+
+AI Offline
+```
+
+show real values.
+
+```
+✔ Backend
+
+✔ WebSocket
+
+✔ AI Engine
+
+✔ Camera
+
+✔ Statistics
+
+✔ Alerts
+
+Last update
+```
+
+---
+
+## 4. Improve Camera Panel ⭐⭐⭐⭐☆
+
+I'd add
+
+```
+Resolution
+
+FPS
+
+Latency
+
+Frames Received
+
+Dropped Frames
+
+Last Frame
+```
+
+When debugging streaming, these are invaluable.
+
+---
+
+# Phase 2 — Improve the Backend
+
+Once the UI is stable...
+
+---
+
+## Event Bus
+
+Instead of
+
+```
+Pipeline
+
+↓
+
+OutputManager
+
+↓
+
+WebSocket
+
+↓
+
+HTTP
+```
+
+I'd have
+
+```
+Pipeline
+
+↓
+
+Event Bus
+
+├──────── HTTP
+├──────── WebSocket
+├──────── Recorder
+├──────── Logger
+├──────── Database
+```
+
+Then adding a recorder later takes minutes.
+
+---
+
+## Live State
+
+You already started.
+
+Expand it.
+
+```
+LiveState
+
+latest_frame
+
+latest_statistics
+
+latest_detection
+
+latest_alert
+
+latest_system
+
+latest_route
+
+camera_status
+
+engine_status
+
+backend_status
+
+clients
+```
+
+---
+
+## Health Monitor
+
+Every few seconds
+
+```
+Camera Alive
+
+AI Alive
+
+Backend Alive
+
+WebSocket Alive
+
+Frame Age
+
+Inference FPS
+
+Memory
+
+CPU
+```
+
+Broadcast
+
+```
+type
+
+system
+```
+
+---
+
+# Phase 3 — AI Engine
+
+Only after everything above.
+
+Then you can improve
+
+* YOLO
+* ByteTrack
+* Heatmaps
+* Pose estimation
+* Violence detection
+* Crowd flow
+* Route prediction
+
+without touching the frontend.
+
+---
+
+# Phase 4 — Multiple Cameras
+
+This is where your current architecture will pay off.
+
+Instead of
+
+```
+frame
+```
+
+everything becomes
+
+```
+camera_id
+
+frame
+
+statistics
+
+alerts
+
+tracks
+```
+
+Example
+
+```json
+{
+    "type":"frame",
+
+    "camera":"gate_01",
+
+    "data":{
+
+        "frame":"...",
+
+        "fps":14.3
+    }
+}
+```
+
+Then the frontend simply creates
+
+```
+CameraPanel(camera_id)
+```
+
+No rewrites.
+
+---
+
+# What I would do tomorrow
+
+If I were developing Astravon Live Arena, my order would be:
+
+1. ✅ Fix navigation so pages don't recreate components.
+2. ✅ Build a centralized frontend `StateManager`.
+3. ✅ Add a live System Integrity panel (real backend, AI, WebSocket, camera status).
+4. ✅ Clean up the WebSocket protocol so every message follows the same `{type, data}` structure.
+5. ✅ Refactor the backend into an event-driven architecture with `LiveState`.
+6. 🚀 Then return to the AI engine and improve detection accuracy, tracking, and performance.
+
+This sequence minimizes rework. By stabilizing the UI and communication layers now, you'll be able to upgrade the AI engine—and later add multiple cameras—without repeatedly modifying the frontend. Given the direction of Astravon Live Arena, I think investing in the navigation and state architecture first will save you considerably more time than jumping straight into AI enhancements.

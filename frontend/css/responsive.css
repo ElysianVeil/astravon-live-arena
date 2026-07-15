@@ -1,0 +1,520 @@
+/*
+============================================================
+Astravon Live Arena
+Responsive Styles
+
+Purpose:
+    Handles responsiveness for tablets,
+    laptops, mobile devices and ultra-wide
+    displays.
+
+Author:
+    House of Astravon
+
+Version:
+    1.0.0
+============================================================
+*/
+
+/*==========================================================
+    Large Screens
+    1600px and below
+==========================================================*/
+
+@media (max-width: 1600px){
+
+    .container{
+
+        max-width:1400px;
+
+    }
+
+    .dashboard-layout{
+
+        grid-template-columns:
+            1.7fr
+            1fr;
+
+    }
+
+}
+
+/*==========================================================
+    Standard Laptop
+    1400px and below
+==========================================================*/
+
+@media (max-width: 1400px){
+
+    .stats-grid{
+
+        grid-template-columns:
+            repeat(3,1fr);
+
+    }
+
+    .grid-4{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+}
+
+/*==========================================================
+    Small Laptop
+    1200px and below
+==========================================================*/
+
+@media (max-width: 1200px){
+
+    .dashboard-layout{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .dashboard-left,
+    .dashboard-right{
+
+        width:100%;
+
+    }
+
+    .analytics-grid{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+    .stats-grid{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+    .grid-3{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+}
+
+/*==========================================================
+    Tablet Landscape
+    1024px and below
+==========================================================*/
+
+@media (max-width: 1024px){
+
+    :root{
+
+        --sidebar-width:240px;
+
+        --content-padding:20px;
+
+    }
+
+    .sidebar{
+
+        transform:translateX(-100%);
+
+    }
+
+    .sidebar.active{
+
+        transform:translateX(0);
+
+    }
+
+    .main-wrapper{
+
+        margin-left:0;
+
+    }
+
+    .navbar{
+
+        padding:0 20px;
+
+    }
+
+    .stats-grid{
+
+        gap:16px;
+
+    }
+
+    .map-container{
+
+        height:400px;
+
+    }
+
+}
+
+/*==========================================================
+    Tablet Portrait
+    768px and below
+==========================================================*/
+
+@media (max-width: 768px){
+
+    .dashboard-header{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:16px;
+
+    }
+
+    .stats-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .analytics-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .navbar{
+
+        height:auto;
+
+        padding:16px;
+
+        flex-wrap:wrap;
+
+        gap:12px;
+
+    }
+
+    .panel-header{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:10px;
+
+    }
+
+    .camera-feed{
+
+        aspect-ratio:auto;
+
+        min-height:280px;
+
+    }
+
+    .chart-container{
+
+        height:300px;
+
+    }
+
+    .map-container{
+
+        height:350px;
+
+    }
+
+    .dashboard-table{
+
+        display:block;
+
+        overflow-x:auto;
+
+        white-space:nowrap;
+
+    }
+
+}
+
+/*==========================================================
+    Mobile Devices
+    576px and below
+==========================================================*/
+
+@media (max-width: 576px){
+
+    :root{
+
+        --content-padding:16px;
+
+        --card-padding:16px;
+
+    }
+
+    .dashboard-title{
+
+        font-size:1.8rem;
+
+    }
+
+    .stat-value{
+
+        font-size:2rem;
+
+    }
+
+    .btn{
+
+        width:100%;
+
+    }
+
+    .panel-body{
+
+        padding:16px;
+
+    }
+
+    .card-body{
+
+        padding:16px;
+
+    }
+
+    .card-header{
+
+        padding:16px;
+
+    }
+
+    .modal-content{
+
+        width:95vw;
+
+    }
+
+    .map-container{
+
+        height:300px;
+
+    }
+
+    .camera-status{
+
+        left:10px;
+
+        top:10px;
+
+        padding:6px 10px;
+
+        font-size:.8rem;
+
+    }
+
+}
+
+/*==========================================================
+    Small Phones
+    420px and below
+==========================================================*/
+
+@media (max-width: 420px){
+
+    .dashboard-title{
+
+        font-size:1.5rem;
+
+    }
+
+    .dashboard-subtitle{
+
+        font-size:.9rem;
+
+    }
+
+    .stat-card{
+
+        padding:14px;
+
+    }
+
+    .stat-value{
+
+        font-size:1.7rem;
+
+    }
+
+    .panel-title{
+
+        font-size:1rem;
+
+    }
+
+    .alert-item{
+
+        flex-direction:column;
+
+    }
+
+    .notification{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+    .dropdown-menu{
+
+        min-width:180px;
+
+    }
+
+}
+
+/*==========================================================
+    Ultra Wide Displays
+    1920px and above
+==========================================================*/
+
+@media (min-width: 1920px){
+
+    .container{
+
+        max-width:1800px;
+
+    }
+
+    .stats-grid{
+
+        grid-template-columns:
+            repeat(5,1fr);
+
+    }
+
+    .dashboard-layout{
+
+        grid-template-columns:
+            2fr
+            1fr;
+
+    }
+
+}
+
+/*==========================================================
+    Sidebar Overlay
+==========================================================*/
+
+.sidebar-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.55);
+
+    backdrop-filter:blur(4px);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.3s ease;
+
+    z-index:998;
+
+}
+
+.sidebar-overlay.active{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
+/*==========================================================
+    Mobile Utility Classes
+==========================================================*/
+
+.mobile-hidden{
+
+    display:block;
+
+}
+
+.mobile-only{
+
+    display:none;
+
+}
+
+@media (max-width:768px){
+
+    .mobile-hidden{
+
+        display:none !important;
+
+    }
+
+    .mobile-only{
+
+        display:block !important;
+
+    }
+
+}
+
+/*==========================================================
+    Print Mode
+==========================================================*/
+
+@media print{
+
+    .sidebar,
+    .navbar,
+    .btn,
+    .sidebar-overlay{
+
+        display:none !important;
+
+    }
+
+    .main-wrapper{
+
+        margin-left:0;
+
+    }
+
+    body{
+
+        background:#ffffff;
+
+        color:#000000;
+
+    }
+
+    .panel,
+    .card{
+
+        box-shadow:none;
+
+        border:1px solid #cccccc;
+
+    }
+
+}

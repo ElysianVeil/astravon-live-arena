@@ -49,6 +49,8 @@ class WebSocketClient:
 
         self.connected = False
 
+        self.connecting = False
+
         self.url = settings.WEBSOCKET_URL
 
     # ========================================================
@@ -60,44 +62,74 @@ class WebSocketClient:
         Connects to the backend.
         """
 
+        if self.connected and self.websocket is not None:
+            return True
+
+        if self.connecting:
+            return False
+
+        self.connecting = True
+
         try:
 
             self.websocket = await websockets.connect(
-                self.url
+                self.url,
+                ping_interval=20,
+                ping_timeout=20,
+                close_timeout=5,
             )
 
             self.connected = True
 
-            logger.info(
-                "Connected to backend WebSocket."
-            )
+            logger.info("Connected to backend WebSocket.")
 
             return True
 
         except Exception as error:
 
-            logger.error(
-                f"WebSocket connection failed: {error}"
-            )
+            logger.error(f"Connection failed: {error}")
 
             self.connected = False
 
+            self.websocket = None
+
             return False
+
+        finally:
+
+            self.connecting = False
 
     async def disconnect(self) -> None:
         """
         Disconnects from the backend.
         """
 
-        if self.websocket:
+        if self.websocket is None:
 
-            await self.websocket.close()
+            return
 
-        self.connected = False
+        try:
 
-        logger.info(
-            "Disconnected from backend."
-        )
+            await asyncio.wait_for(
+                self.websocket.close(),
+                timeout=5
+            )
+
+        except Exception as error:
+
+            logger.warning(
+                f"WebSocket shutdown: {error}"
+            )
+
+        finally:
+
+            self.websocket = None
+
+            self.connected = False
+
+            logger.info(
+                "Disconnected from backend."
+            )
 
     # ========================================================
     # Generic Sender
@@ -111,17 +143,22 @@ class WebSocketClient:
         Sends a JSON message.
         """
 
-        try:
+        if not self.connected:
 
-            if not self.connected:
-                await self.connect()
+            success = await self.connect()
 
-            if self.websocket is None:
+            if not success:
+
                 return False
+
+        try:
+            print("WS SEND:", message["type"])
 
             await self.websocket.send(
                 json.dumps(message)
             )
+
+            print("WS SENT")
 
             return True
 
@@ -131,7 +168,10 @@ class WebSocketClient:
 
             self.connected = False
 
+            self.websocket = None
+
             return False
+
 
     # ========================================================
     # Statistics
@@ -211,6 +251,13 @@ class WebSocketClient:
                 "type": "heartbeat"
             }
         )
+    
+    async def send_camera_frame(self, payload):
+
+        await self.send({
+            "type": "frame",
+            "data": payload
+        })
 
 
 # ============================================================

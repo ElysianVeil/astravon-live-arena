@@ -1,0 +1,458 @@
+/*
+============================================================
+Astravon Live Arena
+Layout Styles
+
+Purpose:
+    Defines the overall dashboard layout including
+    the navbar, sidebar, main content, grids,
+    containers and page structure.
+
+Author:
+    House of Astravon
+
+Version:
+    1.0.0
+============================================================
+*/
+
+/*==========================================================
+    Global Reset
+==========================================================*/
+
+*,
+*::before,
+*::after{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/*==========================================================
+    HTML / Body
+==========================================================*/
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+
+    font-family:var(--font-primary);
+    font-size:var(--text-md);
+    color:var(--text-primary);
+
+    background:var(--background-main);
+
+    overflow-x:hidden;
+}
+
+/*==========================================================
+    Links
+==========================================================*/
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+ul{
+    list-style:none;
+}
+
+img{
+    display:block;
+    max-width:100%;
+}
+
+/*==========================================================
+    Application Wrapper
+==========================================================*/
+
+.app{
+    display:flex;
+
+    width:100%;
+    min-height:100vh;
+}
+
+/*==========================================================
+    Sidebar
+==========================================================*/
+
+.sidebar{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:var(--sidebar-width);
+    height:100vh;
+
+    display:flex;
+    flex-direction:column;
+
+    background:var(--background-sidebar);
+
+    border-right:
+        1px solid var(--border-color);
+
+    overflow-y:auto;
+
+    z-index:var(--z-sidebar);
+
+    transition:var(--transition-normal);
+}
+
+.sidebar.collapsed{
+
+    width:var(--sidebar-collapsed-width);
+
+}
+
+/*==========================================================
+    Main Wrapper
+==========================================================*/
+
+.main-wrapper{
+
+    flex:1;
+
+    margin-left:var(--sidebar-width);
+
+    display:flex;
+    flex-direction:column;
+
+    min-height:100vh;
+
+    transition:var(--transition-normal);
+
+}
+
+.sidebar.collapsed + .main-wrapper{
+
+    margin-left:var(--sidebar-collapsed-width);
+
+}
+
+/*==========================================================
+    Navbar
+==========================================================*/
+
+.navbar{
+
+    position:sticky;
+
+    top:0;
+
+    height:var(--navbar-height);
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 var(--space-6);
+
+    background:var(--background-navbar);
+
+    backdrop-filter:blur(12px);
+
+    border-bottom:
+        1px solid var(--border-color);
+
+    z-index:var(--z-navbar);
+
+}
+
+/*==========================================================
+    Page Content
+==========================================================*/
+
+.main-content{
+
+    flex:1;
+
+    padding:var(--content-padding);
+
+}
+
+/*==========================================================
+    Container
+==========================================================*/
+
+.container{
+
+    width:100%;
+    max-width:var(--container-width);
+
+    margin:0 auto;
+
+}
+
+/*==========================================================
+    Sections
+==========================================================*/
+
+.section{
+
+    margin-bottom:var(--space-8);
+
+}
+
+.section-title{
+
+    margin-bottom:var(--space-5);
+
+    font-family:var(--font-heading);
+
+    font-size:var(--text-2xl);
+
+    font-weight:var(--weight-semibold);
+
+}
+
+/*==========================================================
+    Grid Layout
+==========================================================*/
+
+.grid{
+
+    display:grid;
+
+    gap:var(--card-gap);
+
+}
+
+.grid-2{
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+}
+
+.grid-3{
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+}
+
+.grid-4{
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+}
+
+.grid-auto{
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(300px,1fr)
+        );
+
+}
+
+/*==========================================================
+    Dashboard Columns
+==========================================================*/
+
+.dashboard-layout{
+
+    display:grid;
+
+    grid-template-columns:
+
+        2fr
+        1fr;
+
+    gap:var(--space-6);
+
+}
+
+.dashboard-left{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-6);
+
+}
+
+.dashboard-right{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-6);
+
+}
+
+/*==========================================================
+    Flex Utilities
+==========================================================*/
+
+.flex{
+
+    display:flex;
+
+}
+
+.flex-column{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.flex-center{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.space-between{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.align-center{
+
+    display:flex;
+
+    align-items:center;
+
+}
+
+.justify-center{
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+/*==========================================================
+    Gap Utilities
+==========================================================*/
+
+.gap-sm{
+
+    gap:var(--space-2);
+
+}
+
+.gap-md{
+
+    gap:var(--space-4);
+
+}
+
+.gap-lg{
+
+    gap:var(--space-6);
+
+}
+
+/*==========================================================
+    Width Utilities
+==========================================================*/
+
+.w-100{
+
+    width:100%;
+
+}
+
+.h-100{
+
+    height:100%;
+
+}
+
+/*==========================================================
+    Margin Utilities
+==========================================================*/
+
+.mt-1{margin-top:var(--space-2);}
+.mt-2{margin-top:var(--space-4);}
+.mt-3{margin-top:var(--space-6);}
+.mt-4{margin-top:var(--space-8);}
+
+.mb-1{margin-bottom:var(--space-2);}
+.mb-2{margin-bottom:var(--space-4);}
+.mb-3{margin-bottom:var(--space-6);}
+.mb-4{margin-bottom:var(--space-8);}
+
+/*==========================================================
+    Padding Utilities
+==========================================================*/
+
+.p-1{
+
+    padding:var(--space-2);
+
+}
+
+.p-2{
+
+    padding:var(--space-4);
+
+}
+
+.p-3{
+
+    padding:var(--space-6);
+
+}
+
+.p-4{
+
+    padding:var(--space-8);
+
+}
+
+/*==========================================================
+    Scrollbars
+==========================================================*/
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:var(--background-main);
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:var(--color-primary-light);
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:var(--color-secondary);
+
+}

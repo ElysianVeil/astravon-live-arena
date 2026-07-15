@@ -1,0 +1,631 @@
+/*
+============================================================
+Astravon Live Arena
+Dashboard Styles
+
+Purpose:
+    Styles dashboard widgets, statistics cards,
+    camera feeds, charts, alerts, maps and
+    analytics components.
+
+Author:
+    House of Astravon
+
+Version:
+    1.0.0
+============================================================
+*/
+
+/*==========================================================
+    Dashboard Header
+==========================================================*/
+
+.dashboard-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:var(--space-6);
+
+}
+
+.dashboard-title{
+
+    font-family:var(--font-heading);
+    font-size:var(--text-3xl);
+    font-weight:var(--weight-bold);
+
+}
+
+.dashboard-subtitle{
+
+    margin-top:var(--space-2);
+
+    color:var(--text-muted);
+
+}
+
+/*==========================================================
+    Statistic Cards
+==========================================================*/
+
+.stats-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(240px,1fr));
+
+    gap:var(--space-5);
+
+    margin-bottom:var(--space-8);
+
+}
+
+.stat-card{
+
+    background:var(--background-card);
+
+    border:1px solid var(--border-color);
+
+    border-radius:var(--radius-lg);
+
+    padding:var(--card-padding);
+
+    transition:var(--transition-normal);
+
+    box-shadow:var(--shadow-small);
+
+}
+
+.stat-card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:var(--shadow-medium);
+
+    border-color:var(--color-secondary);
+
+}
+
+.stat-label{
+
+    font-size:var(--text-sm);
+
+    color:var(--text-muted);
+
+    margin-bottom:var(--space-3);
+
+}
+
+.stat-value{
+
+    font-size:var(--text-3xl);
+
+    font-weight:var(--weight-bold);
+
+    color:var(--text-primary);
+
+}
+
+.stat-unit{
+
+    font-size:var(--text-sm);
+
+    color:var(--text-secondary);
+
+}
+
+.stat-change{
+
+    margin-top:var(--space-3);
+
+    font-size:var(--text-sm);
+
+    font-weight:var(--weight-semibold);
+
+}
+
+/*==========================================================
+    Status Colors
+==========================================================*/
+
+.status-success{
+
+    color:var(--color-success);
+
+}
+
+.status-warning{
+
+    color:var(--color-warning);
+
+}
+
+.status-danger{
+
+    color:var(--color-danger);
+
+}
+
+.status-info{
+
+    color:var(--color-info);
+
+}
+
+/*==========================================================
+    Dashboard Panels
+==========================================================*/
+
+.panel{
+
+    background:var(--background-card);
+
+    border-radius:var(--radius-lg);
+
+    border:1px solid var(--border-color);
+
+    box-shadow:var(--shadow-small);
+
+    overflow:hidden;
+
+}
+
+.panel-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px 22px;
+
+    border-bottom:1px solid var(--border-color);
+
+}
+
+.panel-title{
+
+    font-size:var(--text-lg);
+
+    font-family:var(--font-heading);
+
+    font-weight:var(--weight-semibold);
+
+}
+
+.panel-body{
+
+    padding:22px;
+
+}
+
+/*==========================================================
+    Camera Feed
+==========================================================*/
+
+.camera-feed{
+
+    position:relative;
+
+    width:100%;
+
+    aspect-ratio:16/9;
+
+    overflow:hidden;
+
+    border-radius:var(--radius-md);
+
+    background:#000;
+
+}
+
+.camera-feed video,
+.camera-feed img,
+.camera-feed canvas{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+.camera-overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+}
+
+.camera-status{
+
+    position:absolute;
+
+    top:15px;
+    left:15px;
+
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    padding:8px 14px;
+
+    border-radius:40px;
+
+    background:rgba(0,0,0,.55);
+
+    backdrop-filter:blur(8px);
+
+}
+
+/*==========================================================
+    Live Indicator
+==========================================================*/
+
+.live-dot{
+
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+
+    background:var(--color-danger);
+
+    animation:pulse 1.2s infinite;
+
+}
+
+@keyframes pulse{
+
+    0%{
+
+        transform:scale(.8);
+
+        opacity:1;
+
+    }
+
+    70%{
+
+        transform:scale(1.5);
+
+        opacity:.2;
+
+    }
+
+    100%{
+
+        transform:scale(.8);
+
+        opacity:1;
+
+    }
+
+}
+
+/*==========================================================
+    Charts
+==========================================================*/
+
+.chart-container{
+
+    width:100%;
+
+    height:var(--chart-height);
+
+}
+
+.chart{
+
+    width:100%;
+    height:100%;
+
+}
+
+/*==========================================================
+    Map
+==========================================================*/
+
+.map-container{
+
+    width:100%;
+
+    height:500px;
+
+    border-radius:var(--radius-lg);
+
+    overflow:hidden;
+
+    border:1px solid var(--border-color);
+
+}
+
+#map{
+
+    width:100%;
+    height:100%;
+
+}
+
+/*==========================================================
+    Alert Cards
+==========================================================*/
+
+.alert-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:16px;
+
+}
+
+.alert-item{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:16px;
+
+    padding:18px;
+
+    border-radius:var(--radius-md);
+
+    background:rgba(255,255,255,.02);
+
+    border-left:5px solid transparent;
+
+}
+
+.alert-high{
+
+    border-left-color:var(--color-danger);
+
+}
+
+.alert-medium{
+
+    border-left-color:var(--color-warning);
+
+}
+
+.alert-low{
+
+    border-left-color:var(--color-info);
+
+}
+
+.alert-title{
+
+    font-weight:var(--weight-semibold);
+
+    margin-bottom:4px;
+
+}
+
+.alert-time{
+
+    font-size:var(--text-sm);
+
+    color:var(--text-muted);
+
+}
+
+/*==========================================================
+    Risk Meter
+==========================================================*/
+
+.risk-meter{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+.risk-bar{
+
+    width:100%;
+
+    height:14px;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    background:#1F2937;
+
+}
+
+.risk-progress{
+
+    height:100%;
+
+    width:0%;
+
+    background:linear-gradient(
+        90deg,
+        var(--color-success),
+        var(--color-warning),
+        var(--color-danger)
+    );
+
+    transition:width .5s ease;
+
+}
+
+/*==========================================================
+    Event Mode Badge
+==========================================================*/
+
+.mode-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:8px 18px;
+
+    border-radius:50px;
+
+    background:rgba(212,175,55,.12);
+
+    color:var(--color-secondary);
+
+    border:1px solid rgba(212,175,55,.35);
+
+    font-weight:var(--weight-semibold);
+
+}
+
+/*==========================================================
+    Analytics Grid
+==========================================================*/
+
+.analytics-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(320px,1fr));
+
+    gap:var(--space-6);
+
+}
+
+/*==========================================================
+    Tables
+==========================================================*/
+
+.dashboard-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.dashboard-table th{
+
+    text-align:left;
+
+    padding:16px;
+
+    color:var(--text-secondary);
+
+    border-bottom:1px solid var(--border-color);
+
+}
+
+.dashboard-table td{
+
+    padding:16px;
+
+    border-bottom:1px solid rgba(255,255,255,.05);
+
+}
+
+.dashboard-table tbody tr:hover{
+
+    background:rgba(255,255,255,.03);
+
+}
+
+/*==========================================================
+    Loading
+==========================================================*/
+
+.loading{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    min-height:240px;
+
+}
+
+.spinner{
+
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    border:4px solid rgba(255,255,255,.15);
+
+    border-top-color:var(--color-secondary);
+
+    animation:spin .8s linear infinite;
+
+}
+
+@keyframes spin{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+/*==========================================================
+    Empty State
+==========================================================*/
+
+.empty-state{
+
+    text-align:center;
+
+    padding:60px 20px;
+
+    color:var(--text-muted);
+
+}
+
+.empty-state h3{
+
+    margin-bottom:12px;
+
+    color:var(--text-primary);
+
+}
+
+.map-card {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+#crowdMap {
+
+    flex: 1;
+
+    min-height: 500px;
+
+}

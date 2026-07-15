@@ -16,6 +16,7 @@ Version:
 """
 
 from typing import List
+import asyncio
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
@@ -27,6 +28,50 @@ router = APIRouter(
     tags=["WebSocket"]
 )
 
+class LiveState:
+    latest_statistics = None
+    latest_frame = None
+    latest_alert = None
+    latest_detection = None
+    latest_event = None
+
+    @classmethod
+    def update(cls, message: dict):
+
+        message_type = message.get("type")
+
+        if message_type == "statistics":
+            cls.latest_statistics = message
+
+        elif message_type == "frame":
+            cls.latest_frame = message
+
+        elif message_type == "alert":
+            cls.latest_alert = message
+
+        elif message_type == "detection":
+            cls.latest_detection = message
+
+        elif message_type == "event":
+            cls.latest_event = message
+
+    @classmethod
+    async def sync(cls, websocket: WebSocket):
+
+        if cls.latest_statistics:
+            await websocket.send_json(cls.latest_statistics)
+
+        if cls.latest_frame:
+            await websocket.send_json(cls.latest_frame)
+
+        if cls.latest_detection:
+            await websocket.send_json(cls.latest_detection)
+
+        if cls.latest_alert:
+            await websocket.send_json(cls.latest_alert)
+
+        if cls.latest_event:
+            await websocket.send_json(cls.latest_event)
 
 # ============================================================
 # Connection Manager
@@ -113,6 +158,27 @@ class ConnectionManager:
 
 manager = ConnectionManager()
 
+@router.websocket("/ws/engine")
+async def engine_socket(websocket: WebSocket):
+
+    await websocket.accept()
+
+    print("AI Engine Connected")
+
+    try:
+
+        while True:
+
+            message = await websocket.receive_json()
+
+            LiveState.update(message)
+
+            await manager.broadcast(message)
+
+    except WebSocketDisconnect:
+
+        print("AI Engine Disconnected")
+
 
 # ============================================================
 # WebSocket Endpoint
@@ -128,22 +194,13 @@ async def websocket_endpoint(
 
     await manager.connect(websocket)
 
+    await LiveState.sync(websocket)
+
     try:
 
         while True:
 
-            data = await websocket.receive_text()
-
-            await manager.send_personal_message(
-                {
-                    "success": True,
-                    "message": "Connection Active",
-                    "data": {
-                        "echo": data
-                    }
-                },
-                websocket
-            )
+            await asyncio.sleep(30)
 
     except WebSocketDisconnect:
 

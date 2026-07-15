@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- ======================================================
+         Astravon Live Arena
+         Dashboard
+    ======================================================= -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+
+        Astravon Live Arena | Dashboard
+
+    </title>
+
+    <!-- ======================================================
+         Fonts
+    ======================================================= -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- ======================================================
+         Styles
+    ======================================================= -->
+
+    <!-- <link
+        rel="stylesheet"
+        href="../css/variables.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/layout.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/dashboard.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/components.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/responsive.css"
+    > -->
+
+</head>
+
+<body>
+
+    <!-- ======================================================
+         Main Layout
+    ======================================================= -->
+
+    <div class="dashboard-layout">
+
+        <!-- Sidebar -->
+        <aside
+            id="sidebar"
+            class="sidebar"
+        ></aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Navbar -->
+            <header
+                id="navbar"
+                class="navbar"
+            ></header>
+
+            <!-- ==============================================
+                 Dashboard Grid
+            =============================================== -->
+
+            <section class="dashboard-grid">
+
+                <!-- Camera -->
+                <section
+                    id="cameraPanel"
+                    class="dashboard-card camera-card"
+                ></section>
+
+                <!-- Statistics -->
+                <section
+                    id="statisticsPanel"
+                    class="dashboard-card statistics-card"
+                ></section>
+
+                <!-- Charts -->
+                <section
+                    id="chartsPanel"
+                    class="dashboard-card charts-card"
+                >
+
+                    <div class="card-header">
+
+                        <h2>
+
+                            📈 Analytics
+
+                        </h2>
+
+                    </div>
+
+                    <canvas
+                        id="statisticsChart"
+                    ></canvas>
+
+                </section>
+
+                <!-- Crowd Map -->
+                <section
+                    id="mapPanel"
+                    class="dashboard-card map-card"
+                >
+
+                    <div class="card-header">
+
+                        <h2>
+
+                            🗺️ Crowd Map
+
+                        </h2>
+
+                    </div>
+
+                    <div
+                        id="crowdMap"
+                    >
+
+                        Loading map...
+
+                    </div>
+
+                </section>
+
+                <!-- Alerts -->
+                <section
+                    id="alertPanel"
+                    class="dashboard-card alert-card"
+                ></section>
+
+            </section>
+
+            <!-- Footer -->
+            <footer
+                id="footer"
+                class="footer"
+            ></footer>
+
+        </main>
+
+    </div>
+
+    <!-- ======================================================
+         External Libraries
+    ======================================================= -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- ======================================================
+         Application
+    ======================================================= -->
+
+    <script
+        type="module"
+        src="../js/app.js"
+    ></script>
+
+</body>
+
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Astravon Live Arena | Settings</title>
+
+    <!-- <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/responsive.css"> -->
+</head>
+<body>
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+    <aside id="sidebar"></aside>
+
+    <!-- Main -->
+    <main class="main-content">
+
+        <!-- Navbar -->
+        <div id="navbar"></div>
+
+        <section class="page-header">
+            <h1>⚙ System Settings</h1>
+            <p>
+                Configure the AI Engine, backend services,
+                alerts, monitoring and dashboard preferences.
+            </p>
+        </section>
+
+        <!-- ================================================= -->
+        <!-- AI ENGINE -->
+        <!-- ================================================= -->
+
+        <section class="card">
+
+            <h2>AI Engine</h2>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Confidence Threshold</label>
+                    <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value="0.50"
+                        id="confidenceThreshold"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Detection FPS</label>
+                    <input
+                        type="number"
+                        value="30"
+                        min="1"
+                        max="120"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Model</label>
+
+                    <select>
+
+                        <option>
+                            YOLOv11
+                        </option>
+
+                        <option>
+                            Custom Model
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ================================================= -->
+        <!-- API -->
+        <!-- ================================================= -->
+
+        <section class="card">
+
+            <h2>Backend Connection</h2>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>REST API</label>
+
+                    <input
+                        type="text"
+                        value="http://127.0.0.1:8000/api/v1"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>WebSocket</label>
+
+                    <input
+                        type="text"
+                        value="ws://127.0.0.1:8000/ws"
+                    >
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ================================================= -->
+        <!-- ALERTS -->
+        <!-- ================================================= -->
+
+        <section class="card">
+
+            <h2>Alert Configuration</h2>
+
+            <div class="form-grid">
+
+                <label>
+
+                    <input type="checkbox" checked>
+
+                    Heat Alerts
+
+                </label>
+
+                <label>
+
+                    <input type="checkbox" checked>
+
+                    Crowd Density Alerts
+
+                </label>
+
+                <label>
+
+                    <input type="checkbox" checked>
+
+                    Emergency Notifications
+
+                </label>
+
+                <label>
+
+                    <input type="checkbox">
+
+                    SMS Integration
+
+                </label>
+
+                <label>
+
+                    <input type="checkbox">
+
+                    Email Notifications
+
+                </label>
+
+            </div>
+
+        </section>
+
+        <!-- ================================================= -->
+        <!-- EVENT MODES -->
+        <!-- ================================================= -->
+
+        <section class="card">
+
+            <h2>Default Event Mode</h2>
+
+            <select>
+
+                <option>Concert</option>
+
+                <option>Football Match</option>
+
+                <option>Festival</option>
+
+                <option>Conference</option>
+
+                <option>Emergency Drill</option>
+
+            </select>
+
+        </section>
+
+        <!-- ================================================= -->
+        <!-- APPEARANCE -->
+        <!-- ================================================= -->
+
+        <section class="card">
+
+            <h2>Dashboard Appearance</h2>
+
+            <div class="form-grid">
+
+                <label>
+
+                    <input type="checkbox" checked>
+
+                    Dark Mode
+
+                </label>
+
+                <label>
+
+                    <input type="checkbox" checked>
+
+                    Live Animations
+
+                </label>
+
+                <label>
+
+                    <input type="checkbox" checked>
+
+                    Sound Effects
+
+                </label>
+
+            </div>
+
+        </section>
+
+        <!-- ================================================= -->
+        <!-- SAVE -->
+        <!-- ================================================= -->
+
+        <section class="card">
+
+            <button
+                class="btn-primary"
+                id="saveSettingsBtn"
+            >
+                Save Settings
+            </button>
+
+            <button
+                class="btn-secondary"
+                id="resetSettingsBtn"
+            >
+                Reset Defaults
+            </button>
+
+        </section>
+
+        <div id="footer"></div>
+
+    </main>
+
+</div>
+
+<script type="module">
+
+import { createNavbar } from "../components/navbar.js";
+import { createSidebar } from "../components/sidebar.js";
+import { createFooter } from "../components/footer.js";
+
+createNavbar();
+createSidebar();
+createFooter();
+
+document
+    .getElementById("saveSettingsBtn")
+    .addEventListener("click", () => {
+
+        alert(
+            "Settings saved successfully."
+        );
+
+    });
+
+document
+    .getElementById("resetSettingsBtn")
+    .addEventListener("click", () => {
+
+        if (confirm("Reset settings to defaults?")) {
+
+            location.reload();
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

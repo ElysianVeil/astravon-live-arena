@@ -58,7 +58,7 @@ class Settings(BaseSettings):
 
     API_PREFIX: str = "/api/v1"
 
-    WEBSOCKET_URL: str = "ws://127.0.0.1:8000/ws"
+    WEBSOCKET_URL: str = "ws://127.0.0.1:8000/ws/engine"
 
     # --------------------------------------------------------
     # YOLO
