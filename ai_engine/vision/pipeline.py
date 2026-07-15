@@ -42,9 +42,10 @@ from crowd.counter import CrowdCounter
 from crowd.density import CrowdDensity
 from crowd.occupancy import OccupancyAnalyzer
 
-from heat.temperature import TemperatureManager
-from heat.humidity import HumidityManager
+# from heat.temperature import TemperatureManager
+# from heat.humidity import HumidityManager
 from heat.heat_index import HeatIndexCalculator
+from heat.weather import WeatherService
 
 from risk.analyzer import RiskAnalyzer
 
@@ -80,6 +81,10 @@ class VisionPipeline:
         confidence: float = 0.5
     ):
 
+        self.camera = Camera(camera_source)
+
+        self.stream = VideoStream(self.camera)
+
         self.preprocessor = ImagePreprocessor()
 
         self.counter = CrowdCounter()
@@ -88,9 +93,11 @@ class VisionPipeline:
 
         self.occupancy = OccupancyAnalyzer()
 
-        self.temperature = TemperatureManager()
+        # self.temperature = TemperatureManager()
 
-        self.humidity = HumidityManager()
+        # self.humidity = HumidityManager()
+
+        self.weather = None
 
         self.heat_index = HeatIndexCalculator()
 
@@ -100,9 +107,6 @@ class VisionPipeline:
 
         self.output = OutputManager()
 
-        self.camera = Camera(camera_source)
-
-        self.stream = VideoStream(self.camera)
 
         self.detector = YOLODetector(
             confidence=confidence
@@ -120,6 +124,14 @@ class VisionPipeline:
         """
 
         self.stream.start()
+
+        # Camera has already connected and detected its location
+        self.weather = WeatherService(self.camera)
+
+        logger.info(
+            f"Weather service initialized for "
+            f"{self.camera.city}, {self.camera.country}"
+        )
 
         logger.info("Waiting for first camera frame...")
 
@@ -222,18 +234,17 @@ class VisionPipeline:
 
         occupancy = occupancy_data["occupancy_percentage"]
 
-        reading = self.temperature.reading()
+        weather = self.weather.reading()
 
-        temperature = reading["temperature"]
+        temperature = weather["temperature"]
 
-        reading_2 = self.humidity.reading()
+        humidity = weather["humidity"]
 
-        humidity = reading_2["humidity"]
+        heat_index = weather["heat_index"]
 
-        heat_index = self.heat_index.calculate(
-            temperature,
-            humidity
-        )
+        wind_speed = weather["wind_speed"]
+
+        weather_code = weather["weather_code"]
 
         risk = self.risk.analyze(
 
@@ -308,6 +319,20 @@ class VisionPipeline:
             self.metrics.record_alert()
 
         payload = DetectionRequest(
+            
+            camera_id=self.camera.id,
+
+            camera_name=self.camera.name,
+
+            venue=self.camera.venue,
+
+            city=self.camera.city,
+
+            country=self.camera.country,
+
+            latitude=self.camera.latitude,
+
+            longitude=self.camera.longitude,
 
             people_count=people_count,
 
@@ -322,6 +347,10 @@ class VisionPipeline:
             humidity=float(humidity),
 
             heat_index=float(heat_index),
+
+            wind_speed=float(wind_speed),
+
+            weather_code=int(weather_code),
 
             risk_score=int(risk["risk_score"]),
 
@@ -349,12 +378,26 @@ class VisionPipeline:
         # Statistics
         # ---------------------------------------
         statistics = {
+            # ======================================================
+            # Camera Information
+            # ======================================================
+            "camera_id": self.camera.id,
+            "camera_name": self.camera.name,
+            "venue": self.camera.venue,
+            "city": self.camera.city,
+            "country": self.camera.country,
+            "latitude": self.camera.latitude,
+            "longitude": self.camera.longitude,
             "people_count": people_count,
             "occupancy": occupancy,
             "density": density,
             "temperature": temperature,
             "humidity": humidity,
             "heat_index": heat_index,
+            "wind_speed": wind_speed,
+            "weather_code": weather_code,
+            "city": self.camera.city,
+            "country": self.camera.country,
             "risk_score": risk["risk_score"],
             "risk_level": risk["risk_level"],
             "detected_objects": len(detection_result.detections),

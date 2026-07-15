@@ -1,199 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
+<section class="dashboard-grid">
 
-<head>
+    <section
+        id="cameraPanel"
+        class="dashboard-card camera-card"
+    ></section>
 
-    <!-- ======================================================
-         Astravon Live Arena
-         Dashboard
-    ======================================================= -->
+    <section
+        id="statisticsPanel"
+        class="dashboard-card statistics-card"
+    ></section>
 
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
+    <section
+        id="chartsPanel"
+        class="dashboard-card charts-card"
     >
 
-    <title>
+        <div class="card-header">
+            <h2>📈 Analytics</h2>
+        </div>
 
-        Astravon Live Arena | Dashboard
+        <canvas id="statisticsChart"></canvas>
 
-    </title>
+    </section>
 
-    <!-- ======================================================
-         Fonts
-    ======================================================= -->
-
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
+    <section
+        id="mapPanel"
+        class="dashboard-card map-card"
     >
 
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
+        <div class="card-header">
+            <h2>🗺 Crowd Map</h2>
+        </div>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
-        rel="stylesheet"
-    >
+        <div id="crowdMap">
+            Loading map...
+        </div>
 
-    <!-- ======================================================
-         Styles
-    ======================================================= -->
+    </section>
 
-    <!-- <link
-        rel="stylesheet"
-        href="../css/variables.css"
-    >
+    <section
+        id="alertPanel"
+        class="dashboard-card alert-card"
+    ></section>
 
-    <link
-        rel="stylesheet"
-        href="../css/layout.css"
-    >
-
-    <link
-        rel="stylesheet"
-        href="../css/dashboard.css"
-    >
-
-    <link
-        rel="stylesheet"
-        href="../css/components.css"
-    >
-
-    <link
-        rel="stylesheet"
-        href="../css/responsive.css"
-    > -->
-
-</head>
-
-<body>
-
-    <!-- ======================================================
-         Main Layout
-    ======================================================= -->
-
-    <div class="dashboard-layout">
-
-        <!-- Sidebar -->
-        <aside
-            id="sidebar"
-            class="sidebar"
-        ></aside>
-
-        <!-- Main Content -->
-        <main class="main-content">
-
-            <!-- Navbar -->
-            <header
-                id="navbar"
-                class="navbar"
-            ></header>
-
-            <!-- ==============================================
-                 Dashboard Grid
-            =============================================== -->
-
-            <section class="dashboard-grid">
-
-                <!-- Camera -->
-                <section
-                    id="cameraPanel"
-                    class="dashboard-card camera-card"
-                ></section>
-
-                <!-- Statistics -->
-                <section
-                    id="statisticsPanel"
-                    class="dashboard-card statistics-card"
-                ></section>
-
-                <!-- Charts -->
-                <section
-                    id="chartsPanel"
-                    class="dashboard-card charts-card"
-                >
-
-                    <div class="card-header">
-
-                        <h2>
-
-                            📈 Analytics
-
-                        </h2>
-
-                    </div>
-
-                    <canvas
-                        id="statisticsChart"
-                    ></canvas>
-
-                </section>
-
-                <!-- Crowd Map -->
-                <section
-                    id="mapPanel"
-                    class="dashboard-card map-card"
-                >
-
-                    <div class="card-header">
-
-                        <h2>
-
-                            🗺️ Crowd Map
-
-                        </h2>
-
-                    </div>
-
-                    <div
-                        id="crowdMap"
-                    >
-
-                        Loading map...
-
-                    </div>
-
-                </section>
-
-                <!-- Alerts -->
-                <section
-                    id="alertPanel"
-                    class="dashboard-card alert-card"
-                ></section>
-
-            </section>
-
-            <!-- Footer -->
-            <footer
-                id="footer"
-                class="footer"
-            ></footer>
-
-        </main>
-
-    </div>
-
-    <!-- ======================================================
-         External Libraries
-    ======================================================= -->
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- ======================================================
-         Application
-    ======================================================= -->
-
-    <script
-        type="module"
-        src="../js/app.js"
-    ></script>
-
-</body>
-
-</html>
+</section>

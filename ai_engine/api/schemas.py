@@ -90,6 +90,20 @@ class StatisticsRequest(AstravonSchema):
     Statistics submission request.
     """
 
+    camera_id: str
+
+    camera_name: str
+
+    venue: str
+
+    city: str
+
+    country: str
+
+    latitude: float
+
+    longitude: float
+
     people_count: int = Field(
         ge=0
     )
@@ -103,6 +117,16 @@ class StatisticsRequest(AstravonSchema):
     humidity: float
 
     heat_index: float
+
+    wind_speed: float = Field(
+        ge=0
+    )
+
+    weather_code: int
+
+    city: str
+
+    country: str
 
     risk_score: int = Field(
         ge=0,

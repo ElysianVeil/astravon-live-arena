@@ -27425,3 +27425,1263 @@
 [2026-07-15 17:41:40,963] [INFO] [astravon.ai.Camera] disconnected: Camera
 [2026-07-15 17:41:40,965] [INFO] [astravon.ai.Camera] Camera released.
 [2026-07-15 17:41:40,968] [INFO] [astravon.ai.AIEngine] AI Engine stopped.
+[2026-07-15 19:06:19,325] [INFO] [astravon.ai] ============================================================
+[2026-07-15 19:06:19,325] [INFO] [astravon.ai] Astravon Live Arena AI Engine Logger Initialized
+[2026-07-15 19:06:19,326] [INFO] [astravon.ai] ============================================================
+[2026-07-15 19:06:19,327] [INFO] [astravon.ai.YOLOLoader] Loading model: best.pt
+[2026-07-15 19:06:19,408] [INFO] [astravon.ai.YOLOLoader] YOLO model loaded successfully.
+[2026-07-15 19:06:20,944] [INFO] [astravon.ai.AIEngine] ============================================================
+[2026-07-15 19:06:20,945] [INFO] [astravon.ai.AIEngine] Astravon Live Arena AI Engine
+[2026-07-15 19:06:20,945] [INFO] [astravon.ai.AIEngine] Version : 1.0.0
+[2026-07-15 19:06:20,947] [INFO] [astravon.ai.AIEngine] ============================================================
+[2026-07-15 19:06:20,949] [INFO] [astravon.ai.AIEngine] Initializing AI Engine...
+[2026-07-15 19:06:20,950] [INFO] [astravon.ai.YOLOLoader] Loading model: best.pt
+[2026-07-15 19:06:21,077] [INFO] [astravon.ai.YOLOLoader] YOLO model loaded successfully.
+[2026-07-15 19:06:21,078] [INFO] [astravon.ai.AIEngine] YOLO model loaded successfully.
+[2026-07-15 19:06:21,161] [INFO] [astravon.ai.PersonTracker] ByteTrack initialized.
+[2026-07-15 19:06:21,162] [INFO] [astravon.ai.AIEngine] Starting AI Engine...
+[2026-07-15 19:06:21,162] [INFO] [astravon.ai.Pipeline] Starting AI Engine...
+[2026-07-15 19:06:21,163] [INFO] [astravon.ai.VideoStream] Video stream started.
+[2026-07-15 19:06:21,163] [INFO] [astravon.ai.Camera] Connecting to Camera (0)...
+[2026-07-15 19:06:22,968] [INFO] [astravon.ai.Camera] Width=640.0
+[2026-07-15 19:06:22,968] [INFO] [astravon.ai.Camera] Height=480.0
+[2026-07-15 19:06:22,968] [INFO] [astravon.ai.Camera] FPS=-1.0
+[2026-07-15 19:06:24,238] [INFO] [astravon.ai.Camera] Width=1280.0
+[2026-07-15 19:06:24,238] [INFO] [astravon.ai.Camera] Height=720.0
+[2026-07-15 19:06:24,239] [INFO] [astravon.ai.Camera] FPS=-1.0
+[2026-07-15 19:06:24,832] [INFO] [astravon.ai.Camera] Width=1280.0
+[2026-07-15 19:06:24,832] [INFO] [astravon.ai.Camera] Height=720.0
+[2026-07-15 19:06:24,833] [INFO] [astravon.ai.Camera] FPS=30.00003000003
+[2026-07-15 19:06:25,705] [INFO] [astravon.ai.Camera] Detected location: Juja, Kenya (-1.10148, 37.0132)
+[2026-07-15 19:06:25,706] [INFO] [astravon.ai.Camera] Camera connected.: Camera
+[2026-07-15 19:06:25,706] [INFO] [astravon.ai.Camera] Camera connected successfully.
+[2026-07-15 19:06:25,707] [INFO] [astravon.ai.Pipeline] Weather service initialized for Juja, Kenya
+[2026-07-15 19:06:25,708] [INFO] [astravon.ai.Pipeline] Waiting for first camera frame...
+[2026-07-15 19:06:25,758] [INFO] [astravon.ai.Pipeline] First frame received.
+[2026-07-15 19:06:28,748] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:06:30,464] [INFO] [astravon.ai.Weather] Weather updated.
+[2026-07-15 19:06:30,467] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 19:06:30,650] [INFO] [astravon.ai.VideoStream] Video stream stopped.
+[2026-07-15 19:06:31,011] [INFO] [astravon.ai.Camera] disconnected: Camera
+[2026-07-15 19:06:31,011] [INFO] [astravon.ai.Camera] Camera released.
+[2026-07-15 19:06:31,015] [INFO] [astravon.ai.AIEngine] Stopping AI Engine...
+[2026-07-15 19:06:31,016] [INFO] [astravon.ai.VideoStream] Video stream stopped.
+[2026-07-15 19:06:31,016] [INFO] [astravon.ai.Camera] disconnected: Camera
+[2026-07-15 19:06:31,016] [INFO] [astravon.ai.Camera] Camera released.
+[2026-07-15 19:06:31,017] [INFO] [astravon.ai.AIEngine] AI Engine stopped.
+[2026-07-15 19:13:45,275] [INFO] [astravon.ai] ============================================================
+[2026-07-15 19:13:45,276] [INFO] [astravon.ai] Astravon Live Arena AI Engine Logger Initialized
+[2026-07-15 19:13:45,276] [INFO] [astravon.ai] ============================================================
+[2026-07-15 19:13:45,277] [INFO] [astravon.ai.YOLOLoader] Loading model: best.pt
+[2026-07-15 19:13:45,346] [INFO] [astravon.ai.YOLOLoader] YOLO model loaded successfully.
+[2026-07-15 19:13:46,406] [INFO] [astravon.ai.AIEngine] ============================================================
+[2026-07-15 19:13:46,406] [INFO] [astravon.ai.AIEngine] Astravon Live Arena AI Engine
+[2026-07-15 19:13:46,407] [INFO] [astravon.ai.AIEngine] Version : 1.0.0
+[2026-07-15 19:13:46,407] [INFO] [astravon.ai.AIEngine] ============================================================
+[2026-07-15 19:13:46,407] [INFO] [astravon.ai.AIEngine] Initializing AI Engine...
+[2026-07-15 19:13:46,407] [INFO] [astravon.ai.YOLOLoader] Loading model: best.pt
+[2026-07-15 19:13:46,483] [INFO] [astravon.ai.YOLOLoader] YOLO model loaded successfully.
+[2026-07-15 19:13:46,484] [INFO] [astravon.ai.AIEngine] YOLO model loaded successfully.
+[2026-07-15 19:13:46,553] [INFO] [astravon.ai.PersonTracker] ByteTrack initialized.
+[2026-07-15 19:13:46,554] [INFO] [astravon.ai.AIEngine] Starting AI Engine...
+[2026-07-15 19:13:46,554] [INFO] [astravon.ai.Pipeline] Starting AI Engine...
+[2026-07-15 19:13:46,555] [INFO] [astravon.ai.VideoStream] Video stream started.
+[2026-07-15 19:13:46,555] [INFO] [astravon.ai.Camera] Connecting to Camera (0)...
+[2026-07-15 19:13:48,261] [INFO] [astravon.ai.Camera] Width=640.0
+[2026-07-15 19:13:48,261] [INFO] [astravon.ai.Camera] Height=480.0
+[2026-07-15 19:13:48,262] [INFO] [astravon.ai.Camera] FPS=-1.0
+[2026-07-15 19:13:48,941] [INFO] [astravon.ai.Camera] Width=1280.0
+[2026-07-15 19:13:48,942] [INFO] [astravon.ai.Camera] Height=720.0
+[2026-07-15 19:13:48,942] [INFO] [astravon.ai.Camera] FPS=-1.0
+[2026-07-15 19:13:49,593] [INFO] [astravon.ai.Camera] Width=1280.0
+[2026-07-15 19:13:49,594] [INFO] [astravon.ai.Camera] Height=720.0
+[2026-07-15 19:13:49,595] [INFO] [astravon.ai.Camera] FPS=30.00003000003
+[2026-07-15 19:13:55,341] [INFO] [astravon.ai.Camera] Detected location: Juja, Kenya (-1.10148, 37.0132)
+[2026-07-15 19:13:55,345] [INFO] [astravon.ai.Camera] Camera connected.: Camera
+[2026-07-15 19:13:55,345] [INFO] [astravon.ai.Camera] Camera connected successfully.
+[2026-07-15 19:13:55,351] [INFO] [astravon.ai.Pipeline] Weather service initialized for Juja, Kenya
+[2026-07-15 19:13:55,356] [INFO] [astravon.ai.Pipeline] Waiting for first camera frame...
+[2026-07-15 19:13:55,357] [INFO] [astravon.ai.Pipeline] First frame received.
+[2026-07-15 19:13:58,910] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:14:00,667] [INFO] [astravon.ai.Weather] Weather updated.
+[2026-07-15 19:14:00,670] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 19:14:01,243] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:14:01,257] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:14:01,939] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 19:14:01,941] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 19:14:02,219] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:14:02,228] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:14:03,234] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:14:03,240] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:14:03,892] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:14:03,896] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:14:04,328] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 19:14:04,332] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:14:04,896] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 19:14:04,902] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:14:05,273] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:14:05,278] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:14:05,678] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:14:05,684] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:14:06,068] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 19:14:06,073] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:14:06,502] [INFO] [astravon.ai.Detector] Detected 3 objects.
+[2026-07-15 19:14:06,508] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:14:06,882] [INFO] [astravon.ai.VideoStream] Video stream stopped.
+[2026-07-15 19:14:07,279] [INFO] [astravon.ai.Camera] disconnected: Camera
+[2026-07-15 19:14:07,281] [INFO] [astravon.ai.Camera] Camera released.
+[2026-07-15 19:14:07,315] [INFO] [astravon.ai.AIEngine] Shutdown requested by user.
+[2026-07-15 19:14:07,320] [INFO] [astravon.ai.AIEngine] Stopping AI Engine...
+[2026-07-15 19:14:07,321] [INFO] [astravon.ai.VideoStream] Video stream stopped.
+[2026-07-15 19:14:07,324] [INFO] [astravon.ai.Camera] disconnected: Camera
+[2026-07-15 19:14:07,325] [INFO] [astravon.ai.Camera] Camera released.
+[2026-07-15 19:14:07,326] [INFO] [astravon.ai.AIEngine] AI Engine stopped.
+[2026-07-15 19:27:50,099] [INFO] [astravon.ai] ============================================================
+[2026-07-15 19:27:50,100] [INFO] [astravon.ai] Astravon Live Arena AI Engine Logger Initialized
+[2026-07-15 19:27:50,100] [INFO] [astravon.ai] ============================================================
+[2026-07-15 19:27:50,101] [INFO] [astravon.ai.YOLOLoader] Loading model: best.pt
+[2026-07-15 19:27:50,188] [INFO] [astravon.ai.YOLOLoader] YOLO model loaded successfully.
+[2026-07-15 19:27:51,810] [INFO] [astravon.ai.AIEngine] ============================================================
+[2026-07-15 19:27:51,811] [INFO] [astravon.ai.AIEngine] Astravon Live Arena AI Engine
+[2026-07-15 19:27:51,813] [INFO] [astravon.ai.AIEngine] Version : 1.0.0
+[2026-07-15 19:27:51,814] [INFO] [astravon.ai.AIEngine] ============================================================
+[2026-07-15 19:27:51,814] [INFO] [astravon.ai.AIEngine] Initializing AI Engine...
+[2026-07-15 19:27:51,817] [INFO] [astravon.ai.YOLOLoader] Loading model: best.pt
+[2026-07-15 19:27:51,914] [INFO] [astravon.ai.YOLOLoader] YOLO model loaded successfully.
+[2026-07-15 19:27:51,915] [INFO] [astravon.ai.AIEngine] YOLO model loaded successfully.
+[2026-07-15 19:27:51,977] [INFO] [astravon.ai.PersonTracker] ByteTrack initialized.
+[2026-07-15 19:27:51,978] [INFO] [astravon.ai.AIEngine] Starting AI Engine...
+[2026-07-15 19:27:51,978] [INFO] [astravon.ai.Pipeline] Starting AI Engine...
+[2026-07-15 19:27:51,979] [INFO] [astravon.ai.VideoStream] Video stream started.
+[2026-07-15 19:27:51,979] [INFO] [astravon.ai.Camera] Connecting to Camera (0)...
+[2026-07-15 19:27:53,714] [INFO] [astravon.ai.Camera] Width=640.0
+[2026-07-15 19:27:53,714] [INFO] [astravon.ai.Camera] Height=480.0
+[2026-07-15 19:27:53,714] [INFO] [astravon.ai.Camera] FPS=-1.0
+[2026-07-15 19:27:54,454] [INFO] [astravon.ai.Camera] Width=1280.0
+[2026-07-15 19:27:54,455] [INFO] [astravon.ai.Camera] Height=720.0
+[2026-07-15 19:27:54,455] [INFO] [astravon.ai.Camera] FPS=-1.0
+[2026-07-15 19:27:55,156] [INFO] [astravon.ai.Camera] Width=1280.0
+[2026-07-15 19:27:55,157] [INFO] [astravon.ai.Camera] Height=720.0
+[2026-07-15 19:27:55,157] [INFO] [astravon.ai.Camera] FPS=30.00003000003
+[2026-07-15 19:28:01,257] [WARNING] [astravon.ai.Camera] Unable to determine location: HTTPSConnectionPool(host='ipapi.co', port=443): Read timed out. (read timeout=5)
+[2026-07-15 19:28:01,258] [INFO] [astravon.ai.Camera] Camera connected.: Camera
+[2026-07-15 19:28:01,259] [INFO] [astravon.ai.Camera] Camera connected successfully.
+[2026-07-15 19:28:01,262] [INFO] [astravon.ai.Pipeline] Weather service initialized for Unknown, Unknown
+[2026-07-15 19:28:01,263] [INFO] [astravon.ai.Pipeline] Waiting for first camera frame...
+[2026-07-15 19:28:01,314] [INFO] [astravon.ai.Pipeline] First frame received.
+[2026-07-15 19:28:06,312] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 19:28:09,057] [INFO] [astravon.ai.Weather] Weather updated.
+[2026-07-15 19:28:09,059] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 19:28:09,480] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:28:09,488] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:28:10,078] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:28:10,081] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:28:10,635] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:28:10,644] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:28:10,927] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:28:10,931] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:28:11,902] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:28:11,906] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:28:12,298] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:28:12,304] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:28:12,703] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:28:12,708] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:28:13,101] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 19:28:13,106] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:28:13,499] [INFO] [astravon.ai.VideoStream] Video stream stopped.
+[2026-07-15 19:28:13,801] [INFO] [astravon.ai.Camera] disconnected: Camera
+[2026-07-15 19:28:13,802] [INFO] [astravon.ai.Camera] Camera released.
+[2026-07-15 19:28:13,819] [INFO] [astravon.ai.AIEngine] Shutdown requested by user.
+[2026-07-15 19:28:13,826] [INFO] [astravon.ai.AIEngine] Stopping AI Engine...
+[2026-07-15 19:28:13,827] [INFO] [astravon.ai.VideoStream] Video stream stopped.
+[2026-07-15 19:28:13,827] [INFO] [astravon.ai.Camera] disconnected: Camera
+[2026-07-15 19:28:13,827] [INFO] [astravon.ai.Camera] Camera released.
+[2026-07-15 19:28:13,828] [INFO] [astravon.ai.AIEngine] AI Engine stopped.
+[2026-07-15 19:29:05,533] [INFO] [astravon.ai] ============================================================
+[2026-07-15 19:29:05,534] [INFO] [astravon.ai] Astravon Live Arena AI Engine Logger Initialized
+[2026-07-15 19:29:05,535] [INFO] [astravon.ai] ============================================================
+[2026-07-15 19:29:05,535] [INFO] [astravon.ai.YOLOLoader] Loading model: best.pt
+[2026-07-15 19:29:05,614] [INFO] [astravon.ai.YOLOLoader] YOLO model loaded successfully.
+[2026-07-15 19:29:06,692] [INFO] [astravon.ai.AIEngine] ============================================================
+[2026-07-15 19:29:06,692] [INFO] [astravon.ai.AIEngine] Astravon Live Arena AI Engine
+[2026-07-15 19:29:06,693] [INFO] [astravon.ai.AIEngine] Version : 1.0.0
+[2026-07-15 19:29:06,693] [INFO] [astravon.ai.AIEngine] ============================================================
+[2026-07-15 19:29:06,693] [INFO] [astravon.ai.AIEngine] Initializing AI Engine...
+[2026-07-15 19:29:06,694] [INFO] [astravon.ai.YOLOLoader] Loading model: best.pt
+[2026-07-15 19:29:06,744] [INFO] [astravon.ai.YOLOLoader] YOLO model loaded successfully.
+[2026-07-15 19:29:06,745] [INFO] [astravon.ai.AIEngine] YOLO model loaded successfully.
+[2026-07-15 19:29:06,792] [INFO] [astravon.ai.PersonTracker] ByteTrack initialized.
+[2026-07-15 19:29:06,793] [INFO] [astravon.ai.AIEngine] Starting AI Engine...
+[2026-07-15 19:29:06,793] [INFO] [astravon.ai.Pipeline] Starting AI Engine...
+[2026-07-15 19:29:06,793] [INFO] [astravon.ai.VideoStream] Video stream started.
+[2026-07-15 19:29:06,793] [INFO] [astravon.ai.Camera] Connecting to Camera (0)...
+[2026-07-15 19:29:08,371] [INFO] [astravon.ai.Camera] Width=640.0
+[2026-07-15 19:29:08,372] [INFO] [astravon.ai.Camera] Height=480.0
+[2026-07-15 19:29:08,372] [INFO] [astravon.ai.Camera] FPS=-1.0
+[2026-07-15 19:29:08,966] [INFO] [astravon.ai.Camera] Width=1280.0
+[2026-07-15 19:29:08,966] [INFO] [astravon.ai.Camera] Height=720.0
+[2026-07-15 19:29:08,967] [INFO] [astravon.ai.Camera] FPS=-1.0
+[2026-07-15 19:29:09,550] [INFO] [astravon.ai.Camera] Width=1280.0
+[2026-07-15 19:29:09,551] [INFO] [astravon.ai.Camera] Height=720.0
+[2026-07-15 19:29:09,552] [INFO] [astravon.ai.Camera] FPS=30.00003000003
+[2026-07-15 19:29:10,721] [INFO] [astravon.ai.Camera] Detected location: Juja, Kenya (-1.10148, 37.0132)
+[2026-07-15 19:29:10,724] [INFO] [astravon.ai.Camera] Camera connected.: Camera
+[2026-07-15 19:29:10,724] [INFO] [astravon.ai.Camera] Camera connected successfully.
+[2026-07-15 19:29:10,725] [INFO] [astravon.ai.Pipeline] Weather service initialized for Juja, Kenya
+[2026-07-15 19:29:10,726] [INFO] [astravon.ai.Pipeline] Waiting for first camera frame...
+[2026-07-15 19:29:10,776] [INFO] [astravon.ai.Pipeline] First frame received.
+[2026-07-15 19:29:13,736] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:29:15,893] [INFO] [astravon.ai.Weather] Weather updated.
+[2026-07-15 19:29:15,896] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:29:16,302] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:29:16,305] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:29:16,824] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:29:16,828] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:29:17,088] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:29:17,091] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:29:17,940] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:29:17,944] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:29:18,324] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:29:18,329] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:29:18,685] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:29:18,690] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:29:19,001] [INFO] [astravon.ai.VideoStream] Video stream stopped.
+[2026-07-15 19:29:19,299] [INFO] [astravon.ai.Camera] disconnected: Camera
+[2026-07-15 19:29:19,300] [INFO] [astravon.ai.Camera] Camera released.
+[2026-07-15 19:29:19,320] [INFO] [astravon.ai.AIEngine] Shutdown requested by user.
+[2026-07-15 19:29:19,327] [INFO] [astravon.ai.AIEngine] Stopping AI Engine...
+[2026-07-15 19:29:19,327] [INFO] [astravon.ai.VideoStream] Video stream stopped.
+[2026-07-15 19:29:19,328] [INFO] [astravon.ai.Camera] disconnected: Camera
+[2026-07-15 19:29:19,329] [INFO] [astravon.ai.Camera] Camera released.
+[2026-07-15 19:29:19,329] [INFO] [astravon.ai.AIEngine] AI Engine stopped.
+[2026-07-15 19:59:42,586] [INFO] [astravon.ai] ============================================================
+[2026-07-15 19:59:42,586] [INFO] [astravon.ai] Astravon Live Arena AI Engine Logger Initialized
+[2026-07-15 19:59:42,586] [INFO] [astravon.ai] ============================================================
+[2026-07-15 19:59:42,587] [INFO] [astravon.ai.YOLOLoader] Loading model: best.pt
+[2026-07-15 19:59:42,675] [INFO] [astravon.ai.YOLOLoader] YOLO model loaded successfully.
+[2026-07-15 19:59:43,761] [INFO] [astravon.ai.AIEngine] ============================================================
+[2026-07-15 19:59:43,762] [INFO] [astravon.ai.AIEngine] Astravon Live Arena AI Engine
+[2026-07-15 19:59:43,762] [INFO] [astravon.ai.AIEngine] Version : 1.0.0
+[2026-07-15 19:59:43,762] [INFO] [astravon.ai.AIEngine] ============================================================
+[2026-07-15 19:59:43,763] [INFO] [astravon.ai.AIEngine] Initializing AI Engine...
+[2026-07-15 19:59:43,764] [INFO] [astravon.ai.YOLOLoader] Loading model: best.pt
+[2026-07-15 19:59:43,821] [INFO] [astravon.ai.YOLOLoader] YOLO model loaded successfully.
+[2026-07-15 19:59:43,821] [INFO] [astravon.ai.AIEngine] YOLO model loaded successfully.
+[2026-07-15 19:59:43,869] [INFO] [astravon.ai.PersonTracker] ByteTrack initialized.
+[2026-07-15 19:59:43,870] [INFO] [astravon.ai.AIEngine] Starting AI Engine...
+[2026-07-15 19:59:43,870] [INFO] [astravon.ai.Pipeline] Starting AI Engine...
+[2026-07-15 19:59:43,870] [INFO] [astravon.ai.VideoStream] Video stream started.
+[2026-07-15 19:59:43,870] [INFO] [astravon.ai.Camera] Connecting to Camera (0)...
+[2026-07-15 19:59:45,469] [INFO] [astravon.ai.Camera] Width=640.0
+[2026-07-15 19:59:45,469] [INFO] [astravon.ai.Camera] Height=480.0
+[2026-07-15 19:59:45,470] [INFO] [astravon.ai.Camera] FPS=-1.0
+[2026-07-15 19:59:46,186] [INFO] [astravon.ai.Camera] Width=1280.0
+[2026-07-15 19:59:46,187] [INFO] [astravon.ai.Camera] Height=720.0
+[2026-07-15 19:59:46,187] [INFO] [astravon.ai.Camera] FPS=-1.0
+[2026-07-15 19:59:46,767] [INFO] [astravon.ai.Camera] Width=1280.0
+[2026-07-15 19:59:46,768] [INFO] [astravon.ai.Camera] Height=720.0
+[2026-07-15 19:59:46,769] [INFO] [astravon.ai.Camera] FPS=30.00003000003
+[2026-07-15 19:59:47,950] [INFO] [astravon.ai.Camera] Detected location: Juja, Kenya (-1.10148, 37.0132)
+[2026-07-15 19:59:47,954] [INFO] [astravon.ai.Camera] Camera connected.: Camera
+[2026-07-15 19:59:47,954] [INFO] [astravon.ai.Camera] Camera connected successfully.
+[2026-07-15 19:59:47,956] [INFO] [astravon.ai.Pipeline] Weather service initialized for Juja, Kenya
+[2026-07-15 19:59:47,956] [INFO] [astravon.ai.Pipeline] Waiting for first camera frame...
+[2026-07-15 19:59:48,007] [INFO] [astravon.ai.Pipeline] First frame received.
+[2026-07-15 19:59:50,935] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:59:56,469] [INFO] [astravon.ai.Weather] Weather updated.
+[2026-07-15 19:59:56,471] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:59:56,879] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:59:56,883] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:59:57,359] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:59:57,362] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:59:57,625] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:59:57,765] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:59:58,425] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:59:58,430] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:59:58,798] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:59:58,802] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:59:59,133] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 19:59:59,137] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 19:59:59,352] [INFO] [astravon.ai.VideoStream] Video stream stopped.
+[2026-07-15 19:59:59,686] [INFO] [astravon.ai.Camera] disconnected: Camera
+[2026-07-15 19:59:59,687] [INFO] [astravon.ai.Camera] Camera released.
+[2026-07-15 19:59:59,711] [INFO] [astravon.ai.AIEngine] Shutdown requested by user.
+[2026-07-15 19:59:59,712] [INFO] [astravon.ai.AIEngine] Stopping AI Engine...
+[2026-07-15 19:59:59,712] [INFO] [astravon.ai.VideoStream] Video stream stopped.
+[2026-07-15 19:59:59,713] [INFO] [astravon.ai.Camera] disconnected: Camera
+[2026-07-15 19:59:59,714] [INFO] [astravon.ai.Camera] Camera released.
+[2026-07-15 19:59:59,714] [INFO] [astravon.ai.AIEngine] AI Engine stopped.
+[2026-07-15 20:01:14,405] [INFO] [astravon.ai] ============================================================
+[2026-07-15 20:01:14,405] [INFO] [astravon.ai] Astravon Live Arena AI Engine Logger Initialized
+[2026-07-15 20:01:14,405] [INFO] [astravon.ai] ============================================================
+[2026-07-15 20:01:14,406] [INFO] [astravon.ai.YOLOLoader] Loading model: best.pt
+[2026-07-15 20:01:14,470] [INFO] [astravon.ai.YOLOLoader] YOLO model loaded successfully.
+[2026-07-15 20:01:15,600] [INFO] [astravon.ai.AIEngine] ============================================================
+[2026-07-15 20:01:15,601] [INFO] [astravon.ai.AIEngine] Astravon Live Arena AI Engine
+[2026-07-15 20:01:15,601] [INFO] [astravon.ai.AIEngine] Version : 1.0.0
+[2026-07-15 20:01:15,601] [INFO] [astravon.ai.AIEngine] ============================================================
+[2026-07-15 20:01:15,601] [INFO] [astravon.ai.AIEngine] Initializing AI Engine...
+[2026-07-15 20:01:15,602] [INFO] [astravon.ai.YOLOLoader] Loading model: best.pt
+[2026-07-15 20:01:15,657] [INFO] [astravon.ai.YOLOLoader] YOLO model loaded successfully.
+[2026-07-15 20:01:15,658] [INFO] [astravon.ai.AIEngine] YOLO model loaded successfully.
+[2026-07-15 20:01:15,702] [INFO] [astravon.ai.PersonTracker] ByteTrack initialized.
+[2026-07-15 20:01:15,703] [INFO] [astravon.ai.AIEngine] Starting AI Engine...
+[2026-07-15 20:01:15,704] [INFO] [astravon.ai.Pipeline] Starting AI Engine...
+[2026-07-15 20:01:15,704] [INFO] [astravon.ai.VideoStream] Video stream started.
+[2026-07-15 20:01:15,704] [INFO] [astravon.ai.Camera] Connecting to Camera (0)...
+[2026-07-15 20:01:17,302] [INFO] [astravon.ai.Camera] Width=640.0
+[2026-07-15 20:01:17,303] [INFO] [astravon.ai.Camera] Height=480.0
+[2026-07-15 20:01:17,303] [INFO] [astravon.ai.Camera] FPS=-1.0
+[2026-07-15 20:01:17,960] [INFO] [astravon.ai.Camera] Width=1280.0
+[2026-07-15 20:01:17,961] [INFO] [astravon.ai.Camera] Height=720.0
+[2026-07-15 20:01:17,961] [INFO] [astravon.ai.Camera] FPS=-1.0
+[2026-07-15 20:01:18,575] [INFO] [astravon.ai.Camera] Width=1280.0
+[2026-07-15 20:01:18,576] [INFO] [astravon.ai.Camera] Height=720.0
+[2026-07-15 20:01:18,576] [INFO] [astravon.ai.Camera] FPS=30.00003000003
+[2026-07-15 20:01:19,319] [INFO] [astravon.ai.Camera] Detected location: Juja, Kenya (-1.10148, 37.0132)
+[2026-07-15 20:01:19,321] [INFO] [astravon.ai.Camera] Camera connected.: Camera
+[2026-07-15 20:01:19,321] [INFO] [astravon.ai.Camera] Camera connected successfully.
+[2026-07-15 20:01:19,323] [INFO] [astravon.ai.Pipeline] Weather service initialized for Juja, Kenya
+[2026-07-15 20:01:19,323] [INFO] [astravon.ai.Pipeline] Waiting for first camera frame...
+[2026-07-15 20:01:19,374] [INFO] [astravon.ai.Pipeline] First frame received.
+[2026-07-15 20:01:22,321] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:01:24,233] [INFO] [astravon.ai.Weather] Weather updated.
+[2026-07-15 20:01:24,237] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:01:24,747] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:01:24,752] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:01:25,107] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:01:25,110] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:01:25,595] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:01:25,599] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:01:26,148] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:01:26,153] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:01:26,551] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:01:26,555] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:01:26,969] [INFO] [astravon.ai.Detector] Detected 3 objects.
+[2026-07-15 20:01:26,973] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:01:27,370] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:01:27,375] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:01:27,851] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:01:27,856] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:01:28,206] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:01:28,211] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:01:28,551] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:01:28,556] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:01:28,878] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:01:28,883] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:01:29,253] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:01:29,257] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:01:29,638] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:01:29,644] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:01:29,836] [INFO] [astravon.ai.VideoStream] Video stream stopped.
+[2026-07-15 20:01:30,177] [INFO] [astravon.ai.Camera] disconnected: Camera
+[2026-07-15 20:01:30,177] [INFO] [astravon.ai.Camera] Camera released.
+[2026-07-15 20:01:30,190] [INFO] [astravon.ai.AIEngine] Shutdown requested by user.
+[2026-07-15 20:01:30,198] [INFO] [astravon.ai.AIEngine] Stopping AI Engine...
+[2026-07-15 20:01:30,199] [INFO] [astravon.ai.VideoStream] Video stream stopped.
+[2026-07-15 20:01:30,199] [INFO] [astravon.ai.Camera] disconnected: Camera
+[2026-07-15 20:01:30,201] [INFO] [astravon.ai.Camera] Camera released.
+[2026-07-15 20:01:30,203] [INFO] [astravon.ai.AIEngine] AI Engine stopped.
+[2026-07-15 20:07:50,710] [INFO] [astravon.ai] ============================================================
+[2026-07-15 20:07:50,711] [INFO] [astravon.ai] Astravon Live Arena AI Engine Logger Initialized
+[2026-07-15 20:07:50,712] [INFO] [astravon.ai] ============================================================
+[2026-07-15 20:07:50,712] [INFO] [astravon.ai.YOLOLoader] Loading model: best.pt
+[2026-07-15 20:07:50,820] [INFO] [astravon.ai.YOLOLoader] YOLO model loaded successfully.
+[2026-07-15 20:07:52,673] [INFO] [astravon.ai.AIEngine] ============================================================
+[2026-07-15 20:07:52,677] [INFO] [astravon.ai.AIEngine] Astravon Live Arena AI Engine
+[2026-07-15 20:07:52,679] [INFO] [astravon.ai.AIEngine] Version : 1.0.0
+[2026-07-15 20:07:52,681] [INFO] [astravon.ai.AIEngine] ============================================================
+[2026-07-15 20:07:52,685] [INFO] [astravon.ai.AIEngine] Initializing AI Engine...
+[2026-07-15 20:07:52,688] [INFO] [astravon.ai.YOLOLoader] Loading model: best.pt
+[2026-07-15 20:07:52,768] [INFO] [astravon.ai.YOLOLoader] YOLO model loaded successfully.
+[2026-07-15 20:07:52,768] [INFO] [astravon.ai.AIEngine] YOLO model loaded successfully.
+[2026-07-15 20:07:52,828] [INFO] [astravon.ai.PersonTracker] ByteTrack initialized.
+[2026-07-15 20:07:52,830] [INFO] [astravon.ai.AIEngine] Starting AI Engine...
+[2026-07-15 20:07:52,830] [INFO] [astravon.ai.Pipeline] Starting AI Engine...
+[2026-07-15 20:07:52,830] [INFO] [astravon.ai.VideoStream] Video stream started.
+[2026-07-15 20:07:52,831] [INFO] [astravon.ai.Camera] Connecting to Camera (0)...
+[2026-07-15 20:07:54,511] [INFO] [astravon.ai.Camera] Width=640.0
+[2026-07-15 20:07:54,512] [INFO] [astravon.ai.Camera] Height=480.0
+[2026-07-15 20:07:54,512] [INFO] [astravon.ai.Camera] FPS=-1.0
+[2026-07-15 20:07:55,128] [INFO] [astravon.ai.Camera] Width=1280.0
+[2026-07-15 20:07:55,130] [INFO] [astravon.ai.Camera] Height=720.0
+[2026-07-15 20:07:55,130] [INFO] [astravon.ai.Camera] FPS=-1.0
+[2026-07-15 20:07:55,709] [INFO] [astravon.ai.Camera] Width=1280.0
+[2026-07-15 20:07:55,710] [INFO] [astravon.ai.Camera] Height=720.0
+[2026-07-15 20:07:55,710] [INFO] [astravon.ai.Camera] FPS=30.00003000003
+[2026-07-15 20:07:56,510] [INFO] [astravon.ai.Camera] Detected location: Juja, Kenya (-1.10148, 37.0132)
+[2026-07-15 20:07:56,515] [INFO] [astravon.ai.Camera] Camera connected.: Camera
+[2026-07-15 20:07:56,516] [INFO] [astravon.ai.Camera] Camera connected successfully.
+[2026-07-15 20:07:56,517] [INFO] [astravon.ai.Pipeline] Weather service initialized for Juja, Kenya
+[2026-07-15 20:07:56,519] [INFO] [astravon.ai.Pipeline] Waiting for first camera frame...
+[2026-07-15 20:07:56,570] [INFO] [astravon.ai.Pipeline] First frame received.
+[2026-07-15 20:07:59,557] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:00,768] [INFO] [astravon.ai.Weather] Weather updated.
+[2026-07-15 20:08:00,771] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:01,188] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:01,192] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:01,427] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:01,433] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:01,876] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:01,880] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:02,205] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:02,210] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:02,632] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:02,636] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:02,973] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:02,979] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:03,326] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:03,330] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:03,651] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:03,656] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:04,092] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:04,096] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:04,434] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:04,440] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:04,879] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:04,883] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:05,192] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:05,196] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:05,507] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:05,511] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:05,880] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:05,885] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:06,313] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:06,318] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:07,130] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:07,132] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:07,754] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:07,766] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:08,290] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:08,294] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:08,697] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:08,700] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:09,141] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:09,144] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:09,567] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:09,573] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:09,988] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:09,993] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:10,354] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:10,359] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:10,755] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:10,762] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:11,142] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:11,146] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:11,505] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:11,509] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:11,925] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:11,929] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:12,348] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:12,352] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:12,757] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:12,761] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:13,206] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:13,210] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:13,803] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:13,807] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:14,389] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:14,394] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:14,759] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:14,763] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:15,230] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:15,238] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:15,685] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:15,690] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:16,053] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:16,056] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:16,482] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:16,488] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:16,908] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:16,912] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:17,250] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:17,255] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:17,746] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:17,753] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:18,320] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:18,323] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:18,742] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:18,746] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:19,143] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:19,146] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:19,491] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:19,494] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:19,832] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:19,834] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:20,196] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:20,200] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:20,576] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:20,581] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:20,941] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:20,947] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:08:21,341] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:21,345] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:08:21,774] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:21,777] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:22,223] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:22,227] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:22,658] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:22,663] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:23,346] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:23,351] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:23,876] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:23,883] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:24,336] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:24,340] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:24,728] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:24,733] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:25,151] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:25,156] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:25,514] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:25,521] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:25,985] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:25,991] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:26,354] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:26,358] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:26,778] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:26,782] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:27,217] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:27,223] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:27,609] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:27,615] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:28,066] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:28,071] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:28,651] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:28,655] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:29,054] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:29,058] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:29,434] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:29,438] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:29,872] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:29,879] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:30,281] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:30,283] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:30,646] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:30,650] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:31,072] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:31,077] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:31,472] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:31,480] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:31,953] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:31,959] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:32,373] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:32,379] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:32,784] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:32,788] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:33,220] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:33,225] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:33,705] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:33,711] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:34,172] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:34,177] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:34,649] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:34,654] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:35,266] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:35,270] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:35,582] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:35,586] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:36,229] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:36,234] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:36,571] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:36,575] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:36,995] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:36,997] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:37,403] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:37,413] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:37,940] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:37,945] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:38,430] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:38,437] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:38,968] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:38,974] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:39,565] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:39,574] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:40,635] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:40,644] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:41,522] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:41,527] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:42,463] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:42,468] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:43,197] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:43,203] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:44,082] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:44,091] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:45,577] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:45,588] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:46,530] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:46,538] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:47,353] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:47,357] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:47,944] [INFO] [astravon.ai.Detector] Detected 4 objects.
+[2026-07-15 20:08:47,949] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:48,798] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:48,803] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:49,448] [INFO] [astravon.ai.Detector] Detected 3 objects.
+[2026-07-15 20:08:49,455] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:50,038] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:50,041] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:50,835] [INFO] [astravon.ai.Detector] Detected 3 objects.
+[2026-07-15 20:08:50,840] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:51,980] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:51,986] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:52,577] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:52,582] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:53,372] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:53,377] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:54,094] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:54,097] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:54,620] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:54,622] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:55,100] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:55,104] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:56,137] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:08:56,144] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:57,317] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:57,327] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:58,238] [INFO] [astravon.ai.Detector] Detected 3 objects.
+[2026-07-15 20:08:58,246] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:58,984] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:58,989] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:08:59,695] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:08:59,700] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:00,344] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:09:00,349] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:00,934] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:00,941] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:01,735] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:09:01,743] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:02,817] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:09:02,838] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:03,457] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:03,462] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:03,921] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:03,930] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:04,519] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:04,525] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:05,000] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:05,004] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:05,538] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:05,541] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:06,247] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:06,253] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:06,791] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:06,796] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:07,404] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:07,408] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:08,059] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:09:08,064] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:08,609] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:09:08,612] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:09,373] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:09:09,378] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:09:09,989] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:09:09,995] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:09:10,539] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:10,543] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:11,106] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:11,110] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:11,623] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:11,626] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:12,525] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:12,530] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:13,447] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:13,456] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:14,207] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:14,210] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:14,816] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:14,821] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:15,483] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:15,490] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:16,836] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:09:16,841] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:17,629] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:09:17,634] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:18,091] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:09:18,096] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:18,956] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:09:18,961] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:19,515] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:19,520] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:20,041] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:20,047] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:21,031] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:21,036] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:21,587] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:21,592] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:22,226] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:22,233] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:22,907] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:22,911] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:23,637] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:23,642] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:24,169] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:24,178] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:24,729] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:09:24,734] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:09:25,151] [INFO] [astravon.ai.VideoStream] Video stream stopped.
+[2026-07-15 20:09:25,537] [INFO] [astravon.ai.Camera] disconnected: Camera
+[2026-07-15 20:09:25,538] [INFO] [astravon.ai.Camera] Camera released.
+[2026-07-15 20:09:25,552] [INFO] [astravon.ai.AIEngine] Shutdown requested by user.
+[2026-07-15 20:09:25,557] [INFO] [astravon.ai.AIEngine] Stopping AI Engine...
+[2026-07-15 20:09:25,558] [INFO] [astravon.ai.VideoStream] Video stream stopped.
+[2026-07-15 20:09:25,558] [INFO] [astravon.ai.Camera] disconnected: Camera
+[2026-07-15 20:09:25,559] [INFO] [astravon.ai.Camera] Camera released.
+[2026-07-15 20:09:25,559] [INFO] [astravon.ai.AIEngine] AI Engine stopped.
+[2026-07-15 20:23:32,174] [INFO] [astravon.ai] ============================================================
+[2026-07-15 20:23:32,174] [INFO] [astravon.ai] Astravon Live Arena AI Engine Logger Initialized
+[2026-07-15 20:23:32,175] [INFO] [astravon.ai] ============================================================
+[2026-07-15 20:23:32,175] [INFO] [astravon.ai.YOLOLoader] Loading model: best.pt
+[2026-07-15 20:23:32,210] [INFO] [astravon.ai.YOLOLoader] YOLO model loaded successfully.
+[2026-07-15 20:23:32,807] [INFO] [astravon.ai.AIEngine] ============================================================
+[2026-07-15 20:23:32,807] [INFO] [astravon.ai.AIEngine] Astravon Live Arena AI Engine
+[2026-07-15 20:23:32,807] [INFO] [astravon.ai.AIEngine] Version : 1.0.0
+[2026-07-15 20:23:32,807] [INFO] [astravon.ai.AIEngine] ============================================================
+[2026-07-15 20:23:32,807] [INFO] [astravon.ai.AIEngine] Initializing AI Engine...
+[2026-07-15 20:23:32,808] [INFO] [astravon.ai.YOLOLoader] Loading model: best.pt
+[2026-07-15 20:23:32,835] [INFO] [astravon.ai.YOLOLoader] YOLO model loaded successfully.
+[2026-07-15 20:23:32,835] [INFO] [astravon.ai.AIEngine] YOLO model loaded successfully.
+[2026-07-15 20:23:32,857] [INFO] [astravon.ai.PersonTracker] ByteTrack initialized.
+[2026-07-15 20:23:32,858] [INFO] [astravon.ai.AIEngine] Starting AI Engine...
+[2026-07-15 20:23:32,858] [INFO] [astravon.ai.Pipeline] Starting AI Engine...
+[2026-07-15 20:23:32,858] [INFO] [astravon.ai.VideoStream] Video stream started.
+[2026-07-15 20:23:32,858] [INFO] [astravon.ai.Camera] Connecting to Camera (0)...
+[2026-07-15 20:23:34,297] [INFO] [astravon.ai.Camera] Width=640.0
+[2026-07-15 20:23:34,297] [INFO] [astravon.ai.Camera] Height=480.0
+[2026-07-15 20:23:34,298] [INFO] [astravon.ai.Camera] FPS=-1.0
+[2026-07-15 20:23:34,770] [INFO] [astravon.ai.Camera] Width=1280.0
+[2026-07-15 20:23:34,771] [INFO] [astravon.ai.Camera] Height=720.0
+[2026-07-15 20:23:34,771] [INFO] [astravon.ai.Camera] FPS=-1.0
+[2026-07-15 20:23:35,201] [INFO] [astravon.ai.Camera] Width=1280.0
+[2026-07-15 20:23:35,202] [INFO] [astravon.ai.Camera] Height=720.0
+[2026-07-15 20:23:35,202] [INFO] [astravon.ai.Camera] FPS=30.00003000003
+[2026-07-15 20:23:36,112] [INFO] [astravon.ai.Camera] Detected location: Juja, Kenya (-1.10148, 37.0132)
+[2026-07-15 20:23:36,114] [INFO] [astravon.ai.Camera] Camera connected.: Camera
+[2026-07-15 20:23:36,114] [INFO] [astravon.ai.Camera] Camera connected successfully.
+[2026-07-15 20:23:36,115] [INFO] [astravon.ai.Pipeline] Weather service initialized for Juja, Kenya
+[2026-07-15 20:23:36,115] [INFO] [astravon.ai.Pipeline] Waiting for first camera frame...
+[2026-07-15 20:23:36,166] [INFO] [astravon.ai.Pipeline] First frame received.
+[2026-07-15 20:23:38,206] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:23:39,941] [INFO] [astravon.ai.Weather] Weather updated.
+[2026-07-15 20:23:39,943] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:23:40,172] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:23:40,175] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:23:40,285] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:40,291] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:23:40,406] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:40,412] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:40,597] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:40,599] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:40,699] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:40,700] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:40,817] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:40,820] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:40,922] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:40,924] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:41,063] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:41,065] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:41,189] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:41,190] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:41,313] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:41,314] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:41,512] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:41,513] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:41,658] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:41,660] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:41,847] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:41,848] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:41,990] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:41,992] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:42,146] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:42,148] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:42,375] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:42,377] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:42,637] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:42,641] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:42,862] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:42,864] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:43,138] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:43,142] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:43,373] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:43,375] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:43,557] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:43,559] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:43,731] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:43,733] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:43,942] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:43,944] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:44,134] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:44,136] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:44,274] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:44,277] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:44,424] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:44,427] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:44,579] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:44,580] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:44,713] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:44,716] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:44,864] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:44,866] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:45,010] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:45,012] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:45,140] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:45,141] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:45,291] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:45,293] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:45,553] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:45,556] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:45,806] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:45,808] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:45,994] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:45,996] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:46,190] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:46,192] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:46,341] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:46,345] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:46,505] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:46,508] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:46,791] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:46,793] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:47,052] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:47,055] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:47,266] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:47,269] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:47,455] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:47,458] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:47,624] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:47,626] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:47,777] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:47,778] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:48,014] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:48,018] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:48,345] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:48,352] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:48,729] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:48,731] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:49,033] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:49,036] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:49,232] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:49,236] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:49,427] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:49,429] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:49,614] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:49,616] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:49,827] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:49,829] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:49,975] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:49,977] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:50,123] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:50,125] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:50,294] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:50,296] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:50,485] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:50,487] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:50,843] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:50,845] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:51,012] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:51,014] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:51,195] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:51,197] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:51,377] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:51,379] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:51,562] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:51,564] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:51,741] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:51,743] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:23:52,129] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:52,131] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:52,418] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:52,422] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:52,721] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:52,724] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:53,036] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:53,038] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:53,308] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:53,311] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:53,684] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:23:53,687] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:23:54,214] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:23:54,216] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:23:54,506] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:54,509] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:55,083] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:23:55,085] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:55,634] [INFO] [astravon.ai.Detector] Detected 3 objects.
+[2026-07-15 20:23:55,637] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:55,872] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:23:55,874] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:23:56,113] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:23:56,115] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:23:56,353] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:23:56,354] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:23:56,600] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:23:56,601] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:23:56,813] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:23:56,814] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:23:57,050] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:23:57,052] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:23:57,342] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:57,345] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:57,560] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:23:57,561] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:23:57,940] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:57,944] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:58,134] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:23:58,136] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:23:58,596] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:23:58,600] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:23:59,090] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:23:59,095] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:23:59,707] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:23:59,711] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:23:59,955] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:23:59,957] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:00,201] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:24:00,202] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:00,460] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:24:00,462] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:00,697] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:24:00,698] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:00,892] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:24:00,894] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:01,115] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:24:01,118] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:24:01,351] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:24:01,353] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:01,733] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:24:01,736] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:02,191] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:24:02,192] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:02,328] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:24:02,330] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:02,786] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:24:02,787] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:02,922] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:24:02,923] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:03,424] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:24:03,426] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:03,879] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:24:03,881] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:04,301] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:24:04,303] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:04,822] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:24:04,824] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:05,071] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:24:05,074] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:05,328] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:24:05,330] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:05,596] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:24:05,598] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:05,831] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:24:05,832] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:06,041] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:24:06,045] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:06,332] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:24:06,334] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:06,518] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:24:06,520] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:24:06,691] [INFO] [astravon.ai.VideoStream] Video stream stopped.
+[2026-07-15 20:24:06,976] [INFO] [astravon.ai.Camera] disconnected: Camera
+[2026-07-15 20:24:06,977] [INFO] [astravon.ai.Camera] Camera released.
+[2026-07-15 20:24:06,984] [INFO] [astravon.ai.AIEngine] Shutdown requested by user.
+[2026-07-15 20:24:06,984] [INFO] [astravon.ai.AIEngine] Stopping AI Engine...
+[2026-07-15 20:24:06,990] [INFO] [astravon.ai.VideoStream] Video stream stopped.
+[2026-07-15 20:24:06,991] [INFO] [astravon.ai.Camera] disconnected: Camera
+[2026-07-15 20:24:06,991] [INFO] [astravon.ai.Camera] Camera released.
+[2026-07-15 20:24:06,992] [INFO] [astravon.ai.AIEngine] AI Engine stopped.
+[2026-07-15 20:35:44,406] [INFO] [astravon.ai] ============================================================
+[2026-07-15 20:35:44,407] [INFO] [astravon.ai] Astravon Live Arena AI Engine Logger Initialized
+[2026-07-15 20:35:44,407] [INFO] [astravon.ai] ============================================================
+[2026-07-15 20:35:44,408] [INFO] [astravon.ai.YOLOLoader] Loading model: best.pt
+[2026-07-15 20:35:44,476] [INFO] [astravon.ai.YOLOLoader] YOLO model loaded successfully.
+[2026-07-15 20:35:45,567] [INFO] [astravon.ai.AIEngine] ============================================================
+[2026-07-15 20:35:45,568] [INFO] [astravon.ai.AIEngine] Astravon Live Arena AI Engine
+[2026-07-15 20:35:45,568] [INFO] [astravon.ai.AIEngine] Version : 1.0.0
+[2026-07-15 20:35:45,568] [INFO] [astravon.ai.AIEngine] ============================================================
+[2026-07-15 20:35:45,568] [INFO] [astravon.ai.AIEngine] Initializing AI Engine...
+[2026-07-15 20:35:45,568] [INFO] [astravon.ai.YOLOLoader] Loading model: best.pt
+[2026-07-15 20:35:45,635] [INFO] [astravon.ai.YOLOLoader] YOLO model loaded successfully.
+[2026-07-15 20:35:45,635] [INFO] [astravon.ai.AIEngine] YOLO model loaded successfully.
+[2026-07-15 20:35:45,683] [INFO] [astravon.ai.PersonTracker] ByteTrack initialized.
+[2026-07-15 20:35:45,684] [INFO] [astravon.ai.AIEngine] Starting AI Engine...
+[2026-07-15 20:35:45,684] [INFO] [astravon.ai.Pipeline] Starting AI Engine...
+[2026-07-15 20:35:45,684] [INFO] [astravon.ai.VideoStream] Video stream started.
+[2026-07-15 20:35:45,684] [INFO] [astravon.ai.Camera] Connecting to Camera (0)...
+[2026-07-15 20:35:47,301] [INFO] [astravon.ai.Camera] Width=640.0
+[2026-07-15 20:35:47,302] [INFO] [astravon.ai.Camera] Height=480.0
+[2026-07-15 20:35:47,302] [INFO] [astravon.ai.Camera] FPS=-1.0
+[2026-07-15 20:35:48,590] [INFO] [astravon.ai.Camera] Width=1280.0
+[2026-07-15 20:35:48,591] [INFO] [astravon.ai.Camera] Height=720.0
+[2026-07-15 20:35:48,591] [INFO] [astravon.ai.Camera] FPS=-1.0
+[2026-07-15 20:35:49,160] [INFO] [astravon.ai.Camera] Width=1280.0
+[2026-07-15 20:35:49,161] [INFO] [astravon.ai.Camera] Height=720.0
+[2026-07-15 20:35:49,162] [INFO] [astravon.ai.Camera] FPS=30.00003000003
+[2026-07-15 20:35:49,863] [INFO] [astravon.ai.Camera] Detected location: Juja, Kenya (-1.10148, 37.0132)
+[2026-07-15 20:35:49,867] [INFO] [astravon.ai.Camera] Camera connected.: Camera
+[2026-07-15 20:35:49,867] [INFO] [astravon.ai.Camera] Camera connected successfully.
+[2026-07-15 20:35:49,869] [INFO] [astravon.ai.Pipeline] Weather service initialized for Juja, Kenya
+[2026-07-15 20:35:49,869] [INFO] [astravon.ai.Pipeline] Waiting for first camera frame...
+[2026-07-15 20:35:49,920] [INFO] [astravon.ai.Pipeline] First frame received.
+[2026-07-15 20:35:52,795] [INFO] [astravon.ai.Detector] Detected 3 objects.
+[2026-07-15 20:35:53,983] [INFO] [astravon.ai.Weather] Weather updated.
+[2026-07-15 20:35:53,985] [INFO] [astravon.ai.Pipeline] People detected: 3
+[2026-07-15 20:35:54,357] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:35:54,371] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:35:54,602] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:35:54,606] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:35:54,839] [INFO] [astravon.ai.Detector] Detected 3 objects.
+[2026-07-15 20:35:54,850] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:35:55,216] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:35:55,222] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:35:55,549] [INFO] [astravon.ai.Detector] Detected 3 objects.
+[2026-07-15 20:35:55,554] [INFO] [astravon.ai.Pipeline] People detected: 3
+[2026-07-15 20:35:55,954] [INFO] [astravon.ai.Detector] Detected 3 objects.
+[2026-07-15 20:35:55,959] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:35:56,330] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:35:56,332] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:35:56,642] [INFO] [astravon.ai.Detector] Detected 3 objects.
+[2026-07-15 20:35:56,648] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:35:56,974] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:35:56,980] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:35:57,317] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:35:57,323] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:35:57,676] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:35:57,681] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:35:58,014] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:35:58,018] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:35:58,333] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:35:58,338] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:35:58,661] [INFO] [astravon.ai.Detector] Detected 3 objects.
+[2026-07-15 20:35:58,666] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:35:59,160] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:35:59,163] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:35:59,541] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:35:59,546] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:35:59,898] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:35:59,903] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:00,397] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:00,402] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:00,845] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:00,851] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:01,284] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:01,289] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:01,659] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:01,663] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:02,043] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:02,048] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:02,682] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:02,689] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:03,131] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:03,136] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:03,497] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:03,503] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:03,902] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:03,911] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:04,288] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:04,293] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:04,643] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:04,648] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:05,062] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:05,067] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:05,439] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:05,444] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:05,869] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:05,875] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:06,258] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:06,264] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:06,651] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:06,656] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:07,060] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:07,077] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:07,591] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:07,596] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:07,974] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:07,979] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:08,405] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:08,410] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:08,840] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:08,845] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:09,209] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:09,214] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:09,616] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:09,622] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:10,069] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:10,073] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:10,425] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:10,432] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:10,826] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:10,830] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:11,205] [INFO] [astravon.ai.Detector] Detected 3 objects.
+[2026-07-15 20:36:11,211] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:11,609] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:11,615] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:12,052] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:12,056] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:12,448] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:12,454] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:12,809] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:12,815] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:13,222] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:13,227] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:13,639] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:13,646] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:14,043] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:14,047] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:14,458] [INFO] [astravon.ai.Detector] Detected 3 objects.
+[2026-07-15 20:36:14,465] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:14,842] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:36:14,850] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:36:15,260] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:15,267] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:15,722] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:15,729] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:16,125] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:16,131] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:16,490] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:16,495] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:16,874] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:16,881] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:17,293] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:17,299] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:17,662] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:17,667] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:18,046] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:18,052] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:18,515] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:18,520] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:18,884] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:18,887] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:19,301] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:19,308] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:19,675] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:19,680] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:20,047] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:20,053] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:20,482] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:20,488] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:20,938] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:20,943] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:21,353] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:21,358] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:21,759] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:36:21,764] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:36:22,154] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:22,160] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:22,785] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:22,790] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:23,208] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:23,213] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:23,553] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:23,560] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:23,970] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:23,981] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:24,387] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:24,392] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:24,873] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:24,879] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:25,463] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:25,469] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:26,353] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:26,366] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:26,945] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:26,951] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:27,417] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:27,421] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:27,827] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:27,835] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:28,694] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:28,699] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:29,285] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:29,293] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:29,949] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:29,954] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:30,596] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:30,599] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:31,109] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:31,114] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:31,534] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:36:31,539] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:36:31,947] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:31,950] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:32,474] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:36:32,483] [INFO] [astravon.ai.Pipeline] People detected: 1
+[2026-07-15 20:36:33,298] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:33,310] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:33,966] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:33,978] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:34,572] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:34,579] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:35,078] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:35,082] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:35,470] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:35,475] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:35,896] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:35,901] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:36,481] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:36,487] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:37,153] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:37,158] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:37,532] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:37,538] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:37,905] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:37,913] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:38,367] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:38,374] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:39,048] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:39,062] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:39,729] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:39,735] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:40,347] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:40,352] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:41,020] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:41,027] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:41,639] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:41,644] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:42,315] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:42,321] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:43,288] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:43,294] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:44,022] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:44,027] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:44,788] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:44,801] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:45,667] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:45,673] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:46,422] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:46,433] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:46,897] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:46,904] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:47,722] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:47,728] [INFO] [astravon.ai.Pipeline] People detected: 2
+[2026-07-15 20:36:48,202] [INFO] [astravon.ai.Detector] Detected 2 objects.
+[2026-07-15 20:36:48,206] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:36:48,689] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:36:48,695] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:36:49,194] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:36:49,196] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:36:49,862] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:36:49,865] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:36:50,200] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:36:50,201] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:36:50,512] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:36:50,513] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:36:50,848] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:36:50,849] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:36:51,342] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:36:51,347] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:36:51,758] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:36:51,761] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:36:52,306] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:36:52,309] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:36:52,924] [INFO] [astravon.ai.Detector] Detected 1 objects.
+[2026-07-15 20:36:52,927] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:36:53,321] [INFO] [astravon.ai.Detector] Detected 0 objects.
+[2026-07-15 20:36:53,323] [INFO] [astravon.ai.Pipeline] People detected: 0
+[2026-07-15 20:36:53,585] [INFO] [astravon.ai.VideoStream] Video stream stopped.
+[2026-07-15 20:36:53,900] [INFO] [astravon.ai.Camera] disconnected: Camera
+[2026-07-15 20:36:53,900] [INFO] [astravon.ai.Camera] Camera released.
+[2026-07-15 20:36:53,916] [INFO] [astravon.ai.AIEngine] Shutdown requested by user.
+[2026-07-15 20:36:53,922] [INFO] [astravon.ai.AIEngine] Stopping AI Engine...
+[2026-07-15 20:36:53,923] [INFO] [astravon.ai.VideoStream] Video stream stopped.
+[2026-07-15 20:36:53,926] [INFO] [astravon.ai.Camera] disconnected: Camera
+[2026-07-15 20:36:53,927] [INFO] [astravon.ai.Camera] Camera released.
+[2026-07-15 20:36:53,931] [INFO] [astravon.ai.AIEngine] AI Engine stopped.

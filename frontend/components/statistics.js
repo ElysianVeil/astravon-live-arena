@@ -23,6 +23,19 @@ export default class Statistics {
 
         this.statistics = {
 
+            camera_id: "--",
+            camera_name: "--",
+            venue: "--",
+
+            city: "--",
+            country: "--",
+
+            latitude: 0,
+            longitude: 0,
+
+            wind_speed: 0,
+            weather_code: 0,
+
             people_count: 0,
             occupancy: 0,
             density: "Low",
@@ -115,6 +128,59 @@ export default class Statistics {
         this.container.innerHTML = `
 
             <div class="statistics-grid">
+                ${this.card(
+                    "📷",
+                    "Camera",
+                    s.camera_name
+                )}
+
+                ${this.card(
+                    "🆔",
+                    "Camera ID",
+                    s.camera_id
+                )}
+
+                ${this.card(
+                    "🏟️",
+                    "Venue",
+                    s.venue
+                )}
+
+                ${this.card(
+                    "🌍",
+                    "City",
+                    s.city
+                )}
+
+                ${this.card(
+                    "🌎",
+                    "Country",
+                    s.country
+                )}
+
+                ${this.card(
+                    "📍",
+                    "Latitude",
+                    s.latitude.toFixed(5)
+                )}
+
+                ${this.card(
+                    "📍",
+                    "Longitude",
+                    s.longitude.toFixed(5)
+                )}
+
+                ${this.card(
+                    "💨",
+                    "Wind",
+                    `${s.wind_speed.toFixed(1)} km/h`
+                )}
+
+                ${this.card(
+                    "☁️",
+                    "Weather Code",
+                    s.weather_code
+                )}
 
                 ${this.card(
                     "👥",
@@ -251,6 +317,20 @@ export default class Statistics {
     reset() {
 
         this.statistics = {
+
+
+            camera_id: "--",
+            camera_name: "--",
+            venue: "--",
+
+            city: "--",
+            country: "--",
+
+            latitude: 0,
+            longitude: 0,
+
+            wind_speed: 0,
+            weather_code: 0,
 
             people_count: 0,
             occupancy: 0,

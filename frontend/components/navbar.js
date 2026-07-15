@@ -73,55 +73,59 @@ export default class Navbar {
 
         this.container.innerHTML = `
 
-            <div class="navbar-left">
+            <div class="navbar">
 
-                <div class="navbar-logo">
+                <div class="navbar-left">
 
-                    🌌 Astravon Live Arena
+                    <div class="navbar-logo">
+
+                        🌌 Astravon Live Arena
+
+                    </div>
+
+                    <div class="navbar-version">
+
+                        v1.0.0
+
+                    </div>
 
                 </div>
 
-                <div class="navbar-version">
+                <div class="navbar-center">
 
-                    v1.0.0
+                    <span
+                        id="eventMode"
+                        class="event-mode"
+                    >
+
+                        Training
+
+                    </span>
 
                 </div>
 
-            </div>
+                <div class="navbar-right">
 
-            <div class="navbar-center">
+                    <span
+                        id="connectionStatus"
+                        class="connection disconnected"
+                    >
 
-                <span
-                    id="eventMode"
-                    class="event-mode"
-                >
+                        ● Offline
 
-                    Training
+                    </span>
 
-                </span>
+                    <span
+                        id="currentTime"
+                        class="current-time"
+                    >
 
-            </div>
+                        --:--:--
 
-            <div class="navbar-right">
+                    </span>
 
-                <span
-                    id="connectionStatus"
-                    class="connection disconnected"
-                >
-
-                    ● Offline
-
-                </span>
-
-                <span
-                    id="currentTime"
-                    class="current-time"
-                >
-
-                    --:--:--
-
-                </span>
-
+                </div>
+                
             </div>
 
         `;

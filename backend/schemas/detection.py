@@ -60,6 +60,20 @@ class DetectionRequest(AstravonSchema):
     AI Engine detection payload.
     """
 
+    camera_id: str
+
+    camera_name: str
+
+    venue: str
+
+    city: str
+
+    country: str
+
+    latitude: float
+
+    longitude: float
+
     people_count: int = Field(
         ge=0
     )
@@ -79,6 +93,10 @@ class DetectionRequest(AstravonSchema):
     humidity: float
 
     heat_index: float
+    
+    wind_speed: float
+
+    weather_code: int
 
     risk_score: int = Field(
         ge=0,
@@ -113,6 +131,19 @@ class DetectionData(AstravonSchema):
     """
     Detection response payload.
     """
+    camera_id: str
+
+    camera_name: str
+
+    venue: str
+
+    city: str
+
+    country: str
+
+    latitude: float
+
+    longitude: float
 
     people_count: int
 
@@ -125,6 +156,10 @@ class DetectionData(AstravonSchema):
     humidity: float
 
     heat_index: float
+
+    wind_speed: float
+
+    weather_code: int
 
     risk_score: int
 

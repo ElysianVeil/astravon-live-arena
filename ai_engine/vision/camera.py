@@ -19,7 +19,9 @@ from __future__ import annotations
 
 from typing import Optional, Tuple, Union
 
+import requests
 import cv2
+import uuid
 import numpy as np
 from numpy.typing import NDArray
 import time
@@ -66,15 +68,66 @@ class Camera:
             Friendly camera name.
         """
 
-        self.source = source
+        # --------------------------------------------------------
+        # Camera Identity
+        # --------------------------------------------------------
+
+        self.id = str(uuid.uuid4())
 
         self.name = name
 
-        self.capture: Optional[cv2.VideoCapture] = None
+        self.source = source
+
+        self.type = "USB"
+
+        self.manufacturer = "Unknown"
+
+        self.model = "Unknown"
+
+        self.venue = "Main Stadium"
+
+        # --------------------------------------------------------
+        # Location
+        # --------------------------------------------------------
+
+        self.latitude = 0.0
+        self.longitude = 0.0
+
+        self.city = "Unknown"
+        self.region = "Unknown"
+        self.country = "Unknown"
+
+        # --------------------------------------------------------
+        # Status
+        # --------------------------------------------------------
 
         self.connected = False
 
-        self.connection_time: str | None = None
+        self.status = "Offline"
+
+        self.connection_time = None
+
+        self.last_frame_time = None
+
+        # --------------------------------------------------------
+        # Camera Properties
+        # --------------------------------------------------------
+
+        self.width = settings.FRAME_WIDTH
+        self.height = settings.FRAME_HEIGHT
+        self.fps = settings.FPS
+
+        # --------------------------------------------------------
+        # Weather
+        # --------------------------------------------------------
+
+        self.weather = None
+
+        # --------------------------------------------------------
+        # OpenCV
+        # --------------------------------------------------------
+
+        self.capture = None
 
     # ========================================================
     # Connect
@@ -185,6 +238,8 @@ class Camera:
 
         self.connection_time = current_timestamp()
 
+        self.detect_location()
+
         logger.info(
             f"{CAMERA_CONNECTED}: {self.name}"
         )
@@ -245,6 +300,50 @@ class Camera:
             f"{self.name} released."
         )
 
+    def detect_location(self):
+        """
+        Detect the current machine's approximate location
+        using IP geolocation.
+        """
+
+        try:
+
+            response = requests.get(
+                "https://ipapi.co/json/",
+                timeout=5
+            )
+
+            response.raise_for_status()
+
+            data = response.json()
+
+            self.latitude = float(data["latitude"])
+            self.longitude = float(data["longitude"])
+
+            self.city = data.get("city")
+            self.region = data.get("region")
+            self.country = data.get("country_name")
+
+            logger.info(
+                f"Detected location: "
+                f"{self.city}, "
+                f"{self.country} "
+                f"({self.latitude}, {self.longitude})"
+            )
+
+        except Exception as error:
+
+            logger.warning(
+                f"Unable to determine location: {error}"
+            )
+
+            self.latitude = 0.0
+            self.longitude = 0.0
+
+            self.city = "Unknown"
+            self.region = "Unknown"
+            self.country = "Unknown"
+
     # ========================================================
     # Information
     # ========================================================
@@ -256,13 +355,25 @@ class Camera:
 
         return {
 
+            "id": self.id,
+
             "name": self.name,
 
             "source": self.source,
 
-            "connected": self.connected,
+            "venue": self.venue,
 
-            "connection_time": self.connection_time,
+            "city": self.city,
+
+            "region": self.region,
+
+            "country": self.country,
+
+            "latitude": self.latitude,
+
+            "longitude": self.longitude,
+
+            "connected": self.connected,
 
             "resolution": (
                 settings.FRAME_WIDTH,
@@ -270,6 +381,7 @@ class Camera:
             ),
 
             "fps": settings.FPS
+
         }
 
     # ========================================================

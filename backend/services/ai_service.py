@@ -59,15 +59,42 @@ class AIService:
     def __init__(self):
 
         self.current_statistics = {
+            "id": 0,
+
+            # Camera
+            "camera_id": "",
+            "camera_name": "",
+            "venue": "",
+            "city": "",
+            "country": "",
+            "latitude": 0.0,
+            "longitude": 0.0,
+
+            # Crowd
             "people_count": 0,
-            "density": DENSITY_LOW,
             "occupancy": 0,
+            "density": DENSITY_LOW,
+
+            # Weather
             "temperature": DEFAULT_TEMPERATURE,
             "humidity": DEFAULT_HUMIDITY,
             "heat_index": DEFAULT_HEAT_INDEX,
+            "wind_speed": 0.0,
+            "weather_code": 0,
+
+            # Risk
             "risk_score": 0,
             "risk_level": RISK_LOW,
-            "timestamp": datetime.now().isoformat()
+
+            # Detection
+            "detected_objects": 0,
+            "confidence": 0.0,
+
+            # Performance
+            "processing_time": 0.0,
+            "fps": 0.0,
+
+            "created_at": datetime.now().isoformat()
         }
 
         self.statistics_history = []
@@ -103,7 +130,13 @@ class AIService:
 
         self.current_statistics = {
             "id": len(self.statistics_history) + 1,
-
+            "camera_id": request.camera_id,
+            "camera_name": request.camera_name,
+            "venue": request.venue,
+            "city": request.city,
+            "country": request.country,
+            "latitude": request.latitude,
+            "longitude": request.longitude,
             "people_count": request.people_count,
             "occupancy": request.occupancy,
             "density": request.density,
@@ -111,6 +144,9 @@ class AIService:
             "temperature": request.temperature,
             "humidity": request.humidity,
             "heat_index": request.heat_index,
+
+            "wind_speed": request.wind_speed,
+            "weather_code": request.weather_code,
 
             "risk_score": request.risk_score,
             "risk_level": request.risk_level,
@@ -164,23 +200,54 @@ class AIService:
         self.current_statistics = {
             "id": len(self.statistics_history) + 1,
 
+            # =====================================================
+            # Camera Information
+            # =====================================================
+            "camera_id": request.camera_id,
+            "camera_name": request.camera_name,
+            "venue": request.venue,
+            "city": request.city,
+            "country": request.country,
+            "latitude": request.latitude,
+            "longitude": request.longitude,
+
+            # =====================================================
+            # Crowd Statistics
+            # =====================================================
             "people_count": request.people_count,
             "occupancy": request.occupancy,
             "density": request.density,
 
+            # =====================================================
+            # Weather
+            # =====================================================
             "temperature": request.temperature,
             "humidity": request.humidity,
             "heat_index": request.heat_index,
+            "wind_speed": request.wind_speed,
+            "weather_code": request.weather_code,
 
+            # =====================================================
+            # Risk Analysis
+            # =====================================================
             "risk_score": request.risk_score,
             "risk_level": request.risk_level,
 
+            # =====================================================
+            # Detection
+            # =====================================================
             "detected_objects": request.detected_objects,
-
             "confidence": request.confidence,
+
+            # =====================================================
+            # Performance
+            # =====================================================
             "processing_time": request.processing_time,
             "fps": request.fps,
 
+            # =====================================================
+            # Timestamp
+            # =====================================================
             "created_at": datetime.now().isoformat()
         }
 
@@ -377,14 +444,33 @@ class AIService:
         """
 
         self.current_statistics = {
+            "id": 0,
+
+            # Camera
+            "camera_id": "",
+            "camera_name": "",
+            "venue": "",
+            "city": "",
+            "country": "",
+            "latitude": 0.0,
+            "longitude": 0.0,
+
+            # Crowd
             "people_count": 0,
             "density": "Low",
             "occupancy": 0,
+
+            # Weather
             "temperature": 25.0,
             "humidity": 50.0,
             "heat_index": 27.0,
+            "wind_speed": 10.0,
+            "weather_code": 1,
+
+            # Risk
             "risk_score": 0,
             "risk_level": "Low",
+
             "timestamp": datetime.now().isoformat()
         }
 
