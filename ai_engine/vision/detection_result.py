@@ -19,6 +19,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Any, Dict, List
+from datetime import datetime
 
 import supervision as sv
 
@@ -28,6 +29,7 @@ class DetectionResult:
     """
     Complete output of one YOLO inference.
     """
+    timestamp: datetime
 
     # Raw Ultralytics result
     ultralytics: Any

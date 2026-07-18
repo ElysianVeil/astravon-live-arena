@@ -18,6 +18,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from pydantic_settings import BaseSettings
+from constants import COLOR_WHITE
 
 
 # ============================================================
@@ -78,6 +79,36 @@ class Settings(BaseSettings):
     DEVICE: str = "cpu"
     # Use "cuda" if NVIDIA GPU is available
 
+    ENABLE_RESIZE: bool = True
+    ENABLE_CLAHE: bool = True
+    ENABLE_DENOISE: bool = True
+    ENABLE_SHARPEN: bool = False
+    ENABLE_GAMMA: bool = True
+    ENABLE_AUTO_BRIGHTNESS: bool = True
+    ENABLE_AUTO_DENOISE: bool = True
+    ENABLE_NORMALIZE: bool = False
+    DRAW_BOXES: bool = True
+    DRAW_TRACKS: bool = True
+    DRAW_LABELS: bool = True
+    DRAW_FPS: bool = True
+    DRAW_ALERTS: bool = True
+    DRAW_STATISTICS: bool = True
+    DRAW_ZONES: bool = True
+    DRAW_HEATMAP: bool = False
+    HEATMAP_MODE: str = "JET"
+    DRAW_FONT_SCALE: float = 0.6
+    DRAW_BOX_THICKNESS: int = 2
+    DRAW_RADIUS: int = 8
+
+    DRAW_ALPHA: float = 0.35
+
+    DRAW_TEXT_COLOR: tuple = COLOR_WHITE
+
+    DRAW_SHOW_CENTER: bool = True
+    DRAW_SHOW_CONFIDENCE: bool = True
+    DRAW_SHOW_TRAILS: bool = True
+    DRAW_SHOW_HEATMAP: bool = True
+
     # --------------------------------------------------------
     # ByteTrack
     # --------------------------------------------------------
@@ -126,7 +157,28 @@ class Settings(BaseSettings):
 
     HIGH_DENSITY: int = 150
 
+    # Total monitored area (square metres).
+    VENUE_AREA: float = 1200.0
+
+    VENUE_CAPACITY: int = 250
+
     MAX_OCCUPANCY: int = 500
+
+    # ============================================================
+    # Occupancy Thresholds
+    # ============================================================
+
+    OCCUPANCY_EMPTY: int = 25
+    OCCUPANCY_MODERATE: int = 50
+    OCCUPANCY_BUSY: int = 75
+    OCCUPANCY_NEAR_FULL: int = 90
+    OCCUPANCY_FULL: int = 100
+
+    CONGESTION_OCCUPANCY_WEIGHT: float = 0.40
+
+    CONGESTION_DENSITY_WEIGHT: float = 0.40
+
+    CONGESTION_MOVEMENT_WEIGHT: float = 0.20
 
     # --------------------------------------------------------
     # Heat Simulation

@@ -1145,3 +1145,2415 @@ If the application can handle that sequence reliably, you've demonstrated that a
 7. ✅ Polish the UI and prepare a complete demonstration scenario.
 
 Following that order lets you catch problems at the source instead of chasing symptoms in the dashboard. It also builds confidence that every number the system displays is accurate before you add more advanced capabilities.
+
+ENGINE
+│
+├── Camera
+├── YOLO
+├── Detection
+├── Weather
+├── Risk Engine
+├── Performance
+│
+▼
+BACKEND
+│
+├── AI Service
+├── API
+├── Validation
+├── WebSocket
+├── Logging
+│
+▼
+FRONTEND
+│
+├── Camera
+├── Statistics
+├── Charts
+├── Map
+├── Alerts
+├── Reports
+├── Settings
+│
+▼
+POLISH
+│
+├── Animations
+├── Styling
+├── Presentation Flow
+└── VPS Deployment
+
+Looking at your architecture over the past few weeks, I wouldn't optimize just one file. I would optimize the **entire camera pipeline**, because every file contributes to the overall FPS and latency.
+
+## Phase 1: Camera Layer
+
+### 1. `camera.py` ⭐⭐⭐⭐⭐ (Highest Priority)
+
+This is the hardware interface.
+
+Enhancements:
+
+* Better connection logic
+* MJPEG support
+* Camera backend selection (DirectShow/MSMF on Windows)
+* Buffer size optimization
+* Automatic reconnection
+* Camera capability detection
+* Exposure/brightness controls
+* White balance controls
+* Autofocus controls
+* Frame timestamping
+* Camera health monitoring
+* Actual FPS calculation
+* Dropped frame detection
+* Frame queue management
+
+Current flow
+
+```
+Camera
+↓
+
+read()
+
+↓
+
+YOLO
+```
+
+Optimized
+
+```
+Camera
+
+↓
+
+Frame Thread
+
+↓
+
+Latest Frame Buffer
+
+↓
+
+YOLO
+```
+
+---
+
+## 2. `video_stream.py` ⭐⭐⭐⭐⭐
+
+This file can provide one of the biggest performance improvements.
+
+Enhancements:
+
+* Dedicated capture thread
+* Keep only the newest frame
+* Lock-free frame access where possible
+* Queue size = 1
+* Thread synchronization
+* FPS monitoring
+* Latency measurement
+
+Instead of
+
+```
+Camera
+
+↓
+
+read()
+
+↓
+
+YOLO
+```
+
+Use
+
+```
+Camera
+        │
+Capture Thread
+        │
+Latest Frame
+        │
+YOLO
+```
+
+---
+
+## 3. `detector.py` ⭐⭐⭐⭐⭐
+
+Likely your largest CPU consumer.
+
+Optimize:
+
+* Resize before inference
+* Batch preprocessing
+* GPU detection (if available)
+* Half precision inference
+* Confidence filtering
+* NMS optimization
+* Skip unnecessary classes
+* Frame skipping strategy
+* Model warm-up
+
+---
+
+## 4. `tracker.py`
+
+Instead of detecting every frame:
+
+```
+Frame 1
+
+YOLO
+
+↓
+
+Track
+
+↓
+
+Frame 2
+
+Track
+
+↓
+
+Frame 3
+
+Track
+
+↓
+
+Frame 4
+
+YOLO again
+```
+
+Tracking is much cheaper than detection.
+
+---
+
+## 5. `frame_processor.py`
+
+Good place for:
+
+* Resize
+* Color conversion
+* Histogram equalization
+* ROI cropping
+* Noise reduction
+* Sharpening (light)
+* Letterboxing
+
+---
+
+## 6. `statistics_manager.py`
+
+Reduce computation.
+
+Instead of recalculating everything every frame,
+
+keep rolling statistics.
+
+---
+
+## 7. `risk_engine.py`
+
+Optimize
+
+Instead of
+
+```
+Every frame
+
+↓
+
+Recalculate everything
+```
+
+Only update values that changed.
+
+---
+
+## 8. `weather.py`
+
+Weather doesn't need updating every frame.
+
+Instead
+
+```
+Every 5 minutes
+```
+
+or
+
+```
+Every 10 minutes
+```
+
+Then cache the result.
+
+---
+
+## 9. `websocket_manager.py`
+
+Optimize broadcasts.
+
+Instead of
+
+```
+Frame
+
+Statistics
+
+Alert
+
+Map
+
+Camera
+
+```
+
+every frame,
+
+broadcast only when something changes.
+
+For example
+
+Camera
+
+```
+30 FPS
+```
+
+Statistics
+
+```
+2 FPS
+```
+
+Weather
+
+```
+every 5 min
+```
+
+Alerts
+
+```
+only on trigger
+```
+
+---
+
+## 10. `helpers.py`
+
+Move expensive calculations here.
+
+Examples
+
+* Density
+* Occupancy
+* Heat index
+* Risk calculations
+
+so they can be reused efficiently.
+
+---
+
+# Lower Priority
+
+These aren't bottlenecks but should still be reviewed.
+
+```
+logger.py
+```
+
+Avoid excessive logging inside loops.
+
+---
+
+```
+validators.py
+```
+
+Avoid repeated validations when values haven't changed.
+
+---
+
+```
+config.py
+```
+
+Add configurable settings such as
+
+```
+PROCESS_WIDTH
+
+PROCESS_HEIGHT
+
+TARGET_FPS
+
+BUFFER_SIZE
+
+ENABLE_MJPEG
+
+ENABLE_TRACKING
+
+FRAME_SKIP
+
+CACHE_WEATHER
+```
+
+---
+
+# Engine Optimization Order
+
+I'd optimize in this order:
+
+```
+camera.py
+        ↓
+video_stream.py
+        ↓
+detector.py
+        ↓
+tracker.py
+        ↓
+frame_processor.py
+        ↓
+statistics_manager.py
+        ↓
+risk_engine.py
+        ↓
+weather.py
+        ↓
+websocket_manager.py
+```
+
+---
+
+## Expected Improvements
+
+| File                    | Expected Improvement                                                         |
+| ----------------------- | ---------------------------------------------------------------------------- |
+| `camera.py`             | Better camera stability, reduced latency, more reliable reconnects           |
+| `video_stream.py`       | 30–60% smoother frame delivery by always processing the latest frame         |
+| `detector.py`           | Largest FPS improvement (often 2–4× depending on model and resolution)       |
+| `tracker.py`            | Significant reduction in CPU/GPU load by avoiding full detection every frame |
+| `frame_processor.py`    | Improved detection quality with minimal overhead                             |
+| `statistics_manager.py` | Lower CPU usage and more consistent updates                                  |
+| `risk_engine.py`        | Reduced unnecessary recalculations                                           |
+| `weather.py`            | Eliminates wasted network requests and processing                            |
+| `websocket_manager.py`  | Lower bandwidth and a more responsive dashboard                              |
+
+For **Astravon Live Arena**, I would spend the most time on **`detector.py`**, **`video_stream.py`**, and **`camera.py`**. Those three files form the core of the AI pipeline and will have the greatest impact on both the responsiveness of the system and the quality of your presentation.
+
+This is actually an important architectural decision.
+
+Right now, **CalibrationManager should never be called directly by the frontend or backend routes**. It belongs entirely inside the **AI Engine**, because it converts image measurements into real-world measurements.
+
+The data flow should look like this:
+
+```text
+Camera
+    │
+    ▼
+Frame
+    │
+    ▼
+Detector (YOLO)
+    │
+    ▼
+Bounding Boxes
+    │
+    ▼
+Tracker (ByteTrack)
+    │
+    ▼
+Calibration Manager
+    │
+    ▼
+Real-world distances
+    │
+    ▼
+Analytics
+    │
+    ▼
+Risk Engine
+    │
+    ▼
+Statistics
+    │
+    ▼
+Backend
+    │
+    ▼
+Frontend
+```
+
+Notice that **calibration is in the middle of the AI pipeline**, not at the beginning or end.
+
+---
+
+# Specifically, where should it be used?
+
+## 1. Crowd Density Analyzer ⭐⭐⭐⭐⭐
+
+This is the biggest use.
+
+Without calibration
+
+```python
+distance = 120 pixels
+```
+
+With calibration
+
+```python
+distance = 2.4 metres
+```
+
+Now you can determine
+
+* overcrowding
+* personal spacing
+* congestion
+
+instead of meaningless pixel distances.
+
+Example
+
+```python
+for i in people:
+    for j in people:
+
+        distance = calibration.person_distance(
+            camera.id,
+            i.bbox,
+            j.bbox
+        )
+
+        if distance < 1.5:
+            close_contacts += 1
+```
+
+---
+
+## 2. Risk Engine ⭐⭐⭐⭐⭐
+
+Instead of
+
+```
+People are close.
+```
+
+you can say
+
+```
+Average spacing = 0.82 m
+
+Risk = HIGH
+```
+
+Much more professional.
+
+---
+
+## 3. Heat Map ⭐⭐⭐⭐☆
+
+Suppose 300 people are detected.
+
+Calibration estimates
+
+```
+Visible area = 540 m²
+```
+
+Then
+
+```
+Density =
+
+300 / 540
+
+=
+
+0.56 people/m²
+```
+
+instead of
+
+```
+300 people
+```
+
+---
+
+## 4. Crowd Flow ⭐⭐⭐⭐☆
+
+When a tracked person moves
+
+```
+40 pixels
+```
+
+Calibration converts
+
+```
+0.75 metres
+```
+
+Now you know actual movement.
+
+---
+
+## 5. Speed Estimation ⭐⭐⭐⭐☆
+
+Track
+
+```
+Frame 1
+
+↓
+
+Frame 30
+```
+
+Movement
+
+```
+120 pixels
+
+↓
+
+2.4 metres
+```
+
+30 FPS
+
+```
+2.4 m/sec
+```
+
+Now you know
+
+* walking
+* running
+* stampede
+
+---
+
+## 6. Zone Monitoring ⭐⭐⭐☆☆
+
+Suppose the stadium entrance is
+
+```
+10 m wide
+```
+
+Calibration lets you convert
+
+```
+pixels
+
+↓
+
+metres
+```
+
+so virtual zones become realistic.
+
+---
+
+## 7. Emergency Planning ⭐⭐⭐⭐☆
+
+Suppose
+
+```
+Visible area
+
+↓
+
+600 m²
+```
+
+People
+
+```
+900
+```
+
+Density
+
+```
+1.5 people/m²
+```
+
+Now your evacuation engine has meaningful numbers.
+
+---
+
+# Where NOT to use calibration
+
+Don't use it in
+
+```
+Camera
+```
+
+because the camera only captures frames.
+
+Don't use it in
+
+```
+Detector
+```
+
+because YOLO only detects objects.
+
+Don't use it in
+
+```
+Tracker
+```
+
+because ByteTrack only tracks IDs.
+
+Don't use it in
+
+```
+WebSocket
+```
+
+because it just sends data.
+
+Don't use it in
+
+```
+Frontend
+```
+
+because all calculations should already be done.
+
+---
+
+# The ideal location in Astravon Live Arena
+
+Based on the architecture you've been building, I'd integrate it like this:
+
+```text
+vision/
+│
+├── camera.py
+├── camera_manager.py
+├── calibration.py   ← HERE
+│
+├── detector.py
+├── tracker.py
+│
+├── crowd_density.py   ← Uses CalibrationManager
+├── heatmap.py         ← Uses CalibrationManager
+├── people_counter.py
+├── risk.py            ← Uses CalibrationManager
+│
+└── pipeline.py        ← Coordinates everything
+```
+
+Then inside `pipeline.py`:
+
+```python
+frame = camera.read()
+
+detections = detector.detect(frame)
+
+tracks = tracker.update(detections)
+
+density = crowd_density.calculate(
+    tracks,
+    calibration
+)
+
+risk = risk_engine.evaluate(
+    density,
+    weather
+)
+```
+
+That keeps responsibilities clean: **camera captures**, **detector detects**, **tracker tracks**, **calibration translates image measurements to real-world measurements**, and **analytics/risk modules consume those real-world measurements**. This separation will make the system easier to maintain and extend as you add more sophisticated analytics.
+
+
+Camera
+    │
+    ▼
+Calibration
+    │
+    ▼
+Detector
+    │
+    ▼
+Tracker
+    │
+    ▼
+Analytics
+    │
+    ▼
+Risk Engine
+    │
+    ▼
+Alerts
+    │
+    ▼
+Backend
+    │
+    ▼
+Frontend
+
+Since you're optimizing the AI Engine from the inside out, I wouldn't follow the folder order—I would follow the **data flow**. Every improvement you make should make the next module better.
+
+Here's the order I'd recommend.
+
+---
+
+# Phase 1 — Camera Acquisition
+
+> Goal: Capture the highest quality frame possible.
+
+```text
+camera/
+│
+├── camera.py
+├── camera_manager.py
+├── stream.py
+├── calibration.py
+└── preprocessing.py
+```
+
+### Implement
+
+```
+camera.py
+```
+
+* Camera health
+* FPS measurement
+* Latest frame cache
+* Automatic reconnect
+* Camera information
+* Backend optimization
+* Resolution optimization
+* Frame timing
+
+↓
+
+```
+camera_manager.py
+```
+
+* Thread-safe camera management
+* Multiple cameras
+* Performance metrics
+* Latest frame sharing
+* Health monitoring
+
+↓
+
+```
+stream.py
+```
+
+* Dedicated frame acquisition thread
+* Buffer management
+* Continuous capture
+* Frame synchronization
+
+↓
+
+```
+calibration.py
+```
+
+* Real-world measurements
+* Distance conversion
+* Camera calibration
+* Area estimation
+
+↓
+
+```
+preprocessing.py
+```
+
+* Resize
+* Normalize
+* CLAHE
+* Gamma correction
+* Noise reduction
+* Sharpening
+
+Output
+
+```
+High-quality frame
+```
+
+---
+
+# Phase 2 — Detection
+
+> Goal: Detect every important object.
+
+```text
+detection/
+│
+├── detector.py
+├── drawing.py
+└── zones.py
+```
+
+Implement
+
+```
+detector.py
+```
+
+* Model warm-up
+* GPU support
+* CPU fallback
+* Confidence filtering
+* Class filtering
+* Detection timing
+* Batch inference
+
+Output
+
+```
+Bounding boxes
+```
+
+↓
+
+```
+drawing.py
+```
+
+* Bounding boxes
+* Labels
+* Confidence
+* Colors
+
+↓
+
+```
+zones.py
+```
+
+* Restricted zones
+* Entry
+* Exit
+* Danger zones
+
+Output
+
+```
+Detected objects
+```
+
+---
+
+# Phase 3 — Tracking
+
+> Goal: Know WHO is WHO.
+
+```text
+tracking/
+│
+├── tracker.py
+├── movement.py
+└── trends.py
+```
+
+Implement
+
+```
+tracker.py
+```
+
+* Persistent IDs
+* Lost tracks
+* Re-identification
+* Track age
+* Track confidence
+
+↓
+
+```
+movement.py
+```
+
+* Velocity
+* Direction
+* Distance travelled
+* Average speed
+
+↓
+
+```
+trends.py
+```
+
+* Historical movement
+* Crowd flow
+* Traffic patterns
+
+Output
+
+```
+Tracked people
+```
+
+---
+
+# Phase 4 — Analytics
+
+This is where your AI becomes intelligent.
+
+```text
+analytics/
+│
+├── counter.py
+├── density.py
+├── occupancy.py
+├── congestion.py
+├── statistics.py
+├── metrics.py
+├── reports.py
+└── logger.py
+```
+
+Implementation order
+
+```
+counter.py
+```
+
+↓
+
+People count
+
+↓
+
+```
+density.py
+```
+
+Uses
+
+```
+Calibration
+
++
+
+Counter
+```
+
+↓
+
+People/m²
+
+↓
+
+```
+occupancy.py
+```
+
+Uses
+
+```
+Capacity
+
++
+
+Counter
+```
+
+↓
+
+Occupancy %
+
+↓
+
+```
+congestion.py
+```
+
+Uses
+
+```
+Density
+
++
+
+Movement
+```
+
+↓
+
+Congestion score
+
+↓
+
+```
+statistics.py
+```
+
+Aggregates
+
+* count
+* density
+* occupancy
+* speed
+* congestion
+
+↓
+
+```
+metrics.py
+```
+
+Computes
+
+* averages
+* min
+* max
+* FPS
+* throughput
+
+↓
+
+```
+reports.py
+```
+
+Generates
+
+Daily reports
+
+---
+
+# Phase 5 — Environment
+
+```text
+environment/
+│
+├── temperature.py
+├── humidity.py
+├── heat_index.py
+└── simulator.py
+```
+
+Implementation
+
+Temperature
+
+↓
+
+Humidity
+
+↓
+
+Heat Index
+
+↓
+
+Environmental Conditions
+
+---
+
+# Phase 6 — Risk Engine
+
+Now everything comes together.
+
+```text
+risk/
+│
+├── analyzer.py
+├── scoring.py
+├── thresholds.py
+├── predictor.py
+├── severity.py
+└── recommendations.py
+```
+
+Flow
+
+```
+Analytics
+
++
+
+Environment
+
++
+
+Movement
+
+↓
+
+Analyzer
+
+↓
+
+Scoring
+
+↓
+
+Severity
+
+↓
+
+Predictor
+
+↓
+
+Recommendations
+```
+
+Output
+
+```
+Overall Risk Score
+```
+
+---
+
+# Phase 7 — Alerts
+
+```text
+alerts/
+│
+├── alerts.py
+└── notifier.py
+```
+
+Uses
+
+```
+Risk Engine
+```
+
+Produces
+
+* High Risk
+* Heat Alert
+* Crowd Crush Alert
+* Congestion Alert
+
+---
+
+# Phase 8 — Pipeline
+
+Only now optimize
+
+```
+pipeline.py
+```
+
+because every module already works.
+
+The pipeline becomes
+
+```text
+Camera
+    │
+    ▼
+Calibration
+    │
+    ▼
+Preprocessing
+    │
+    ▼
+Detector
+    │
+    ▼
+Tracker
+    │
+    ▼
+Analytics
+    │
+    ▼
+Environment
+    │
+    ▼
+Risk Engine
+    │
+    ▼
+Alerts
+```
+
+---
+
+# Phase 9 — Backend
+
+```text
+api/
+│
+├── output.py
+├── schemas.py
+├── websocket_client.py
+└── http_client.py
+```
+
+Now expose
+
+```
+Frame
+
+Statistics
+
+Alerts
+
+Risk
+
+Weather
+
+Tracking
+```
+
+---
+
+# Phase 10 — Frontend
+
+Finally polish
+
+```
+Dashboard
+
+Charts
+
+Map
+
+Camera Feed
+
+Alerts
+
+Statistics
+
+Reports
+```
+
+---
+
+## This is the implementation roadmap I would follow
+
+```text
+1. Camera
+    ├── camera.py
+    ├── camera_manager.py
+    ├── stream.py
+    ├── calibration.py
+    └── preprocessing.py
+
+2. Detection
+    ├── detector.py
+    ├── drawing.py
+    └── zones.py
+
+3. Tracking
+    ├── tracker.py
+    ├── movement.py
+    └── trends.py
+
+Later integrations
+
+Other modules will consume this output.
+
+Density
+movement.average_speed
+        │
+        ▼
+Crowd Density
+Risk
+stationary_people
+moving_people
+flow_level
+crowd_direction
+        │
+        ▼
+Risk Score
+Alerts
+flow_level == "Running"
+
+↓
+
+Possible stampede
+Drawing
+average_speed
+
+↓
+
+Statistics panel
+Dashboard
+Fastest Person
+
+Crowd Flow
+
+Movement Trend
+
+Direction
+
+4. Analytics
+    ├── counter.py
+    ├── density.py
+    ├── occupancy.py
+    ├── congestion.py
+    ├── statistics.py
+    ├── metrics.py
+    ├── reports.py
+    └── logger.py
+
+5. Environment
+    ├── temperature.py
+    ├── humidity.py
+    ├── heat_index.py
+    └── simulator.py
+
+6. Risk Engine
+    ├── analyzer.py
+    ├── scoring.py
+    ├── thresholds.py
+    ├── predictor.py
+    ├── severity.py
+    └── recommendations.py
+
+7. Alerts
+    ├── alerts.py
+    └── notifier.py
+
+8. Pipeline
+    └── pipeline.py
+
+9. Backend
+    ├── output.py
+    ├── schemas.py
+    ├── websocket_client.py
+    └── http_client.py
+
+10. Frontend
+    ├── Dashboard
+    ├── Charts
+    ├── Camera Panel
+    ├── Map
+    └── Alerts
+```
+
+This progression follows the natural lifecycle of the data—from photons entering the camera sensor all the way to insights displayed on the dashboard—so each stage builds directly on the quality and capabilities of the previous one.
+
+
+Not by itself.
+
+The `CrowdCounter` improvements I suggested **prevent duplicate counting within a single tracked video stream**, but they **cannot identify that a person seen by Camera A is the same individual seen later by Camera B**.
+
+There are three increasingly sophisticated levels of crowd counting.
+
+---
+
+# Level 1 — Single Camera (What you have now)
+
+```text
+Camera
+    │
+YOLO
+    │
+ByteTrack
+    │
+Track IDs
+
+Person #1
+Person #2
+Person #3
+```
+
+If Person #1 stays in view for 500 frames, they are counted once.
+
+If they leave and come back much later, ByteTrack may assign a new ID, so they could be counted again.
+
+This is already much better than counting raw detections every frame.
+
+---
+
+# Level 2 — Multiple Cameras (No Re-identification)
+
+```text
+Entrance Camera
+
+Person #4
+
+↓
+
+Hall Camera
+
+Person #7
+```
+
+These are actually the same person.
+
+Your system sees:
+
+```text
+Unique people:
+
+2
+```
+
+because each camera has its own independent tracker.
+
+This is the limitation of ByteTrack.
+
+---
+
+# Level 3 — Multi-Camera Person Re-Identification (ReID)
+
+This is what airports, stadiums, casinos, and smart cities use.
+
+```text
+Camera A
+
+Person #12
+
+↓
+
+Feature Extractor
+
+↓
+
+Embedding Vector
+
+↓
+
+Global Database
+
+↓
+
+Camera B
+
+Person #5
+
+↓
+
+Similarity = 96%
+
+↓
+
+Same Person
+```
+
+Instead of trusting track IDs, the system compares a learned feature vector (embedding) for each detected person.
+
+A typical embedding might look like:
+
+```text
+[0.18,
+ 0.73,
+ 0.11,
+ ...
+ 0.49]
+```
+
+This vector encodes the person's appearance rather than their position.
+
+---
+
+## Then your architecture becomes
+
+```text
+Camera A
+        │
+YOLO
+        │
+ByteTrack
+        │
+ReID
+        │
+Global Identity
+
+ID 128
+```
+
+```text
+Camera B
+        │
+YOLO
+        │
+ByteTrack
+        │
+ReID
+        │
+Global Identity
+
+ID 128
+```
+
+Now the system recognizes that both observations belong to the same individual.
+
+---
+
+# Astravon Live Arena Architecture
+
+I would add another module:
+
+```text
+vision/
+
+    detector.py
+
+tracking/
+
+    tracker.py
+
+    movement.py
+
+reid/
+
+    feature_extractor.py
+
+    identity_database.py
+
+    matcher.py
+
+analytics/
+
+    counter.py
+```
+
+The processing pipeline would become:
+
+```text
+Camera
+      │
+      ▼
+YOLO Detector
+      │
+      ▼
+ByteTrack
+      │
+      ▼
+Movement Analyzer
+      │
+      ▼
+ReID Feature Extractor
+      │
+      ▼
+Global Identity Matcher
+      │
+      ▼
+Crowd Counter
+      │
+      ▼
+Zone Manager
+      │
+      ▼
+Density
+      │
+      ▼
+Risk
+      │
+      ▼
+Drawing
+```
+
+The key change is that `CrowdCounter` would no longer count ByteTrack IDs. Instead, it would count **global person IDs**.
+
+For example:
+
+```python
+{
+    "track_id": 7,
+    "global_id": 128,
+    "camera": "Entrance",
+    "center": (520, 340),
+}
+```
+
+When the same person appears on another camera:
+
+```python
+{
+    "track_id": 3,
+    "global_id": 128,
+    "camera": "VIP Entrance",
+}
+```
+
+Even though the local track IDs differ, the shared `global_id` means the person is counted only once.
+
+---
+
+reid/
+│
+├── feature_extractor.py      ← This file
+├── identity_database.py
+├── matcher.py
+├── models/
+│   ├── osnet_x1_0.pth
+│   └── README.md
+└── cache/
+
+# Can this be added later?
+
+Yes—and it's the right approach. Your current architecture is modular, so you don't need to redesign everything now.
+
+A practical development roadmap is:
+
+1. **Phase 1 (current):** YOLO + ByteTrack + analytics for a single camera.
+2. **Phase 2:** Multi-camera synchronization and centralized server.
+3. **Phase 3:** Person Re-Identification (ReID) using appearance embeddings.
+4. **Phase 4:** Global identity database shared across all cameras.
+5. **Phase 5:** Cross-camera analytics, such as:
+
+   * Unique visitors across the venue.
+   * Movement paths between zones.
+   * Dwell time in each area.
+   * Entry/exit conversion.
+   * Crowd flow between cameras.
+
+This staged approach is how many commercial video analytics systems evolve, and it fits well with the architecture you've been building for Astravon Live Arena.
+
+Yes, I actually think that's a better architecture than having every module talk to each other directly.
+
+The pipeline should **calculate everything**, then **CrowdStatistics should become the central aggregator**, and finally everything else (backend, frontend, reports, alerts) consumes the aggregated statistics.
+
+So the flow becomes:
+
+```text
+Detector
+    │
+Tracker
+    │
+Counter
+    │
+Movement
+    │
+Density
+    │
+Occupancy
+    │
+Congestion
+    │
+Weather
+    │
+Heat Index
+    │
+Heat Simulator
+    │
+Risk Engine
+    │
+Alerts
+    │
+Prediction
+    │
+──────────────────────────────
+        CrowdStatistics.build()
+──────────────────────────────
+               │
+               ▼
+      statistics.summary()
+               │
+      ┌────────┼──────────┐
+      ▼        ▼          ▼
+ Backend    Dashboard   Reports
+```
+
+That means **CrowdStatistics becomes the central data model of the entire AI Engine**, which is exactly what large CV systems typically do.
+
+---
+
+## These are the modules that should expose an `info()` function
+
+These are the ones I'd include under the `"performance"` / `"modules"` section.
+
+### Vision
+
+```
+YOLODetector.info()
+
+PersonTracker.info()
+
+Drawing.info()
+
+CameraManager.info()
+
+VisionPipeline.info()
+```
+
+---
+
+### Crowd
+
+```
+CrowdCounter.info()
+
+MovementAnalyzer.info()
+
+CrowdDensity.info()
+
+OccupancyAnalyzer.info()
+
+CongestionAnalyzer.info()
+
+CrowdStatistics.info()
+```
+
+---
+
+### Environment
+
+```
+WeatherService.info()
+
+HeatSimulator.info()
+
+HeatIndexCalculator.info()
+
+HeatAlertManager.info()
+```
+
+---
+
+### Risk Engine
+
+```
+RiskAnalyzer.info()
+
+RiskScorer.info()
+
+RiskPredictor.info()
+
+RiskSeverity.info()
+
+RecommendationEngine.info()
+```
+
+---
+
+### Alerts
+
+```
+AlertManager.info()
+
+Notifier.info()
+```
+
+(if you keep them separate)
+
+---
+
+### Backend Communication
+
+```
+HTTPClient.info()
+
+WebSocketClient.info()
+
+OutputManager.info()
+```
+
+---
+
+### Engine
+
+```
+AIEngine.info()
+
+MetricsManager.info()
+```
+
+---
+
+## Then your CrowdStatistics can simply assemble them
+
+Instead of
+
+```python
+"performance": {
+
+    "detector": self.detector.info(),
+
+    "tracker": self.tracker.info(),
+
+    ...
+}
+```
+
+I'd actually rename it to
+
+```python
+"modules": {
+
+    "detector": detector.info(),
+
+    "tracker": tracker.info(),
+
+    "counter": counter.info(),
+
+    "movement": movement.info(),
+
+    "density": density.info(),
+
+    "occupancy": occupancy.info(),
+
+    "congestion": congestion.info(),
+
+    "weather": weather.info(),
+
+    "heat_index": heat_index.info(),
+
+    "heat_simulator": heat_simulator.info(),
+
+    "heat_alerts": heat_alerts.info(),
+
+    "risk_analyzer": risk_analyzer.info(),
+
+    "risk_scorer": scorer.info(),
+
+    "risk_predictor": predictor.info(),
+
+    "severity": severity.info(),
+
+    "recommendations": recommendations.info(),
+
+    "http": http.info(),
+
+    "websocket": websocket.info(),
+
+    "output": output.info(),
+
+    "pipeline": pipeline.info(),
+
+    "engine": engine.info()
+}
+```
+
+Now the frontend immediately knows the health of **every module**.
+
+---
+
+# Information every `info()` should expose
+
+Every module should follow the same structure so the frontend doesn't need custom parsing.
+
+```python
+return {
+
+    "module": "Risk Predictor",
+
+    "status": "Running",
+
+    "version": "1.0.0",
+
+    "enabled": True,
+
+    "healthy": True,
+
+    "history_size": len(self.history),
+
+    "processed": self.total_processed,
+
+    "errors": self.error_count,
+
+    "last_update": self.last_timestamp
+
+}
+```
+
+Some modules will have extra fields.
+
+For example:
+
+Detector
+
+```python
+{
+
+    "module":"YOLO Detector",
+
+    "status":"Running",
+
+    "model":"yolo11n.pt",
+
+    "confidence":0.35,
+
+    "detections":5241,
+
+    "fps":31.8
+}
+```
+
+WebSocket
+
+```python
+{
+
+    "module":"WebSocket",
+
+    "status":"Connected",
+
+    "messages_sent":512,
+
+    "messages_failed":2,
+
+    "reconnects":1
+}
+```
+
+Heat Simulator
+
+```python
+{
+
+    "module":"Heat Simulator",
+
+    "status":"Running",
+
+    "preset":"Concert",
+
+    "emergency_mode":False,
+
+    "history_size":500
+}
+```
+
+Risk Predictor
+
+```python
+{
+
+    "module":"Risk Predictor",
+
+    "status":"Running",
+
+    "predictions":184,
+
+    "accuracy":92,
+
+    "forecast_minutes":5
+}
+```
+
+---
+
+I would also make one additional improvement to `CrowdStatistics`: instead of just exposing `"performance"` or `"modules"`, add a top-level `"system"` section that summarizes the overall engine state.
+
+```python
+"system": {
+    "engine": ai_engine.info(),
+    "modules": {
+        ...
+    },
+    "statistics": crowd_statistics.info(),
+    "generated_at": datetime.now().isoformat()
+}
+```
+
+This gives your frontend a single place to read overall health while still allowing it to drill down into individual modules. It's a clean, scalable structure as Astravon Live Arena grows.
+
+
+With the architecture you've built so far, **CrowdStatistics should become the single aggregation point**. It shouldn't calculate anything itself—it should only collect outputs from the other modules' `info()` methods, combine them, compute overall KPIs, and expose them to the frontend.
+
+The pipeline should look like this:
+
+```text
+CameraManager
+        │
+        ▼
+Detector (YOLO)
+        │
+        ▼
+Tracker (ByteTrack)
+        │
+        ▼
+Movement Analyzer
+        │
+        ▼
+ReID Feature Extractor
+        │
+        ▼
+Identity Matcher
+        │
+        ▼
+Identity Database
+        │
+        ▼
+Crowd Counter
+        │
+        ▼
+Zone Manager
+        │
+        ▼
+Density Calculator
+        │
+        ▼
+Risk Assessment
+        │
+        ▼
+Heat Analyzer
+        │
+        ▼
+Environment Monitor
+        │
+        ▼
+Crowd Statistics
+        │
+        ▼
+Output Manager
+        │
+        ▼
+Backend / Dashboard
+```
+
+---
+
+# Modules that should expose `info()`
+
+These are the ones I would connect directly into `CrowdStatistics`.
+
+## 1. CameraManager
+
+Already implemented.
+
+```python
+camera_manager.info()
+```
+
+Provides
+
+* total cameras
+* connected cameras
+* failures
+* total frames
+* last update
+
+---
+
+## 2. Detector (YOLO)
+
+```python
+detector.info()
+```
+
+Should expose
+
+```python
+{
+    "model": "...",
+    "detections": ...,
+    "people_detected": ...,
+    "confidence": ...,
+    "processing_time": ...
+}
+```
+
+---
+
+## 3. Tracker
+
+```python
+tracker.info()
+```
+
+Should expose
+
+```python
+{
+    "active_tracks": ...,
+    "new_tracks": ...,
+    "lost_tracks": ...,
+    "track_age": ...
+}
+```
+
+---
+
+## 4. Movement Analyzer
+
+```python
+movement.info()
+```
+
+Should expose
+
+```python
+{
+    "average_speed": ...,
+    "running_people": ...,
+    "stationary_people": ...,
+    "flow_direction": ...,
+    "abnormal_motion": ...
+}
+```
+
+---
+
+## 5. Feature Extractor (ReID)
+
+```python
+feature_extractor.info()
+```
+
+Should expose
+
+```python
+{
+    "embeddings": ...,
+    "average_time": ...,
+    "device": ...,
+    "model": ...
+}
+```
+
+---
+
+## 6. Identity Matcher
+
+```python
+matcher.info()
+```
+
+Should expose
+
+```python
+{
+    "matches": ...,
+    "new_identities": ...,
+    "confidence": ...,
+    "threshold": ...
+}
+```
+
+---
+
+## 7. Identity Database
+
+```python
+identity_database.info()
+```
+
+Should expose
+
+```python
+{
+    "global_people": ...,
+    "active_people": ...,
+    "inactive_people": ...,
+    "database_size": ...
+}
+```
+
+This becomes the authoritative source of unique people.
+
+---
+
+## 8. Crowd Counter
+
+```python
+crowd_counter.info()
+```
+
+Should expose
+
+```python
+{
+    "people_count": ...,
+    "entries": ...,
+    "exits": ...,
+    "occupancy": ...
+}
+```
+
+---
+
+## 9. Zone Manager
+
+```python
+zone_manager.info()
+```
+
+Should expose
+
+```python
+{
+    "zones": ...,
+    "crowded_zones": ...,
+    "empty_zones": ...,
+    "zone_statistics": ...
+}
+```
+
+---
+
+## 10. Density Calculator
+
+```python
+density.info()
+```
+
+Should expose
+
+```python
+{
+    "density": ...,
+    "density_level": ...,
+    "peak_density": ...
+}
+```
+
+---
+
+## 11. Risk Assessment
+
+```python
+risk.info()
+```
+
+Should expose
+
+```python
+{
+    "risk_score": ...,
+    "risk_level": ...,
+    "hazards": ...
+}
+```
+
+---
+
+## 12. Environment Monitor
+
+```python
+environment.info()
+```
+
+Should expose
+
+```python
+{
+    "temperature": ...,
+    "humidity": ...,
+    "heat_index": ...
+}
+```
+
+---
+
+## 13. Heat Analyzer (optional)
+
+```python
+heat.info()
+```
+
+Should expose
+
+```python
+{
+    "hotspots": ...,
+    "average_temperature": ...,
+    "critical_regions": ...
+}
+```
+
+---
+
+# CrowdStatistics should not calculate these
+
+It should **never** detect people.
+
+It should **never** track.
+
+It should **never** perform ReID.
+
+It should **never** compute movement.
+
+It should only do this:
+
+```python
+class CrowdStatistics:
+
+    def update(self):
+
+        self.camera = camera_manager.info()
+
+        self.detector = detector.info()
+
+        self.tracker = tracker.info()
+
+        self.reid = feature_extractor.info()
+
+        self.matcher = matcher.info()
+
+        self.identity = identity_database.info()
+
+        self.counter = crowd_counter.info()
+
+        self.zones = zone_manager.info()
+
+        self.density = density.info()
+
+        self.risk = risk.info()
+
+        self.environment = environment.info()
+
+        self.heat = heat.info()
+```
+
+Everything is then merged into one statistics object.
+
+---
+
+# Then the frontend receives only one payload
+
+Instead of sending data from every module separately, the backend receives something like:
+
+```json
+{
+  "timestamp": "...",
+
+  "camera": { ... },
+
+  "detection": { ... },
+
+  "tracking": { ... },
+
+  "movement": { ... },
+
+  "reid": { ... },
+
+  "identity": { ... },
+
+  "counter": { ... },
+
+  "zones": { ... },
+
+  "density": { ... },
+
+  "environment": { ... },
+
+  "risk": { ... },
+
+  "heat": { ... },
+
+  "summary": {
+    "people": 514,
+    "global_people": 498,
+    "occupancy": 74.2,
+    "density": "High",
+    "risk": "Medium",
+    "temperature": 31.8
+  }
+}
+```
+
+This gives your frontend a single, consistent source of truth while preserving the responsibility of each module. As you continue providing the `info()` outputs from each module, you can progressively redesign `CrowdStatistics` to aggregate them into this unified payload without duplicating logic across the pipeline.

@@ -22,6 +22,8 @@ import logging
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict
+import uuid
+from collections import deque
 
 # ============================================================
 # Directories
@@ -36,7 +38,9 @@ LOG_DIRECTORY.mkdir(
     exist_ok=True
 )
 
-LOG_FILE = LOG_DIRECTORY / "analytics.log"
+LOG_FILE = LOG_DIRECTORY / (
+    f"analytics_{datetime.now():%Y%m%d}.log"
+)
 
 # ============================================================
 # Logger Configuration
@@ -69,6 +73,18 @@ class AnalyticsLogger:
     """
     Handles AI analytics logging.
     """
+    def __init__(self) -> None:
+        self.history = deque(maxlen=1000)
+
+        self.events_logged = 0
+        self.alerts_logged = 0
+        self.total_detections = 0
+        self.reports_logged = 0
+        self.errors_logged = 0
+
+        self.session_id = datetime.utcnow().strftime(
+            "%Y%m%d_%H%M%S"
+        )
 
     # --------------------------------------------------------
     # Generic Log
@@ -76,8 +92,10 @@ class AnalyticsLogger:
 
     @staticmethod
     def log(
+        self,
         event: str,
-        data: Dict[str, Any]
+        data: Dict[str, Any],
+        component=None
     ) -> None:
         """
         Logs a generic analytics event.
@@ -85,9 +103,23 @@ class AnalyticsLogger:
 
         payload = {
             "timestamp": datetime.utcnow().isoformat(),
+            "session": self.session_id,
+            "event_id": str(uuid.uuid4()),
+            "component": component,
             "event": event,
+            "engine":{
+
+                "status":"Running",
+
+                "version":"1.0.0"
+
+            },
             "data": data
         }
+
+        self.history.append(payload)
+
+        self.events_logged += 1
 
         logger.info(
             json.dumps(payload)
@@ -99,13 +131,16 @@ class AnalyticsLogger:
 
     @staticmethod
     def log_detection(
+        self,
         people_count: int,
         confidence: float
     ) -> None:
+        self.total_detections += people_count
 
         AnalyticsLogger.log(
-            "detection",
-            {
+            component="Detector",
+            event="detection",
+            data={
                 "people_count": people_count,
                 "confidence": confidence
             }
@@ -121,8 +156,9 @@ class AnalyticsLogger:
     ) -> None:
 
         AnalyticsLogger.log(
-            "statistics",
-            statistics
+            component="Crowd Statistics",
+            event="statistics",
+            data=statistics
         )
 
     # --------------------------------------------------------
@@ -131,14 +167,17 @@ class AnalyticsLogger:
 
     @staticmethod
     def log_alert(
+        self,
         title: str,
         severity: str,
         description: str
     ) -> None:
+        self.alerts_logged += 1
 
         AnalyticsLogger.log(
-            "alert",
-            {
+            component="Alerts",
+            event="alert",
+            data={
                 "title": title,
                 "severity": severity,
                 "description": description
@@ -156,10 +195,133 @@ class AnalyticsLogger:
     ) -> None:
 
         AnalyticsLogger.log(
-            "camera",
-            {
-                "camera_id": camera_id,
+            component="Camera",
+            event="camera",
+            data={
+                "camera":{
+
+                    "id": camera_id,
+
+                    "name":...,
+
+                    "venue":...
+
+                },
                 "status": status
+            }
+        )
+
+    def log_performance(
+        self,
+        metrics
+    ):
+        AnalyticsLogger.log(
+            component="Performance Statistics",
+            event="performance",
+            data=metrics
+        )
+
+    def log_analytics(
+        self,
+        statistics: Dict[str, Any]
+    ) -> None:
+        """
+        Logs the complete CrowdStatistics object.
+        """
+
+        self.log(
+            component="Crowd Statistics",
+            event="Analytics",
+            data=statistics
+        )
+
+    def log_risk(
+        self,
+        risk: Dict[str, Any]
+    ) -> None:
+        """
+        Logs complete risk analysis.
+        """
+
+        self.log(
+            component="Risk Engine",
+            event="Risk Analysis",
+            data={
+                "risk_score": risk.get("risk_score"),
+                "risk_level": risk.get("risk_level"),
+                "recommendation": risk.get("recommendation"),
+                "heatstroke_probability": risk.get(
+                    "heatstroke_probability"
+                ),
+                "stampede_probability": risk.get(
+                    "stampede_probability"
+                )
+            }
+        )
+
+    def log_zone(
+        self,
+        zone_name: str,
+        people: int,
+        occupancy: float
+    ) -> None:
+        """
+        Logs zone information.
+        """
+
+        self.log(
+            component="Zones",
+            event="Zone Update",
+            data={
+                "zone": zone_name,
+                "people": people,
+                "occupancy": occupancy
+            }
+        )
+
+    def log_movement(
+        self,
+        movement: Dict[str, Any]
+    ) -> None:
+        """
+        Logs movement analytics.
+        """
+
+        self.log(
+            component="Movement",
+            event="Movement Analysis",
+            data={
+                "average_speed": movement.get("average_speed"),
+                "flow_level": movement.get("flow_level"),
+                "crowd_direction": movement.get(
+                    "crowd_direction"
+                ),
+                "moving_people": movement.get(
+                    "moving_people"
+                ),
+                "stationary_people": movement.get(
+                    "stationary_people"
+                )
+            }
+        )
+
+    def log_environment(
+        self,
+        weather: Dict[str, Any]
+    ) -> None:
+        """
+        Logs environmental conditions.
+        """
+
+        self.log(
+            component="Environment",
+            event="Weather Update",
+            data={
+                "temperature": weather.get("temperature"),
+                "humidity": weather.get("humidity"),
+                "heat_index": weather.get("heat_index"),
+                "wind_speed": weather.get("wind_speed"),
+                "weather_code": weather.get("weather_code")
             }
         )
 
@@ -169,15 +331,109 @@ class AnalyticsLogger:
 
     @staticmethod
     def log_report(
-        report_name: str
+        self,
+        report: Dict[str, Any]
     ) -> None:
+        """
+        Logs generated reports.
+        """
 
-        AnalyticsLogger.log(
-            "report",
-            {
-                "report": report_name
+        self.reports_logged += 1
+
+        self.log(
+            component="Reports",
+            event="Report Generated",
+            data={
+                "report_id": report.get("report_id"),
+                "event_name": report.get("event_name"),
+                "generated_at": report.get("generated_at"),
+                "checksum": report.get("checksum")
             }
         )
+    
+    def search(
+        self,
+        event: str | None = None,
+        component: str | None = None
+    ):
+        """
+        Searches the in-memory log history.
+        """
+
+        results = []
+
+        for record in self.history:
+
+            if event:
+
+                if record.get("event") != event:
+                    continue
+
+            if component:
+
+                if record.get("component") != component:
+                    continue
+
+            results.append(record)
+
+        return results
+
+    def summary(self):
+        """
+        Returns logger summary.
+        """
+
+        latest = None
+
+        if self.history:
+            latest = self.history[-1]
+
+        return {
+
+            "session": self.session_id,
+
+            "events": self.events_logged,
+
+            "alerts": self.alerts_logged,
+
+            "errors": self.errors_logged,
+
+            "reports": self.reports_logged,
+
+            "detections": self.total_detections,
+
+            "latest": latest
+
+        }
+    
+    def info(self):
+        """
+        Returns logger information.
+        """
+
+        return {
+
+            "logger": "Analytics Logger",
+
+            "status": "Running",
+
+            "session": self.session_id,
+
+            "log_directory": str(LOG_DIRECTORY),
+
+            "log_file": str(LOG_FILE),
+
+            "events_logged": self.events_logged,
+
+            "reports_logged": self.reports_logged,
+
+            "alerts_logged": self.alerts_logged,
+
+            "errors_logged": self.errors_logged,
+
+            "history_size": len(self.history)
+
+        }
 
     # --------------------------------------------------------
     # Error
@@ -211,6 +467,14 @@ class AnalyticsLogger:
     ) -> None:
 
         logger.warning(message)
+
+    @staticmethod
+    def debug(message):
+        logger.debug(message)
+
+    @staticmethod
+    def critical(message):
+        logger.critical(message)
 
 
 # ============================================================

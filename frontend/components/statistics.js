@@ -34,7 +34,7 @@ export default class Statistics {
             longitude: 0,
 
             wind_speed: 0,
-            weather_code: 0,
+            weather_desc: "Calm",
 
             people_count: 0,
             occupancy: 0,
@@ -178,8 +178,8 @@ export default class Statistics {
 
                 ${this.card(
                     "☁️",
-                    "Weather Code",
-                    s.weather_code
+                    "Weather",
+                    s.weather_desc
                 )}
 
                 ${this.card(
@@ -330,7 +330,7 @@ export default class Statistics {
             longitude: 0,
 
             wind_speed: 0,
-            weather_code: 0,
+            weather_desc: "Calm",
 
             people_count: 0,
             occupancy: 0,

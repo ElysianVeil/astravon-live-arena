@@ -24,6 +24,7 @@ import base64
 import threading
 
 from api.http_client import HTTPClient
+from datetime import datetime
 from api.schemas import StatisticsRequest
 from api.websocket_client import WebSocketClient
 
@@ -37,6 +38,35 @@ class OutputManager:
 
         self.http = HTTPClient()
         self.websocket = WebSocketClient()
+
+        # Transmission statistics
+        self.messages_sent = 0
+        self.messages_failed = 0
+        self.websocket_messages = 0
+        self.http_messages = 0
+
+        # Queue statistics
+        self.total_frames_sent = 0
+        self.total_statistics_sent = 0
+        self.total_alerts_sent = 0
+        self.total_detections_sent = 0
+        self.total_reports_sent = 0
+
+        # Health
+        self.started_at = datetime.now()
+        self.last_transmission = None
+        self.last_error = None
+
+        # Cache
+        self.last_statistics = None
+        self.last_detection = None
+        self.last_alert = None
+        self.last_route = None
+        self.last_report = None
+
+        # History
+        from collections import deque
+        self.history = deque(maxlen=500)
 
         self.loop = asyncio.new_event_loop()
 
@@ -75,6 +105,38 @@ class OutputManager:
             coroutine,
             self.loop
         )
+    
+    # =====================================================
+    # Log Transmission
+    # =====================================================
+
+    def _log(
+        self,
+        message_type: str,
+        success: bool,
+        payload: dict | None = None
+    ):
+
+        entry = {
+
+            "timestamp": datetime.now().isoformat(),
+
+            "type": message_type,
+
+            "success": success,
+
+            "payload": payload
+
+        }
+
+        self.history.append(entry)
+
+        self.last_transmission = entry
+
+        if success:
+            self.messages_sent += 1
+        else:
+            self.messages_failed += 1
 
 
     # ========================================================
@@ -89,17 +151,45 @@ class OutputManager:
         Sends crowd statistics.
         """
         
-        self._submit(
-            self.websocket.send_statistics(
-                statistics
-            )
-        )
+        # self._submit(
+        #     self.websocket.send_statistics(
+        #         statistics
+        #     )
+        # )
 
         # future.result(timeout=2)
 
-        return self.http.send_statistics(
+        self.last_statistics = statistics
+
+        self.total_statistics_sent += 1
+
+        ws_success = True
+
+        future = self._submit(
+            self.websocket.send_statistics(statistics)
+        )
+
+        if future:
+            try:
+                future.result(timeout=2)
+                self.websocket_messages += 1
+            except Exception:
+                ws_success = False
+
+        http_success = self.http.send_statistics(statistics)
+
+        if http_success:
+            self.http_messages += 1
+
+        success = ws_success or bool(http_success)
+
+        self._log(
+            "statistics",
+            success,
             statistics
         )
+
+        return success
 
     # ========================================================
     # Detection
@@ -118,11 +208,23 @@ class OutputManager:
             )
         )
 
+        self.last_detection = detection
+
+        self.total_detections_sent += 1
+
         # future.result(timeout=2)
 
-        return self.http.send_detection(
+        http_success = self.http.send_detection(
             detection
         )
+        
+        self._log(
+            "detection",
+            True,
+            detection
+        )
+
+        return http_success
 
     # ========================================================
     # Alert
@@ -141,11 +243,23 @@ class OutputManager:
             )
         )
 
+        self.last_alert = alert
+
+        self.total_alerts_sent += 1
+
         # future.result(timeout=2)
 
-        return self.http.send_alert(
+        alert_success = self.http.send_alert(
             alert
         )
+    
+        self._log(
+            "alert",
+            True,
+            alert
+        )
+
+        return alert_success
 
     # ========================================================
     # Route
@@ -164,11 +278,21 @@ class OutputManager:
             )
         )
 
+        self.last_route = route
+
         # future.result(timeout=2)
 
-        return self.http.calculate_route(
+        route_success = self.http.calculate_route(
             route
         )
+
+        self._log(
+            "route",
+            True,
+            route
+        )
+
+        return route_success
 
     # ========================================================
     # Report
@@ -181,10 +305,19 @@ class OutputManager:
         """
         Sends generated reports.
         """
+        self.last_report = report
 
-        return self.http.generate_report(
+        self.total_reports_sent += 1
+
+        response = self.http.generate_report(report)
+
+        self._log(
+            "report",
+            response is not None,
             report
         )
+
+        return response
     
     # ========================================================
     # Camera Frame
@@ -208,6 +341,14 @@ class OutputManager:
             return False
 
         camera_payload["frame"] = base64.b64encode(buffer).decode("utf-8")
+        
+        camera_payload["size_bytes"] = len(buffer)
+
+        camera_payload["encoding"] = "jpg"
+
+        camera_payload["timestamp"] = datetime.now().isoformat()
+
+        self.total_frames_sent += 1
 
         print(f"Sending frame ({camera_payload['width']}x{camera_payload['height']})")
 
@@ -238,6 +379,188 @@ class OutputManager:
             payload
         )
     
+    # =====================================================
+    # Health
+    # =====================================================
+
+    def health(self):
+
+        return {
+
+            "websocket": self.websocket.connected,
+
+            "messages_sent": self.messages_sent,
+
+            "messages_failed": self.messages_failed,
+
+            "last_transmission": self.last_transmission,
+
+            "started_at": self.started_at.isoformat()
+
+        }
+    
+    # =====================================================
+    # Statistics
+    # =====================================================
+
+    def statistics(self):
+
+        return {
+
+            "messages_sent": self.messages_sent,
+
+            "messages_failed": self.messages_failed,
+
+            "websocket_messages": self.websocket_messages,
+
+            "http_messages": self.http_messages,
+
+            "frames": self.total_frames_sent,
+
+            "detections": self.total_detections_sent,
+
+            "statistics": self.total_statistics_sent,
+
+            "alerts": self.total_alerts_sent,
+
+            "reports": self.total_reports_sent
+
+        }
+
+    def latest(self):
+
+        return {
+
+            "statistics": self.last_statistics,
+
+            "detection": self.last_detection,
+
+            "alert": self.last_alert,
+
+            "route": self.last_route,
+
+            "report": self.last_report
+
+        }
+
+    def transmission_history(self):
+
+        return list(self.history)
+    
+    def info(self):
+
+        return {
+
+            "module":"Output Manager",
+
+            "status":"Running",
+
+            "history_size":len(self.history),
+
+            "websocket_connected":self.websocket.connected,
+
+            "http_client":"Ready",
+
+            "started_at":self.started_at.isoformat()
+
+        }
+    
+    def reset(self):
+
+        self.history.clear()
+
+        self.messages_sent = 0
+
+        self.messages_failed = 0
+
+        self.websocket_messages = 0
+
+        self.http_messages = 0
+
+        self.total_frames_sent = 0
+
+        self.total_statistics_sent = 0
+
+        self.total_alerts_sent = 0
+
+        self.total_detections_sent = 0
+
+        self.total_reports_sent = 0
+
+        self.last_statistics = None
+
+        self.last_detection = None
+
+        self.last_alert = None
+
+        self.last_route = None
+
+        self.last_report = None
+
+    def dashboard(self):
+
+        return {
+
+            "connected": self.websocket.connected,
+
+            "messages_sent": self.messages_sent,
+
+            "messages_failed": self.messages_failed,
+
+            "frames": self.total_frames_sent,
+
+            "alerts": self.total_alerts_sent,
+
+            "detections": self.total_detections_sent,
+
+            "statistics": self.total_statistics_sent,
+
+            "last_transmission": self.last_transmission
+
+        }
+
+    def retry_http(
+
+        self,
+
+        endpoint,
+
+        payload,
+
+        retries=3
+
+    ):
+
+        for _ in range(retries):
+
+            response = self.http._request(
+
+                "POST",
+
+                endpoint,
+
+                payload
+
+            )
+
+            if response is not None:
+
+                return response
+
+        return None
+
+    def connectivity(self):
+
+        backend = self.http.ping()
+
+        return {
+
+            "http": backend is not None,
+
+            "websocket": self.websocket.connected
+
+        }
+
     # =====================================================
     # Shutdown
     # =====================================================
@@ -270,6 +593,15 @@ class OutputManager:
         )
 
         self.thread.join(timeout=5)
+
+        self._log(
+            "shutdown",
+            True,
+            {
+                "messages_sent": self.messages_sent,
+                "frames_sent": self.total_frames_sent
+            }
+        )
 
         self.loop.close()
 

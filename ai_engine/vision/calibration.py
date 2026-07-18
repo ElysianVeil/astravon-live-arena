@@ -78,9 +78,16 @@ class CalibrationManager:
         Register a calibrated camera.
         """
 
-        self.calibrations[
-            calibration.camera_id
-        ] = calibration
+        if calibration.frame_width <= 0:
+            raise ValueError("Frame width must be positive.")
+
+        if calibration.frame_height <= 0:
+            raise ValueError("Frame height must be positive.")
+
+        if calibration.metres_per_pixel <= 0:
+            raise ValueError("metres_per_pixel must be positive.")
+
+        self.calibrations[calibration.camera_id] = calibration
 
     # ========================================================
     # Retrieve
@@ -96,6 +103,99 @@ class CalibrationManager:
 
         return self.calibrations.get(camera_id)
 
+    def update(self, camera_id: str, **kwargs):
+
+        calibration = self.get(camera_id)
+
+        if calibration is None:
+            return False
+
+        for key, value in kwargs.items():
+
+            if not hasattr(calibration, key):
+
+                continue
+
+            if key in (
+                "frame_width",
+                "frame_height",
+                "metres_per_pixel"
+            ) and value <= 0:
+
+                raise ValueError(
+                    f"{key} must be positive."
+                )
+
+            setattr(
+                calibration,
+                key,
+                value
+            )
+
+        return True
+    
+    def remove(self, camera_id):
+
+        return self.calibrations.pop(camera_id, None)
+
+    def calibrated(self, camera_id):
+
+        return camera_id in self.calibrations
+    
+    def export(self):
+
+        return {
+
+            cid: vars(calibration)
+
+            for cid, calibration
+
+            in self.calibrations.items()
+
+        }
+    
+    def load(
+        self,
+        data: Dict[str, dict]
+    ) -> None:
+        """
+        Loads calibration data.
+        """
+
+        self.calibrations.clear()
+
+        for values in data.values():
+
+            calibration = CameraCalibration(
+                **values
+            )
+
+            self.register(calibration)
+    
+    @property
+    def count(self):
+
+        return len(self.calibrations)
+    
+    # ========================================================
+    # Information
+    # ========================================================
+
+    def info(self) -> dict:
+        """
+        Returns calibration manager information.
+        """
+
+        return {
+
+            "registered": self.count,
+
+            "camera_ids": list(
+                self.calibrations.keys()
+            )
+
+        }
+    
     # ========================================================
     # Pixel Distance
     # ========================================================
@@ -110,6 +210,27 @@ class CalibrationManager:
         """
 
         return math.dist(point_a, point_b)
+    
+    # ========================================================
+    # Pixels to Metres
+    # ========================================================
+
+    def pixels_to_metres(
+        self,
+        camera_id: str,
+        pixels: float
+    ) -> Optional[float]:
+        """
+        Converts a pixel distance directly into metres.
+        """
+
+        calibration = self.get(camera_id)
+
+        if calibration is None:
+
+            return None
+
+        return pixels * calibration.metres_per_pixel
 
     # ========================================================
     # Metres
@@ -135,9 +256,9 @@ class CalibrationManager:
             point_b
         )
 
-        return (
-            pixels *
-            calibration.metres_per_pixel
+        return self.pixels_to_metres(
+            camera_id,
+            pixels
         )
 
     # ========================================================
@@ -179,6 +300,30 @@ class CalibrationManager:
         return (
             (x1 + x2) // 2,
             y2
+        )
+    
+    # ========================================================
+    # Person Distance
+    # ========================================================
+
+    def person_distance(
+        self,
+        camera_id: str,
+        bbox_a: List[int],
+        bbox_b: List[int]
+    ) -> Optional[float]:
+        """
+        Estimates the ground distance between two people.
+        """
+
+        point_a = self.foot_position(bbox_a)
+
+        point_b = self.foot_position(bbox_b)
+
+        return self.metres_between(
+            camera_id,
+            point_a,
+            point_b
         )
 
     # ========================================================

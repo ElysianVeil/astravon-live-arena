@@ -74,6 +74,24 @@ class Camera:
 
         self.id = str(uuid.uuid4())
 
+        # --------------------------------------------------------
+        # Global Camera Identity
+        # --------------------------------------------------------
+
+        self.global_id = self.id
+
+        self.zone = "Main Entrance"
+
+        self.position = "North"
+
+        self.orientation = "South"
+
+        self.floor = 1
+
+        self.camera_role = "Monitoring"
+
+        self.priority = 1
+
         self.name = name
 
         self.source = source
@@ -109,6 +127,12 @@ class Camera:
 
         self.last_frame_time = None
 
+        self.frame_number = 0
+
+        self.frame_timestamp = None
+
+        self.batch_timestamp = None
+
         # --------------------------------------------------------
         # Camera Properties
         # --------------------------------------------------------
@@ -117,6 +141,14 @@ class Camera:
         self.height = settings.FRAME_HEIGHT
         self.fps = settings.FPS
 
+        self.supports_reid = True
+
+        self.supports_tracking = True
+
+        self.supports_detection = True
+
+        self.supports_streaming = True
+
         # --------------------------------------------------------
         # Weather
         # --------------------------------------------------------
@@ -124,10 +156,58 @@ class Camera:
         self.weather = None
 
         # --------------------------------------------------------
+        # Calibration
+        # --------------------------------------------------------
+
+        self.homography = None
+
+        self.calibrated = False
+
+        self.pixel_scale = 1.0
+
+        self.field_of_view = 90.0
+
+        # --------------------------------------------------------
         # OpenCV
         # --------------------------------------------------------
 
         self.capture = None
+
+        self.frames_read = 0
+        self.frames_dropped = 0
+        self.read_failures = 0
+        self.start_time = None
+        self.actual_fps = 0.0
+        self.last_frame = None
+
+        self.average_latency = 0.0
+
+        self.maximum_latency = 0.0
+
+        self.minimum_latency = float("inf")
+
+        self.total_latency = 0.0
+
+        # --------------------------------------------------------
+        # Health
+        # --------------------------------------------------------
+
+        self.health = "Offline"
+        self.codec = "Unknown"
+        self.backend = "Unknown"
+        self.brightness = 0.0
+        self.contrast = 0.0
+        self.saturation = 0.0
+        self.gain = 0.0
+        self.exposure = 0.0
+
+        self.status_message = "Offline"
+        
+        self.error_message = ""
+
+        self.last_error = None
+
+        self.reconnection_attempts = 0
 
     # ========================================================
     # Connect
@@ -160,18 +240,17 @@ class Camera:
 
             return False
         
-        time.sleep(1)
+        # Warm up camera
 
         success = False
 
-        for _ in range(20):
+        for _ in range(30):
 
             success, frame = self.capture.read()
 
             if success and frame is not None:
-                break
 
-            time.sleep(0.1)
+                break
 
         if not success:
 
@@ -181,23 +260,10 @@ class Camera:
 
             return False
 
-        self.connected = True
 
         self.capture.set(
             cv2.CAP_PROP_FRAME_WIDTH,
             settings.FRAME_WIDTH
-        )
-
-        logger.info(
-            f"Width={self.capture.get(cv2.CAP_PROP_FRAME_WIDTH)}"
-        )
-
-        logger.info(
-            f"Height={self.capture.get(cv2.CAP_PROP_FRAME_HEIGHT)}"
-        )
-
-        logger.info(
-            f"FPS={self.capture.get(cv2.CAP_PROP_FPS)}"
         )
 
         self.capture.set(
@@ -205,36 +271,68 @@ class Camera:
             settings.FRAME_HEIGHT
         )
 
-        logger.info(
-            f"Width={self.capture.get(cv2.CAP_PROP_FRAME_WIDTH)}"
-        )
-
-        logger.info(
-            f"Height={self.capture.get(cv2.CAP_PROP_FRAME_HEIGHT)}"
-        )
-
-        logger.info(
-            f"FPS={self.capture.get(cv2.CAP_PROP_FPS)}"
-        )
-
         self.capture.set(
             cv2.CAP_PROP_FPS,
             settings.FPS
         )
 
-        logger.info(
-            f"Width={self.capture.get(cv2.CAP_PROP_FRAME_WIDTH)}"
+        self.width = int(
+            self.capture.get(cv2.CAP_PROP_FRAME_WIDTH)
+        )
+
+        self.height = int(
+            self.capture.get(cv2.CAP_PROP_FRAME_HEIGHT)
+        )
+
+        self.fps = float(
+            self.capture.get(cv2.CAP_PROP_FPS)
+        )
+
+        self.backend = self.capture.getBackendName()
+
+        self.brightness = self.capture.get(
+            cv2.CAP_PROP_BRIGHTNESS
+        )
+
+        self.contrast = self.capture.get(
+            cv2.CAP_PROP_CONTRAST
+        )
+
+        self.saturation = self.capture.get(
+            cv2.CAP_PROP_SATURATION
+        )
+
+        self.gain = self.capture.get(
+            cv2.CAP_PROP_GAIN
+        )
+
+        self.exposure = self.capture.get(
+            cv2.CAP_PROP_EXPOSURE
         )
 
         logger.info(
-            f"Height={self.capture.get(cv2.CAP_PROP_FRAME_HEIGHT)}"
+            f"Resolution: {self.width}x{self.height}"
         )
 
         logger.info(
-            f"FPS={self.capture.get(cv2.CAP_PROP_FPS)}"
+            f"FPS: {self.fps:.2f}"
+        )
+
+        logger.info(
+            f"Backend: {self.backend}"
         )
 
         self.connected = True
+
+        self.start_time = time.time()
+
+        self.frames_read = 0
+
+        self.read_failures = 0
+
+        self.frames_dropped = 0
+
+        self.health = "Healthy"
 
         self.connection_time = current_timestamp()
 
@@ -254,7 +352,7 @@ class Camera:
     # Read Frame
     # ========================================================
 
-    def read(self) -> Tuple[bool, Optional[NDArray[np.uint8]]]:
+    def read(self):
         """
         Reads one frame.
 
@@ -264,17 +362,163 @@ class Camera:
         """
 
         if self.capture is None:
+
             return False, None
 
         success, frame = self.capture.read()
 
+        capture_start = time.perf_counter()
+
         if not success:
+
+            self.read_failures += 1
+
+            self.frames_dropped += 1
+
             logger.warning(
                 f"No frame received from {self.name}"
             )
 
-        return success, frame
+            if self.read_failures >= 5:
 
+                logger.warning(
+                    "Too many failures. Reconnecting..."
+                )
+
+                self.reconnect()
+
+            return False, None
+
+        self.frames_read += 1
+
+        self.read_failures = 0
+
+        self.last_frame = frame.copy()
+
+        self.last_frame_time = time.time()
+
+        self.frame_number += 1
+
+        self.frame_timestamp = current_timestamp()
+
+        latency = time.perf_counter() - capture_start
+
+        self.total_latency += latency
+
+        self.maximum_latency = max(
+
+            self.maximum_latency,
+
+            latency
+
+        )
+
+        self.minimum_latency = min(
+
+            self.minimum_latency,
+
+            latency
+
+        )
+
+        self.average_latency = (
+
+            self.total_latency /
+
+            self.frames_read
+
+        )
+
+        elapsed = self.last_frame_time - self.start_time
+
+        if elapsed > 0:
+
+            self.actual_fps = self.frames_read / elapsed
+
+        return True, frame
+    
+    def frame_packet(self):
+
+        frame = self.get_latest_frame()
+
+        if frame is None:
+
+            return None
+
+        return {
+
+            "camera_id": self.id,
+
+            "global_camera_id": self.global_id,
+
+            "camera_name": self.name,
+
+            "zone": self.zone,
+
+            "position": self.position,
+
+            "orientation": self.orientation,
+
+            "frame_number": self.frame_number,
+
+            "timestamp": self.frame_timestamp,
+
+            "frame": frame,
+
+            "resolution": (
+
+                self.width,
+
+                self.height
+
+            )
+
+        }
+    
+    def health_report(self):
+
+        return {
+
+            "camera": self.name,
+
+            "status": self.health,
+
+            "fps": round(self.actual_fps,2),
+
+            "latency": round(
+
+                self.average_latency*1000,
+
+                2
+
+            ),
+
+            "frames": self.frames_read,
+
+            "dropped": self.frames_dropped,
+
+            "failures": self.read_failures,
+
+            "reconnections": self.reconnection_attempts
+
+        }
+
+    def get_latest_frame(self):
+
+        """
+        Returns the latest successfully captured frame.
+
+        Returns
+        -------
+        ndarray | None
+        """
+
+        if self.last_frame is None:
+
+            return None
+
+        return self.last_frame.copy()
+    
     # ========================================================
     # Release
     # ========================================================
@@ -291,6 +535,12 @@ class Camera:
             self.capture = None
 
         self.connected = False
+
+        self.health = "Offline"
+
+        self.last_frame = None
+
+        self.actual_fps = 0.0
 
         logger.info(
             f"{CAMERA_DISCONNECTED}: {self.name}"
@@ -376,11 +626,93 @@ class Camera:
             "connected": self.connected,
 
             "resolution": (
-                settings.FRAME_WIDTH,
-                settings.FRAME_HEIGHT
+                self.width,
+                self.height
             ),
 
-            "fps": settings.FPS
+            "fps": self.fps,
+
+            "actual_fps": round(
+                self.actual_fps,
+                2
+            ),
+
+            "frames_read": self.frames_read,
+
+            "frames_dropped": self.frames_dropped,
+
+            "health": self.health,
+
+            "backend": self.backend,
+
+            "brightness": self.brightness,
+
+            "contrast": self.contrast,
+
+            "saturation": self.saturation,
+
+            "gain": self.gain,
+
+            "exposure": self.exposure,
+
+            "global_id": self.global_id,
+
+            "zone": self.zone,
+
+            "position": self.position,
+
+            "orientation": self.orientation,
+
+            "camera_role": self.camera_role,
+
+            "frame_number": self.frame_number,
+
+            "frame_timestamp": self.frame_timestamp,
+
+            "supports_reid": self.supports_reid,
+
+            "supports_tracking": self.supports_tracking,
+
+            "supports_detection": self.supports_detection,
+
+            "average_latency": round(
+
+                self.average_latency*1000,
+
+                2
+
+            ),
+
+            "reconnections": self.reconnection_attempts,
+
+            "calibrated": self.calibrated,
+
+            "status_message": self.status_message
+        }
+    
+    def summary(self):
+
+        return {
+
+            "camera": self.name,
+
+            "zone": self.zone,
+
+            "connected": self.connected,
+
+            "fps": round(self.actual_fps,2),
+
+            "latency": round(
+
+                self.average_latency*1000,
+
+                2
+
+            ),
+
+            "health": self.health,
+
+            "frame": self.frame_number
 
         }
 
@@ -418,7 +750,16 @@ class Camera:
         logger.info(
             f"Reconnecting {self.name}..."
         )
+        self.health = "Reconnecting"
 
+        self.reconnection_attempts += 1
         self.release()
+        success = self.connect()
 
-        return self.connect()
+        self.health = (
+            "Healthy"
+            if success
+            else "Offline"
+        )
+
+        return success

@@ -98,6 +98,8 @@ class DetectionRequest(AstravonSchema):
 
     weather_code: int
 
+    weather_desc: str
+
     risk_score: int = Field(
         ge=0,
         le=100
@@ -160,6 +162,8 @@ class DetectionData(AstravonSchema):
     wind_speed: float
 
     weather_code: int
+
+    weather_desc: str
 
     risk_score: int
 

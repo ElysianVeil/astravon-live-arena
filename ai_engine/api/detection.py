@@ -99,6 +99,8 @@ class DetectionRequest(AstravonSchema):
 
     weather_code: int
 
+    weather_des: str
+
     risk_score: int = Field(
         ge=0,
         le=100

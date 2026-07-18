@@ -17,6 +17,8 @@ Version:
 
 from math import sqrt
 from typing import Dict, List, Tuple
+import time
+from collections import deque
 
 
 # ============================================================
@@ -30,6 +32,28 @@ class MovementAnalyzer:
 
     def __init__(self):
         self.previous_positions: Dict[int, Tuple[int, int]] = {}
+        self.previous_positions = {}
+
+        self.track_history = {}
+
+        self.total_distance = {}
+
+        self.current_speed = {}
+
+        self.direction = {}
+
+        self.stationary_frames = {}
+
+        self.moving_frames = {}
+
+        self.last_seen = {}
+
+        self.frames_processed = 0
+
+        self.processing_time = 0.0
+
+        self.total_processing_time = 0.0
+
 
     # --------------------------------------------------------
 
@@ -63,11 +87,16 @@ class MovementAnalyzer:
             "center": (x, y)
         }
         """
+        start = time.perf_counter()
 
         movement_distances = []
 
         stationary = 0
         moving = 0
+        total_dx = 0
+        total_dy = 0
+        fastest = None
+        max_speed = 0
 
         for obj in tracked_objects:
 
@@ -84,12 +113,69 @@ class MovementAnalyzer:
                     center
                 )
 
+                previous = self.previous_positions[track_id]
+
+                dx = center[0] - previous[0]
+                dy = center[1] - previous[1]
+
+                total_dx += dx
+                total_dy += dy
+
+                self.direction[track_id] = (dx, dy)
+
+                self.total_distance[track_id] = (
+
+                    self.total_distance.get(track_id, 0)
+
+                    +
+
+                    distance
+
+                )
+
+                self.current_speed[track_id] = distance
+
                 movement_distances.append(distance)
 
+                if distance > max_speed:
+
+                    max_speed = distance
+                    fastest = track_id
+
                 if distance < 5:
+
                     stationary += 1
+
+                    self.stationary_frames[track_id] = (
+
+                        self.stationary_frames.get(track_id, 0)
+
+                        + 1
+
+                    )
+
+                    self.moving_frames[track_id] = 0
+
                 else:
+
                     moving += 1
+
+                    self.stationary_frames[track_id] = 0
+
+                    self.moving_frames[track_id] = (
+
+                        self.moving_frames.get(track_id, 0)
+
+                        + 1
+
+                    )
+
+            history = self.track_history.setdefault(
+                track_id,
+                deque(maxlen=30)
+            )
+
+            history.append(center)
 
             self.previous_positions[track_id] = center
 
@@ -99,15 +185,97 @@ class MovementAnalyzer:
             else 0.0
         )
 
+        if average_speed < 2:
+
+            flow = "Still"
+
+        elif average_speed < 8:
+
+            flow = "Walking"
+
+        elif average_speed < 20:
+
+            flow = "Busy"
+
+        else:
+
+            flow = "Running"
+
+        elapsed = time.perf_counter() - start
+
+        self.processing_time = elapsed
+        self.total_processing_time += elapsed
+        self.frames_processed += 1
+
+        active = {
+
+            obj["track_id"]
+
+            for obj in tracked_objects
+
+        }
+
+        for track_id in list(self.previous_positions):
+
+            if track_id not in active:
+
+                self.previous_positions.pop(track_id,None)
+
+                self.track_history.pop(track_id,None)
+
+                self.total_distance.pop(track_id,None)
+
+                self.current_speed.pop(track_id,None)
+
+                self.direction.pop(track_id,None)
+
+                self.stationary_frames.pop(track_id,None)
+
+                self.moving_frames.pop(track_id,None)
+
         return {
             "tracked_people": len(tracked_objects),
             "moving_people": moving,
             "stationary_people": stationary,
+            "crowd_direction": (
+                total_dx,
+                total_dy
+            ),
+            "fastest_track": fastest,
+            "flow_level": flow,
+            "max_speed": round(
+                max_speed,
+                2
+            ),
             "average_movement": round(
                 average_speed,
                 2
             )
         }
+    
+    @property
+    def fps(self):
+
+        if self.processing_time == 0:
+            return 0
+
+        return 1 / self.processing_time
+    
+    @property
+    def average_processing_time(self):
+
+        if self.frames_processed == 0:
+            return 0
+
+        return (
+
+            self.total_processing_time
+
+            /
+
+            self.frames_processed
+
+        )
 
     # --------------------------------------------------------
 
@@ -115,6 +283,18 @@ class MovementAnalyzer:
         """
         Clears stored movement history.
         """
+
+        self.track_history.clear()
+
+        self.total_distance.clear()
+
+        self.current_speed.clear()
+
+        self.direction.clear()
+
+        self.stationary_frames.clear()
+
+        self.moving_frames.clear()
 
         self.previous_positions.clear()
 
@@ -126,6 +306,71 @@ class MovementAnalyzer:
         """
 
         return len(self.previous_positions)
+    
+    def info(self):
+
+        return {
+
+            "tracked_people":
+
+                len(self.previous_positions),
+
+            "frames_processed":
+
+                self.frames_processed,
+
+            "processing_time_ms":
+
+                round(
+
+                    self.processing_time*1000,
+
+                    2
+
+                ),
+
+            "average_processing_time_ms":
+
+                round(
+
+                    self.average_processing_time*1000,
+
+                    2
+
+                ),
+
+            "fps":
+
+                round(
+
+                    self.fps,
+
+                    2
+
+                )
+
+        }
+    
+    def direction_name(dx, dy):
+
+        if abs(dx) > abs(dy):
+
+            return "East" if dx > 0 else "West"
+
+        if abs(dy) > abs(dx):
+
+            return "South" if dy > 0 else "North"
+
+        if dx > 0 and dy < 0:
+            return "North-East"
+
+        if dx > 0 and dy > 0:
+            return "South-East"
+
+        if dx < 0 and dy < 0:
+            return "North-West"
+
+        return "South-West"
 
 
 # ============================================================

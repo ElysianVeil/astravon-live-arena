@@ -21,6 +21,7 @@ from __future__ import annotations
 from collections import deque
 from datetime import datetime
 from statistics import mean
+import time
 from typing import Deque, Dict, List
 
 
@@ -40,6 +41,10 @@ class CrowdTrends:
         """
 
         self.max_history = max_history
+        # Performance metrics
+        self.records_added = 0
+        self.processing_time = 0.0
+        self.total_processing_time = 0.0
 
         self.history: Deque[Dict] = deque(
             maxlen=max_history
@@ -51,14 +56,19 @@ class CrowdTrends:
 
     def add(
         self,
-        people_count: int,
-        density: str,
-        occupancy: float,
-        risk_score: int
-    ) -> None:
+        people_count,
+        density,
+        occupancy,
+        risk_score,
+        average_speed=0,
+        moving_people=0,
+        stationary_people=0,
+        flow_level="Still"
+    ):
         """
         Adds a new crowd record.
         """
+        start = time.perf_counter()
 
         self.history.append(
             {
@@ -66,9 +76,19 @@ class CrowdTrends:
                 "people_count": people_count,
                 "density": density,
                 "occupancy": occupancy,
-                "risk_score": risk_score
+                "risk_score": risk_score,
+                "average_speed": average_speed,
+                "moving_people": moving_people,
+                "stationary_people": stationary_people,
+                "flow_level": flow_level
             }
         )
+
+        elapsed = time.perf_counter() - start
+
+        self.processing_time = elapsed
+        self.total_processing_time += elapsed
+        self.records_added += 1
 
     # ========================================================
     # History
@@ -114,6 +134,160 @@ class CrowdTrends:
             ),
             2
         )
+    
+    def average_speed(self):
+
+        if not self.history:
+            return 0
+
+        return round(
+
+            mean(
+                item["average_speed"]
+                for item in self.history
+            ),
+
+            2
+
+        )
+    
+    def average_risk(self):
+
+        if not self.history:
+            return 0
+
+        return round(
+
+            mean(
+                item["risk_score"]
+                for item in self.history
+            ),
+
+            2
+
+        )
+
+    def peak_risk(self):
+
+        if not self.history:
+            return 0
+
+        return max(
+
+            item["risk_score"]
+
+            for item in self.history
+
+        )
+    
+    def average_occupancy(self):
+
+        if not self.history:
+            return 0
+
+        return round(
+
+            mean(
+                item["occupancy"]
+
+                for item in self.history
+            ),
+
+            2
+
+        )
+    
+    def peak_occupancy(self):
+
+        if not self.history:
+            return 0
+
+        return max(
+
+            item["occupancy"]
+
+            for item in self.history
+
+        )
+    
+    def pressure(self):
+
+        latest = self.latest()
+
+        if not latest:
+            return "Unknown"
+
+        occupancy = latest["occupancy"]
+
+        if occupancy < 25:
+            return "Low"
+
+        elif occupancy < 50:
+            return "Moderate"
+
+        elif occupancy < 75:
+            return "High"
+
+        return "Critical"
+    
+    def stability(self):
+
+        if len(self.history) < 10:
+            return "Unknown"
+
+        values = [
+
+            item["people_count"]
+
+            for item in self.history
+
+        ]
+
+        variation = max(values) - min(values)
+
+        if variation < 5:
+            return "Stable"
+
+        elif variation < 20:
+            return "Moderately Stable"
+
+        return "Unstable"
+    
+    def momentum(self):
+
+        if len(self.history) < 5:
+            return 0
+
+        recent = [
+
+            item["people_count"]
+
+            for item in list(self.history)[-5:]
+
+        ]
+
+        return round(
+
+            recent[-1] - recent[0],
+
+            2
+
+        )
+    
+    def export(self):
+
+        return {
+
+            "history":
+
+                self.get_history(),
+
+            "summary":
+
+                self.summary()
+
+        }
+    
 
     # ========================================================
     # Peak Crowd
@@ -213,8 +387,107 @@ class CrowdTrends:
             "average_people": self.average_people(),
             "peak_people": self.peak_people(),
             "minimum_people": self.minimum_people(),
-            "direction": self.direction(),
-            "growth_rate": self.growth_rate()
+            "average_speed":
+
+                self.average_speed(),
+
+            "average_risk":
+
+                self.average_risk(),
+
+            "peak_risk":
+
+                self.peak_risk(),
+
+            "average_occupancy":
+
+                self.average_occupancy(),
+
+            "peak_occupancy":
+
+                self.peak_occupancy(),
+
+            "pressure":
+
+                self.pressure(),
+
+            "direction":
+
+                self.direction(),
+
+            "growth_rate":
+
+                self.growth_rate(),
+
+            "momentum":
+
+                self.momentum(),
+
+            "stability":
+
+                self.stability()
+
+        }
+    
+    @property
+    def fps(self):
+
+        if self.processing_time == 0:
+            return 0
+
+        return 1 / self.processing_time
+
+
+    @property
+    def average_processing_time(self):
+
+        if self.records_added == 0:
+            return 0
+
+        return (
+            self.total_processing_time
+            /
+            self.records_added
+        )
+    
+    def info(self):
+
+        return {
+
+            "records":
+
+                len(self.history),
+
+            "processing_time_ms":
+
+                round(
+
+                    self.processing_time*1000,
+
+                    2
+
+                ),
+
+            "average_processing_time_ms":
+
+                round(
+
+                    self.average_processing_time*1000,
+
+                    2
+
+                ),
+
+            "fps":
+
+                round(
+
+                    self.fps,
+
+                    2
+
+                )
+
         }
 
     # ========================================================
@@ -227,6 +500,12 @@ class CrowdTrends:
         """
 
         self.history.clear()
+
+        self.records_added = 0
+
+        self.processing_time = 0
+
+        self.total_processing_time = 0
 
 
 # ============================================================

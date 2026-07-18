@@ -19,7 +19,10 @@ from __future__ import annotations
 
 import asyncio
 import json
+import cv2
+import base64
 import logging
+from datetime import datetime
 from typing import Any, Dict, Optional
 
 import websockets
@@ -53,6 +56,34 @@ class WebSocketClient:
 
         self.url = settings.WEBSOCKET_URL
 
+        # ========================================================
+        # Runtime Statistics
+        # ========================================================
+
+        self.messages_sent = 0
+
+        self.messages_failed = 0
+
+        self.bytes_sent = 0
+
+        self.last_message = None
+
+        self.last_connected = None
+
+        self.last_heartbeat = None
+
+        self.reconnect_attempts = 0
+
+        self.maximum_reconnect_attempts = 10
+
+        self.auto_reconnect = True
+
+        self.connection_timeout = 10
+
+        self.send_queue = asyncio.Queue()
+
+        self.running = False
+
     # ========================================================
     # Connection
     # ========================================================
@@ -69,6 +100,10 @@ class WebSocketClient:
             return False
 
         self.connecting = True
+
+        self.last_connected = datetime.utcnow().isoformat()
+
+        self.reconnect_attempts = 0
 
         try:
 
@@ -87,11 +122,33 @@ class WebSocketClient:
 
         except Exception as error:
 
-            logger.error(f"Connection failed: {error}")
+            self.reconnect_attempts += 1
+
+            logger.error(
+                f"Connection failed ({self.reconnect_attempts}): {error}"
+            )
 
             self.connected = False
 
             self.websocket = None
+
+            if (
+
+                self.auto_reconnect
+
+                and
+
+                self.reconnect_attempts
+
+                <
+
+                self.maximum_reconnect_attempts
+
+            ):
+
+                await asyncio.sleep(2)
+
+                return await self.connect()
 
             return False
 
@@ -154,15 +211,22 @@ class WebSocketClient:
         try:
             print("WS SEND:", message["type"])
 
-            await self.websocket.send(
-                json.dumps(message)
-            )
+            payload = json.dumps(message)
 
-            print("WS SENT")
+            await self.websocket.send(payload)
+
+            self.messages_sent += 1
+
+            self.bytes_sent += len(payload)
+
+            self.last_message = message["type"]
 
             return True
 
+
         except Exception as error:
+
+            self.messages_failed += 1
 
             logger.error(error)
 
@@ -170,8 +234,61 @@ class WebSocketClient:
 
             self.websocket = None
 
-            return False
+            if self.auto_reconnect:
 
+                await self.connect()
+
+            return False
+        
+    # ========================================================
+    # Queue Worker
+    # ========================================================
+
+    async def process_queue(self):
+
+        self.running = True
+
+        while self.running:
+
+            message = await self.send_queue.get()
+
+            try:
+
+                await self.send(message)
+
+            finally:
+
+                self.send_queue.task_done()
+
+    # ========================================================
+    # Queue Message
+    # ========================================================
+
+    async def enqueue(
+
+        self,
+
+        message
+
+    ):
+
+        await self.send_queue.put(message)
+
+    # ========================================================
+    # Batch Send
+    # ========================================================
+
+    async def send_batch(
+
+        self,
+
+        messages
+
+    ):
+
+        for message in messages:
+
+            await self.enqueue(message)
 
     # ========================================================
     # Statistics
@@ -246,19 +363,319 @@ class WebSocketClient:
         Sends a heartbeat.
         """
 
+        self.last_heartbeat = datetime.utcnow().isoformat()
+
         return await self.send(
+
             {
-                "type": "heartbeat"
+
+                "type":"heartbeat",
+
+                "timestamp":self.last_heartbeat
+
             }
+
         )
     
+    # ========================================================
+    # Ping
+    # ========================================================
+
+    async def ping(self):
+
+        return await self.send(
+
+            {
+
+                "type":"ping"
+
+            }
+
+        )
+    
+    # ========================================================
+    # Pong
+    # ========================================================
+
+    async def pong(self):
+
+        return await self.send(
+
+            {
+
+                "type":"pong"
+
+            }
+
+        )
+
     async def send_camera_frame(self, payload):
+
+        _, buffer = cv2.imencode(".jpg", payload["frame"])
+
+        payload["frame"] = base64.b64encode(
+            buffer
+        ).decode("utf-8")
 
         await self.send({
             "type": "frame",
             "data": payload
         })
 
+    # ========================================================
+    # Register Camera
+    # ========================================================
+
+    async def register_camera(
+
+        self,
+
+        camera
+
+    ):
+
+        await self.send(
+
+            {
+
+                "type":"camera_register",
+
+                "data":camera
+
+            }
+
+        )
+
+    # ========================================================
+    # Camera Status
+    # ========================================================
+
+    async def send_camera_status(
+
+        self,
+
+        status
+
+    ):
+
+        await self.send(
+
+            {
+
+                "type":"camera_status",
+
+                "data":status
+
+            }
+
+        )
+
+
+    # ========================================================
+    # Engine Status
+    # ========================================================
+
+    async def send_engine_status(
+
+        self,
+
+        status
+
+    ):
+
+        await self.send(
+
+            {
+
+                "type":"engine_status",
+
+                "data":status
+
+            }
+
+        )
+
+    # ========================================================
+    # Weather
+    # ========================================================
+
+    async def send_weather(
+
+        self,
+
+        weather
+
+    ):
+
+        await self.send(
+
+            {
+
+                "type":"weather",
+
+                "data":weather
+
+            }
+
+        )
+
+    # ========================================================
+    # Prediction
+    # ========================================================
+
+    async def send_prediction(
+
+        self,
+
+        prediction
+
+    ):
+
+        await self.send(
+
+            {
+
+                "type":"prediction",
+
+                "data":prediction
+
+            }
+
+        )
+
+    # ========================================================
+    # Metrics
+    # ========================================================
+
+    async def send_metrics(
+
+        self,
+
+        metrics
+
+    ):
+
+        await self.send(
+
+            {
+
+                "type":"metrics",
+
+                "data":metrics
+
+            }
+
+        )
+
+    # ========================================================
+    # Module Information
+    # ========================================================
+
+    def info(self):
+
+        return {
+
+            "module":"WebSocket Client",
+
+            "status":(
+
+                "Connected"
+
+                if self.connected
+
+                else "Disconnected"
+
+            ),
+
+            "url":self.url,
+
+            "messages_sent":self.messages_sent,
+
+            "messages_failed":self.messages_failed,
+
+            "bytes_sent":self.bytes_sent,
+
+            "queue_size":self.send_queue.qsize(),
+
+            "last_message":self.last_message,
+
+            "last_connected":self.last_connected,
+
+            "last_heartbeat":self.last_heartbeat,
+
+            "reconnect_attempts":self.reconnect_attempts
+
+        }
+
+    # ========================================================
+    # Statistics
+    # ========================================================
+
+    def statistics(self):
+
+        success_rate = 100
+
+        total = self.messages_sent + self.messages_failed
+
+        if total:
+
+            success_rate = round(
+
+                self.messages_sent
+
+                /
+
+                total
+
+                *
+
+                100,
+
+                2
+
+            )
+
+        return {
+
+            "messages_sent":self.messages_sent,
+
+            "messages_failed":self.messages_failed,
+
+            "success_rate":success_rate,
+
+            "bytes_sent":self.bytes_sent
+
+        }
+
+    # ========================================================
+    # Reset
+    # ========================================================
+
+    def reset(self):
+
+        self.messages_sent = 0
+
+        self.messages_failed = 0
+
+        self.bytes_sent = 0
+
+        self.last_message = None
+
+        self.last_connected = None
+
+        self.last_heartbeat = None
+
+        self.reconnect_attempts = 0
+
+    # ========================================================
+    # Shutdown
+    # ========================================================
+
+    async def shutdown(self):
+
+        self.running = False
+
+        await self.disconnect()
 
 # ============================================================
 # Demonstration

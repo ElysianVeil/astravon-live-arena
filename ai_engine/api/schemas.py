@@ -15,10 +15,10 @@ Version:
 ============================================================
 """
 
-from __future__ import annotations
+
 
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 
 from pydantic import BaseModel, Field
 from api.common import AstravonSchema
@@ -81,76 +81,103 @@ class DetectionRequest(BaseModel):
     detections: List[Detection]
 
 
+
+
+
+# ============================================================
+# Engine
+# ============================================================
+
+class EngineStatistics(AstravonSchema):
+
+    name: str
+
+    version: str
+
+    status: str
+
+    uptime: float
+
+    generated_statistics: int
+
+
+# ============================================================
+# Detection
+# ============================================================
+
+class DetectionStatistics(AstravonSchema):
+
+    people_count: int = Field(ge=0)
+
+    detector: Dict[str, Any]
+
+
+# ============================================================
+# Performance
+# ============================================================
+
+class PerformanceStatistics(AstravonSchema):
+
+    processing_time: float = Field(ge=0)
+
+    fps: float = Field(ge=0)
+
+    camera: Dict[str, Any]
+
+    detector: Dict[str, Any]
+
+    tracker: Dict[str, Any]
+
+    movement: Dict[str, Any]
+
+    feature_extractor: Dict[str, Any]
+
+    counter: Dict[str, Any]
+
+    density: Dict[str, Any]
+
+    occupancy: Dict[str, Any]
+
+    congestion: Dict[str, Any]
+
+
 # ============================================================
 # Crowd Statistics
 # ============================================================
 
 class StatisticsRequest(AstravonSchema):
     """
-    Statistics submission request.
+    Complete crowd statistics payload.
+    Mirrors CrowdStatistics.build().
     """
 
-    camera_id: str
+    timestamp: str
 
-    camera_name: str
+    statistics_version: str
 
-    venue: str
+    engine: EngineStatistics
 
-    city: str
+    camera: Dict[str, Any]
 
-    country: str
+    detection: DetectionStatistics
 
-    latitude: float
+    movement: Dict[str, Any]
 
-    longitude: float
+    density: Dict[str, Any]
 
-    people_count: int = Field(
-        ge=0
-    )
+    occupancy: Dict[str, Any]
 
-    occupancy: float
+    congestion: Dict[str, Any]
 
-    density: str
+    risk: Optional[Dict[str, Any]] = None
 
-    temperature: float
+    weather: Optional[Dict[str, Any]] = None
 
-    humidity: float
+    trends: Optional[Dict[str, Any]] = None
 
-    heat_index: float
+    zones: Optional[Dict[str, Any]] = None
 
-    wind_speed: float = Field(
-        ge=0
-    )
-
-    weather_code: int
-
-    city: str
-
-    country: str
-
-    risk_score: int = Field(
-        ge=0,
-        le=100
-    )
-
-    risk_level: str
-
-    detected_objects: int = Field(
-        ge=0
-    )
-
-    confidence: float = Field(
-        ge=0.0,
-        le=1.0
-    )
-
-    processing_time: float = Field(
-        ge=0
-    )
-
-    fps: float = Field(
-        ge=0
-    )
+    performance: PerformanceStatistics
 
 
 # ============================================================

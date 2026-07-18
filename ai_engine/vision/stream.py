@@ -57,6 +57,19 @@ class VideoStream:
         self.frame_count = 0
         self.failed_reads = 0
         self.running = False
+        self.start_time = None
+
+        self.last_frame_time = None
+
+        self.actual_fps = 0.0
+
+        self.read_time = 0.0
+
+        self.total_read_time = 0.0
+
+        self.max_read_time = 0.0
+
+        self.min_read_time = float("inf")
 
         self._thread: Optional[threading.Thread] = None
         self._lock = threading.Lock()
@@ -76,15 +89,18 @@ class VideoStream:
 
         if not self.camera.is_connected():
 
-            if not self.camera.connect():
+            if self.camera.reconnect():
 
-                logger.error(
-                    "Unable to start stream."
-                )
+                logger.info("Camera reconnected.")
 
-                return
+            else:
+
+                logger.error("Reconnect failed.")
+
+                time.sleep(STREAM_RECONNECT_DELAY)
 
         self.running = True
+        self.start_time = time.perf_counter()
 
         self._thread = threading.Thread(
             target=self._update,
@@ -120,9 +136,21 @@ class VideoStream:
 
         while self.running:
 
+            read_start = time.perf_counter()
+
             success, frame = self.camera.read()
 
-            if not success:
+            elapsed = time.perf_counter() - read_start
+
+            self.read_time = elapsed
+
+            self.total_read_time += elapsed
+
+            self.max_read_time = max(self.max_read_time, elapsed)
+
+            self.min_read_time = min(self.min_read_time, elapsed)
+
+            if not success or not validate_frame(frame):
 
                 self.failed_reads += 1
 
@@ -141,9 +169,50 @@ class VideoStream:
 
             with self._lock:
                 self.frame = frame
+                self.frame_count += 1
+
+                self.last_frame_time = time.perf_counter()
+                self.frame_timestamp = time.time()
+
+                elapsed_runtime = self.last_frame_time - self.start_time
+
+                if elapsed_runtime > 0:
+
+                    self.actual_fps = self.frame_count / elapsed_runtime
 
             if delay:
                 time.sleep(delay)
+
+    def frame_age(self):
+
+        if self.frame_timestamp is None:
+
+            return None
+
+        return time.time() - self.frame_timestamp
+    
+    @property
+    def average_read_time(self):
+
+        if self.frame_count == 0:
+
+            return 0
+
+        return self.total_read_time / self.frame_count
+    
+    @property
+    def health(self):
+
+        if not self.running:
+
+            return "Stopped"
+
+        if self.failed_reads > 10:
+
+            return "Degraded"
+
+        return "Healthy"
+    
 
     # ========================================================
     # Access
@@ -199,6 +268,20 @@ class VideoStream:
     # Cleanup
     # ========================================================
 
+    def wait_for_frame(self, timeout=5):
+
+        start = time.time()
+
+        while not self.has_frame():
+
+            if time.time() - start > timeout:
+
+                return None
+
+            time.sleep(0.01)
+
+        return self.get_frame()
+
     def close(self) -> None:
         """
         Stops the stream and closes the camera.
@@ -213,10 +296,26 @@ class VideoStream:
 
             "running": self.running,
 
+            "health": self.health,
+
             "camera": self.camera.info(),
 
             "fps_limit": self.fps_limit,
 
+            "actual_fps": round(self.actual_fps, 2),
+
+            "frames": self.frame_count,
+
+            "failed_reads": self.failed_reads,
+
+            "average_read_time_ms": round(
+                self.average_read_time * 1000,
+                2
+            ),
+
+            "last_frame_age": self.frame_age(),
+
             "has_frame": self.has_frame()
+
         }
     

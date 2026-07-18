@@ -83,7 +83,7 @@ class HTTPClient:
     Sends data to the backend REST API.
     """
 
-    def __init__(self) -> None:
+    def __init__(self):
 
         self.base_url = (
             settings.BACKEND_URL.rstrip("/")
@@ -92,7 +92,39 @@ class HTTPClient:
 
         self.timeout = 10
 
-    
+        self.session = requests.Session()
+
+        self.connected = False
+
+        self.total_requests = 0
+
+        self.successful_requests = 0
+
+        self.failed_requests = 0
+
+        self.last_request = None
+
+        self.last_response = None
+
+        self.request_history = []
+
+        self.max_history = 500
+
+
+    # ========================================================
+    # Connection Status
+    # ========================================================
+
+    def is_connected(self) -> bool:
+        """
+        Returns True if backend is reachable.
+        """
+
+        response = self.ping()
+
+        self.connected = response is not None
+
+        return self.connected    
 
     # ========================================================
     # Internal Request
@@ -123,15 +155,78 @@ class HTTPClient:
 
             response.raise_for_status()
 
-            return response.json()
+            self.connected = True
+
+            self.total_requests += 1
+
+            self.successful_requests += 1
+
+            self.last_request = {
+                "method": method,
+                "endpoint": endpoint,
+                "timestamp": datetime.now().isoformat()
+            }
+
+            self.last_response = response.status_code
+
+            result = response.json()
+
+            self.request_history.append({
+
+                "endpoint": endpoint,
+
+                "method": method,
+
+                "status": response.status_code,
+
+                "timestamp": datetime.now().isoformat()
+
+            })
+
+            if len(self.request_history) > self.max_history:
+
+                self.request_history.pop(0)
+
+            return result
 
         except requests.RequestException as error:
+
+            self.connected = False
+
+            self.total_requests += 1
+
+            self.failed_requests += 1
 
             logger.error(
                 f"HTTP Error ({method} {url}): {error}"
             )
 
             return None
+        
+    # ========================================================
+    # Retry Request
+    # ========================================================
+
+    def retry_request(
+        self,
+        method,
+        endpoint,
+        data=None,
+        retries=3
+    ):
+
+        for _ in range(retries):
+
+            result = self._request(
+                method,
+                endpoint,
+                data
+            )
+
+            if result is not None:
+                return result
+
+        return None
 
     # ========================================================
     # Health Check
@@ -166,6 +261,30 @@ class HTTPClient:
         )
 
     # ========================================================
+    # Batch Statistics
+    # ========================================================
+
+    def send_statistics_batch(
+        self,
+        statistics_list
+    ):
+
+        return self._request(
+
+            "POST",
+
+            "/statistics/batch",
+
+            {
+
+                "statistics": statistics_list
+
+            }
+
+        )
+
+
+    # ========================================================
     # Detection
     # ========================================================
 
@@ -184,6 +303,29 @@ class HTTPClient:
             "/ai/detection",
             detection
         )
+    
+    # ========================================================
+    # Batch Detection
+    # ========================================================
+
+    def send_detection_batch(
+        self,
+        detections
+    ):
+
+        return self._request(
+
+            "POST",
+
+            "/ai/detection/batch",
+
+            {
+
+                "detections": detections
+
+            }
+
+        )
 
     # ========================================================
     # Alert
@@ -201,6 +343,318 @@ class HTTPClient:
             "POST",
             "/alerts/",
             alert
+        )
+    
+    # ========================================================
+    # Risk Analysis
+    # ========================================================
+
+    def send_risk(
+        self,
+        risk
+    ):
+
+        return self._request(
+
+            "POST",
+
+            "/risk",
+
+            risk
+
+        )
+
+    # ========================================================
+    # Heat Data
+    # ========================================================
+
+    def send_heat(
+        self,
+        heat
+    ):
+
+        return self._request(
+
+            "POST",
+
+            "/heat",
+
+            heat
+
+        )
+
+    # ========================================================
+    # Heat Data
+    # ========================================================
+
+    def send_heat(
+        self,
+        heat
+    ):
+
+        return self._request(
+
+            "POST",
+
+            "/heat",
+
+            heat
+
+        )
+    
+    # ========================================================
+    # Prediction
+    # ========================================================
+
+    def send_prediction(
+        self,
+        prediction
+    ):
+
+        return self._request(
+
+            "POST",
+
+            "/prediction",
+
+            prediction
+
+        )
+
+    # ========================================================
+    # Camera Status
+    # ========================================================
+
+    def send_camera_status(
+        self,
+        status
+    ):
+
+        return self._request(
+
+            "POST",
+
+            "/camera/status",
+
+            status
+
+        )
+
+    # ========================================================
+    # Engine Status
+    # ========================================================
+
+    def send_engine_status(
+        self,
+        status
+    ):
+
+        return self._request(
+
+            "POST",
+
+            "/engine/status",
+
+            status
+
+        )
+
+    # ========================================================
+    # Dashboard Snapshot
+    # ========================================================
+
+    def send_dashboard(
+        self,
+        dashboard
+    ):
+
+        return self._request(
+
+            "POST",
+
+            "/dashboard",
+
+            dashboard
+
+        )
+
+    # ========================================================
+    # Module Information
+    # ========================================================
+
+    def info(self):
+
+        return {
+
+            "module": "HTTP Client",
+
+            "status": (
+
+                "Connected"
+
+                if self.connected
+
+                else "Disconnected"
+
+            ),
+
+            "base_url": self.base_url,
+
+            "timeout": self.timeout,
+
+            "total_requests": self.total_requests,
+
+            "successful_requests": self.successful_requests,
+
+            "failed_requests": self.failed_requests,
+
+            "history_size": len(self.request_history)
+
+        }
+
+    # ========================================================
+    # Statistics
+    # ========================================================
+
+    def statistics(self):
+
+        success_rate = 0
+
+        if self.total_requests:
+
+            success_rate = round(
+
+                self.successful_requests
+
+                /
+
+                self.total_requests
+
+                *100,
+
+                2
+
+            )
+
+        return {
+
+            "requests": self.total_requests,
+
+            "successful": self.successful_requests,
+
+            "failed": self.failed_requests,
+
+            "success_rate": success_rate,
+
+            "last_request": self.last_request,
+
+            "last_response": self.last_response
+
+        }
+
+    # ========================================================
+    # Request History
+    # ========================================================
+
+    def history(self):
+
+        return list(self.request_history)
+
+    # ========================================================
+    # Reset
+    # ========================================================
+
+    def reset(self):
+
+        self.request_history.clear()
+
+        self.total_requests = 0
+
+        self.successful_requests = 0
+
+        self.failed_requests = 0
+
+        self.last_request = None
+
+        self.last_response = None
+
+        self.connected = False
+
+    # ========================================================
+    # Dashboard
+    # ========================================================
+
+    def dashboard(self):
+
+        return {
+
+            "connected": self.connected,
+
+            "requests": self.total_requests,
+
+            "successful": self.successful_requests,
+
+            "failed": self.failed_requests,
+
+            "success_rate": (
+
+                round(
+
+                    self.successful_requests
+
+                    /
+
+                    self.total_requests
+
+                    *100,
+
+                    2
+
+                )
+
+                if self.total_requests
+
+                else 0
+
+            ),
+
+            "last_request": self.last_request,
+
+            "last_response": self.last_response
+
+        }
+
+    # ========================================================
+    # Backend Information
+    # ========================================================
+
+    def backend_info(self):
+
+        return self._request(
+
+            "GET",
+
+            "/info"
+
+        )
+
+    # ========================================================
+    # Synchronize
+    # ========================================================
+
+    def synchronize(
+        self,
+        payload
+    ):
+
+        return self._request(
+
+            "POST",
+
+            "/sync",
+
+            payload
+
         )
 
     # ========================================================
