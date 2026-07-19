@@ -66,6 +66,19 @@ class YOLODetector:
 
         self.model = model
 
+        self.detect_every = 4
+        self.frame_counter = 0
+
+        # Cached detection used on skipped frames
+        self.cached_result = None
+
+        # --------------------------------------------------------
+        # PyTorch Optimizations
+        # --------------------------------------------------------
+
+        if torch.cuda.is_available():
+            torch.backends.cudnn.benchmark = True
+
         logger.info("Warming up YOLO model...")
 
         dummy = np.zeros(
@@ -73,10 +86,18 @@ class YOLODetector:
             dtype=np.uint8
         )
 
-        self.model.predict(
-            source=dummy,
-            verbose=False
-        )
+        with torch.inference_mode():
+
+            with torch.autocast(
+                device_type="cuda",
+                enabled=torch.cuda.is_available()
+            ):
+
+                self.model.predict(
+                    source=dummy,
+                    imgsz=416,
+                    verbose=False
+                )
 
         logger.info("YOLO warm-up complete.")
 
@@ -89,10 +110,28 @@ class YOLODetector:
 
         )
         if torch.cuda.is_available():
+            torch.backends.cuda.matmul.allow_tf32 = True
+            torch.backends.cudnn.allow_tf32 = True
+
+            torch.set_float32_matmul_precision("high")
 
             try:
 
                 self.model.model.half()
+
+                try:
+                    self.model.model = torch.compile(
+                        self.model.model,
+                        mode="reduce-overhead"
+                    )
+
+                    logger.info("Torch Compile enabled.")
+
+                except Exception:
+
+                    logger.warning(
+                        "Torch Compile unavailable."
+                    )
 
                 logger.info("FP16 inference enabled.")
 
@@ -104,7 +143,11 @@ class YOLODetector:
 
         self.labels = loader.labels
 
+        self.use_supervision = True
+
         self.confidence = confidence
+
+        self.class_names = self.model.names
 
 
         self.frames_processed = 0
@@ -136,21 +179,61 @@ class YOLODetector:
         Returns:
             List of detections.
         """
+        
 
         if not validate_frame(frame):
             logger.warning("Invalid frame received.")
             return []
+        
+        self.frame_counter += 1
+
+        # --------------------------------------------------------
+        # Adaptive Detection Rate
+        # --------------------------------------------------------
+
+        if self.cached_result is not None:
+
+            people = len(self.cached_result.detections)
+
+            if people < 5:
+
+                self.detect_every = 8
+
+            elif people < 20:
+
+                self.detect_every = 5
+
+            else:
+
+                self.detect_every = 2
+
+        # Skip inference and reuse the previous detection
+        if (
+            self.frame_counter % self.detect_every != 0
+            and self.cached_result is not None
+        ):
+            return self.cached_result
 
         logger.debug("Running YOLO inference.")
 
         start = time.perf_counter()
 
-        results = self.model.predict(
-            source=frame,
-            conf=self.confidence,
-            verbose=False
-        )
-        result = results[0]
+        with torch.inference_mode():
+
+            with torch.autocast(
+                device_type="cuda",
+                enabled=torch.cuda.is_available()
+            ):
+
+                result = self.model.predict(
+                    source=frame,
+                    imgsz=416,
+                    conf=self.confidence,
+                    classes=list(self.allowed_classes),
+                    verbose=False,
+                    save=False,
+                    show=False
+                )[0]
         elapsed = time.perf_counter() - start
 
         self.processing_time = elapsed
@@ -158,69 +241,62 @@ class YOLODetector:
         self.frames_processed += 1
         self.last_result = result
 
-        sv_detections = sv.Detections.from_ultralytics(result)
+        if self.use_supervision:
+            sv_detections = sv.Detections.from_ultralytics(result)
+        else:
+            sv_detections=None
 
         detections = []
 
         if result.boxes is not None:
 
-            for box in result.boxes:
+            # Transfer all detections from GPU to CPU only once
+            boxes = result.boxes.cpu()
 
-                x1, y1, x2, y2 = (
-                    box.xyxy[0]
-                    .cpu()
-                    .numpy()
-                    .astype(int)
-                )
+            for box in boxes:
 
-                if float(box.conf[0]) < self.confidence:
-                    continue
+                bbox = box.xyxy[0].numpy().astype(np.int32)
 
-                class_id = int(box.cls[0])
+                x1, y1, x2, y2 = bbox.tolist()
 
-                if (
-                    self.allowed_classes is not None
-                    and class_id not in self.allowed_classes
-                ):                   
-                    continue
+                class_id = int(box.cls.item())
+
+                confidence = float(box.conf.item())
 
                 detections.append({
-
                     "class_id": class_id,
-
-                    "class_name": self.model.names[
-                        int(box.cls[0])
-                    ],
-
-                    "confidence": float(box.conf[0]),
-
+                    "class_name": self.class_names[class_id],
+                    "confidence": confidence,
                     "bbox": [x1, y1, x2, y2]
-
                 })
 
-            self.last_detection_time = time.time()
 
-            self.total_detections += len(detections)
+        self.last_detection_time = time.time()
 
-        counts = Counter(
-            d["class_name"]
-            for d in detections
-        )
+        self.total_detections += len(detections)
 
-        summary = ", ".join(
+        summary = {}
+
+        for d in detections:
+            name = d["class_name"]
+            summary[name] = summary.get(name,0)+1
+
+        summary_text = ", ".join(
             f"{name}: {count}"
-            for name, count in counts.items()
+            for name, count in summary.items()
         )
 
-        logger.info(
+        if self.frames_processed % 30 == 0:
 
-            f"Detected -> {summary or 'None'} | "
+            logger.info(
 
-            f"{elapsed * 1000:.2f} ms | "
+                f"Detected -> {summary_text or 'None'} | "
 
-            f"{1 / elapsed:.1f} FPS"
+                f"{elapsed * 1000:.2f} ms | "
 
-        )
+                f"{1 / elapsed:.1f} FPS"
+
+            )
 
         self.last_result = DetectionResult(
             timestamp=time.time(),
@@ -232,6 +308,8 @@ class YOLODetector:
             detections=detections
 
         )
+
+        self.cached_result = self.last_result
 
         self.history.append(self.last_result)
 
@@ -252,6 +330,8 @@ class YOLODetector:
         return self.model.predict(
 
             source=frames,
+
+            imgsz=416,
 
             conf=self.confidence,
 

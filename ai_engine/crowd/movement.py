@@ -276,6 +276,27 @@ class MovementAnalyzer:
             self.frames_processed
 
         )
+    
+    # --------------------------------------------------------
+
+    def empty(self) -> Dict:
+        """
+        Returns an empty/default movement analysis.
+
+        Used when there are no active tracks so that the
+        pipeline can continue without running analyze().
+        """
+
+        return {
+            "tracked_people": 0,
+            "moving_people": 0,
+            "stationary_people": 0,
+            "crowd_direction": (0, 0),
+            "fastest_track": None,
+            "flow_level": "Still",
+            "max_speed": 0.0,
+            "average_movement": 0.0
+        }
 
     # --------------------------------------------------------
 

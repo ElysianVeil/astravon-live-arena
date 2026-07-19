@@ -19,7 +19,9 @@ from fastapi import APIRouter, HTTPException, status
 from backend.schemas.alert import (
     AlertCreateRequest,
     AlertResponse,
-    AlertListResponse
+    AlertListResponse,
+    AlertStatisticsResponse,
+    # AlertDashboardResponse
 )
 
 from backend.dependencies.services import ai_service
@@ -53,13 +55,190 @@ async def get_alerts():
     Returns all active alerts.
     """
 
-    alerts = ai_service.get_alerts()
+    alerts = ai_service.current_alerts
 
     return AlertListResponse(
         success=True,
         message="Alerts retrieved successfully.",
         data=alerts
     )
+
+# ============================================================
+# Get Resolved Alerts
+# ============================================================
+
+@router.get(
+    "/resolved",
+    response_model=AlertListResponse,
+    summary="Resolved Alerts"
+)
+async def get_resolved_alerts():
+
+    alerts = ai_service.get_resolved_alerts()
+
+    return AlertListResponse(
+
+        success=True,
+
+        message="Resolved alerts retrieved.",
+
+        data=alerts
+
+    )
+
+# ============================================================
+# Alert Dashboard
+# ============================================================
+
+# @router.get(
+#     "/dashboard",
+#     response_model=AlertDashboardResponse,
+#     summary="Alert Dashboard"
+# )
+# async def dashboard():
+
+#     return AlertDashboardResponse(
+
+#         success=True,
+
+#         message="Dashboard retrieved.",
+
+#         data=ai_service.dashboard()
+
+#     )
+
+# ============================================================
+# Critical Alerts
+# ============================================================
+
+@router.get(
+    "/critical",
+    response_model=AlertListResponse
+)
+async def critical_alerts():
+
+    alerts = ai_service.get_critical_alerts()
+
+    return AlertListResponse(
+
+        success=True,
+
+        message="Critical alerts.",
+
+        data=alerts
+
+    )
+
+@router.get(
+    "/warnings",
+    response_model=AlertListResponse
+)
+async def warnings():
+
+    return AlertListResponse(
+
+        success=True,
+
+        message="Warning alerts.",
+
+        data=ai_service.get_warning_alerts()
+
+    )
+
+# ============================================================
+# Search Alerts
+# ============================================================
+
+@router.get(
+    "/search/{keyword}",
+    response_model=AlertListResponse
+)
+async def search_alerts(
+    keyword: str
+):
+
+    return AlertListResponse(
+
+        success=True,
+
+        message="Search completed.",
+
+        data=ai_service.search_alerts(keyword)
+
+    )
+
+# ============================================================
+# Archived Alerts
+# ============================================================
+
+@router.get(
+    "/archive/{date}"
+)
+async def archive(
+
+    date: str
+
+):
+
+    if ai_service.archive_storage is None:
+
+        raise HTTPException(
+
+            status_code=503,
+
+            detail="Archive unavailable."
+
+        )
+
+    return {
+
+        "success": True,
+
+        "data": ai_service.archive_storage.load_alerts(
+
+            date
+
+        )
+
+    }
+
+# ============================================================
+# Resolve All Alerts
+# ============================================================
+
+@router.put(
+    "/resolve/all"
+)
+async def resolve_all():
+
+    total = ai_service.resolve_all_alerts()
+
+    return {
+
+        "success": True,
+
+        "message": f"{total} alerts resolved."
+
+    }
+
+# ============================================================
+# Reset Alerts
+# ============================================================
+
+@router.post(
+    "/reset"
+)
+async def reset():
+
+    ai_service.reset_alerts()
+
+    return {
+
+        "success": True,
+
+        "message": "Alerts reset."
+
+    }
 
 # ============================================================
 # Create Alert
@@ -170,10 +349,37 @@ async def delete_alert(
         )
 
     return {
+
         "success": True,
-        "message": "Alert deleted successfully.",
-        "data": {}
+
+        "message": "Alert deleted.",
+
+        "deleted_alert_id": alert_id
+
     }
+
+# ============================================================
+# Health
+# ============================================================
+
+@router.get("/health")
+async def health():
+
+    return {
+
+        "status": "Healthy",
+
+        "alerts":
+
+            len(ai_service.get_alerts())
+
+    }
+
+# Future
+#
+# notification_service.broadcast_alert_update()
+#
+# whenever an alert changes.
 
 # ============================================================
 # Alert Statistics
@@ -188,7 +394,36 @@ async def alert_summary():
     Returns alert statistics.
     """
 
-    summary = ai_service.get_alert_statistics()
+    summary = {
+
+        **ai_service.get_alert_statistics(),
+
+        "current_alerts":
+
+            len(
+
+                ai_service.get_alerts()
+
+            ),
+
+        "critical":
+
+            len(
+
+                ai_service.get_critical_alerts()
+
+            ),
+
+        "warnings":
+
+            len(
+
+                ai_service.get_warning_alerts()
+
+            )
+
+    }
+
 
     return {
         "success": True,

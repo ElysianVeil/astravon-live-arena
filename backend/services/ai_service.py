@@ -22,24 +22,24 @@ from backend.schemas.statistics import StatisticsRequest
 
 from backend.utils.logger import get_logger
 
-from backend.utils.constants import (
-    DENSITY_LOW,
-    DEFAULT_TEMPERATURE,
-    DEFAULT_HUMIDITY,
-    DEFAULT_HEAT_INDEX,
-    RISK_LOW
-)
+# from backend.utils.constants import (
+#     DENSITY_LOW,
+#     DEFAULT_TEMPERATURE,
+#     DEFAULT_HUMIDITY,
+#     DEFAULT_HEAT_INDEX,
+#     RISK_LOW
+# )
 
 from backend.utils.validators import (
     validate_confidence,
     validate_risk_score
 )
 
-from backend.utils.helpers import (
-    calculate_risk_level,
-    calculate_density,
-    calculate_heat_index
-)
+# from backend.utils.helpers import (
+#     calculate_risk_level,
+#     calculate_density,
+#     calculate_heat_index
+# )
 
 
 class AIService:
@@ -56,50 +56,50 @@ class AIService:
         "AIService"
     )
 
-    def __init__(self):
+    def __init__(
+        self,
+        statistics_manager=None,
+        alert_manager=None,
+        camera_manager=None,
+        notification_service=None,
+        archive_storage=None
+    ):
 
-        self.current_statistics = {
-            "id": 0,
+        self.statistics_manager = statistics_manager
+        self.alert_manager = alert_manager
+        self.camera_manager = camera_manager
+        self.notification_service = notification_service
+        self.archive_storage = archive_storage
+       # ========================================================
+        # Runtime State
+        # ========================================================
 
-            # Camera
-            "camera_id": "",
-            "camera_name": "",
-            "venue": "",
-            "city": "",
-            "country": "",
-            "latitude": 0.0,
-            "longitude": 0.0,
+        self.current_detection = {}
 
-            # Crowd
-            "people_count": 0,
-            "occupancy": 0,
-            "density": DENSITY_LOW,
+        self.current_statistics = {}
 
-            # Weather
-            "temperature": DEFAULT_TEMPERATURE,
-            "humidity": DEFAULT_HUMIDITY,
-            "heat_index": DEFAULT_HEAT_INDEX,
-            "wind_speed": 0.0,
-            "weather_code": 0,
+        self.current_alerts = []
 
-            # Risk
-            "risk_score": 0,
-            "risk_level": RISK_LOW,
+        self.active_cameras = {}
 
-            # Detection
-            "detected_objects": 0,
-            "confidence": 0.0,
-
-            # Performance
-            "processing_time": 0.0,
-            "fps": 0.0,
-
-            "created_at": datetime.now().isoformat()
-        }
-
+        # Historical snapshots
         self.statistics_history = []
 
-        self.alerts = []
+        # Current risk cache
+        self.current_risk = {
+            "risk_score": 0,
+            "risk_level": "Low"
+        }
+
+        self.engine_status = {
+            "status": "Running",
+            "started_at": datetime.utcnow().isoformat(),
+            "processed_frames": 0,
+            "statistics_generated": 0,
+            "detections_processed": 0
+        }
+        
+
 
     # ========================================================
     # Detection
@@ -112,6 +112,9 @@ class AIService:
         """
         Processes AI detection data.
         """
+        if not validate_confidence(request.confidence):
+            raise ValueError("Invalid confidence")
+
         if not validate_risk_score(
             request.risk_score
         ):
@@ -128,15 +131,18 @@ class AIService:
             "Processing AI detection data"
         )
 
-        self.current_statistics = {
-            "id": len(self.statistics_history) + 1,
+        self.current_detection = {
             "camera_id": request.camera_id,
             "camera_name": request.camera_name,
+
             "venue": request.venue,
+
             "city": request.city,
             "country": request.country,
+
             "latitude": request.latitude,
             "longitude": request.longitude,
+
             "people_count": request.people_count,
             "occupancy": request.occupancy,
             "density": request.density,
@@ -147,6 +153,7 @@ class AIService:
 
             "wind_speed": request.wind_speed,
             "weather_code": request.weather_code,
+            "weather_desc": request.weather_desc,
 
             "risk_score": request.risk_score,
             "risk_level": request.risk_level,
@@ -159,16 +166,74 @@ class AIService:
 
             "timestamp": datetime.now().isoformat()
         }
+        self.engine_status["processed_frames"] += 1
 
-        self.statistics_history.append(
-            self.current_statistics.copy()
+        self.engine_status["detections_processed"] += 1
+
+        camera = self.active_cameras.setdefault(
+
+            request.camera_id,
+
+            {}
+
+        )
+
+        camera.update({
+
+            "camera_name": request.camera_name,
+
+            "last_detection": datetime.utcnow().isoformat(),
+
+            "people": request.people_count,
+
+            "fps": request.fps,
+
+            "risk": request.risk_score,
+
+            "connected": True
+
+        })
+
+        if self.statistics_manager:
+
+            self.statistics_manager.add_statistics(
+                self.current_detection.copy()
+            )
+
+        if self.archive_storage:
+
+            self.archive_storage.archive_detection(
+                self.current_detection
+            )
+            
+
+        if self.notification_service:
+
+            self.notification_service.broadcast_detection(
+
+                self.current_detection
+
+            )
+
+        self.evaluate_detection_alerts()
+
+        self.logger.info(
+
+            f"[{request.camera_name}] "
+
+            f"People={request.people_count} "
+
+            f"Risk={request.risk_score} "
+
+            f"FPS={request.fps}"
+
         )
 
         self.logger.info(
             "AI detection completed"
         )
 
-        return self.current_statistics
+        return self.current_detection
     
     # ========================================================
     # Process Statistics
@@ -182,7 +247,7 @@ class AIService:
         Processes AI detection data.
         """
         if not validate_risk_score(
-            request.risk_score
+            request.risk["risk_score"]
         ):
 
             self.logger.warning(
@@ -197,63 +262,54 @@ class AIService:
             "Processing AI detection data"
         )
 
-        self.current_statistics = {
-            "id": len(self.statistics_history) + 1,
-
-            # =====================================================
-            # Camera Information
-            # =====================================================
-            "camera_id": request.camera_id,
-            "camera_name": request.camera_name,
-            "venue": request.venue,
-            "city": request.city,
-            "country": request.country,
-            "latitude": request.latitude,
-            "longitude": request.longitude,
-
-            # =====================================================
-            # Crowd Statistics
-            # =====================================================
-            "people_count": request.people_count,
-            "occupancy": request.occupancy,
-            "density": request.density,
-
-            # =====================================================
-            # Weather
-            # =====================================================
-            "temperature": request.temperature,
-            "humidity": request.humidity,
-            "heat_index": request.heat_index,
-            "wind_speed": request.wind_speed,
-            "weather_code": request.weather_code,
-
-            # =====================================================
-            # Risk Analysis
-            # =====================================================
-            "risk_score": request.risk_score,
-            "risk_level": request.risk_level,
-
-            # =====================================================
-            # Detection
-            # =====================================================
-            "detected_objects": request.detected_objects,
-            "confidence": request.confidence,
-
-            # =====================================================
-            # Performance
-            # =====================================================
-            "processing_time": request.processing_time,
-            "fps": request.fps,
-
-            # =====================================================
-            # Timestamp
-            # =====================================================
-            "created_at": datetime.now().isoformat()
-        }
+        self.current_statistics = request.model_dump()
 
         self.statistics_history.append(
             self.current_statistics.copy()
         )
+
+        self.current_risk = self.current_statistics.get(
+            "risk",
+            {}
+        )
+
+        self.engine_status["statistics_generated"] += 1
+
+        self.engine_status["last_statistics"] = datetime.utcnow().isoformat()
+
+        if self.camera_manager:
+
+            self.camera_manager.update_statistics(
+
+                camera_id = self.current_detection.get(
+                    "camera_id",
+                    "unknown"
+                ),
+
+                statistics=self.current_statistics
+            )
+
+            self.statistics_manager.add_statistics(
+                self.current_statistics.copy()
+            )
+        
+        if self.notification_service:
+
+            self.notification_service.statistics_update(
+
+                self.current_statistics
+
+            )
+
+        if self.archive_storage:
+
+            self.archive_storage.archive_statistics(
+
+                self.current_statistics
+
+            )
+
+        self.evaluate_statistics_alerts()
 
         self.logger.info(
             "AI detection completed"
@@ -261,6 +317,129 @@ class AIService:
 
         return self.current_statistics
 
+
+    # ========================================================
+    # Automatic Detection Alerts
+    # ========================================================
+
+    def evaluate_detection_alerts(self):
+
+        if not self.alert_manager:
+
+            return
+
+        risk = self.current_detection.get(
+            "risk_score",
+            0
+        )
+
+        people = self.current_detection.get(
+            "people_count",
+            0
+        )
+
+        if risk >= 80:
+
+            self.alert_manager.create(
+
+                title="Critical Crowd Risk",
+
+                severity="Critical",
+
+                description="AI detected extremely dangerous conditions."
+
+            )
+
+        elif people >= 200:
+
+            self.alert_manager.create(
+
+                title="High Occupancy",
+
+                severity="Warning",
+
+                description="Crowd approaching capacity."
+
+            )
+
+    # ========================================================
+    # Automatic Statistics Alerts
+    # ========================================================
+
+    def evaluate_statistics_alerts(self):
+
+        if not self.alert_manager:
+
+            return
+
+        risk = (
+            self.current_statistics
+            .get("risk", {})
+            .get("risk_score", 0)
+        )
+
+        congestion = (
+            self.current_statistics
+            .get("congestion", {})
+            .get("current_score", 0)
+        )
+
+        occupancy = (
+            self.current_statistics
+            .get("occupancy", {})
+            .get("occupancy_percentage", 0)
+        )
+        if risk >= 80:
+
+            self.alert_manager.create(
+
+                title="Critical Risk",
+
+                severity="Critical",
+
+                description="Overall venue risk is critical."
+
+            )
+
+        elif congestion >= 70:
+
+            self.alert_manager.create(
+
+                title="Heavy Congestion",
+
+                severity="Warning",
+
+                description="Crowd congestion becoming dangerous."
+
+            )
+
+        elif occupancy >= 95:
+
+            self.alert_manager.create(
+
+                title="Venue Full",
+
+                severity="Critical",
+
+                description="Venue is almost at capacity."
+
+            )
+
+    def get_engine_status(self):
+
+        return self.engine_status
+
+    def get_active_cameras(self):
+
+        return self.active_cameras
+
+
+    def get_camera_status(
+        self,
+        camera_id: str
+    ):
+
+        return self.active_cameras.get(camera_id)
 
     # ========================================================
     # Statistics
@@ -277,162 +456,279 @@ class AIService:
 
         return self.process_statistics(request)
 
-    def get_statistics_history(self):
+    # def get_statistics_history(self):
 
-        return self.statistics_history
+    #     return self.statistics_history
+
+    # def delete_statistics(
+    #     self,
+    #     statistics_id: int
+    # ) -> bool:
+
+    #     if statistics_id < len(self.statistics_history):
+
+    #         del self.statistics_history[statistics_id]
+
+    #         return True
+
+    #     return False
+
+    # ========================================================
+    # Dashboard Values
+    # ========================================================
+
+    def get_engine(self):
+
+        return self.current_statistics.get(
+            "engine",
+            {}
+        )
+
+
+    def get_camera(self):
+
+        return self.current_statistics.get(
+            "camera",
+            {}
+        )
+
+
+    def get_detection(self):
+
+        return self.current_statistics.get(
+            "detection",
+            {}
+        )
+
+
+    def get_weather(self):
+
+        return self.current_statistics.get(
+            "weather",
+            {}
+        )
+
+
+    def get_density(self):
+
+        return self.current_statistics.get(
+            "density",
+            {}
+        )
+
+
+    def get_occupancy(self):
+
+        return self.current_statistics.get(
+            "occupancy",
+            {}
+        )
+
+
+    def get_congestion(self):
+
+        return self.current_statistics.get(
+            "congestion",
+            {}
+        )
+
+
+    def get_risk(self):
+
+        return self.current_statistics.get(
+            "risk",
+            {}
+        )
+
+
+    def get_trends(self):
+
+        return self.current_statistics.get(
+            "trends",
+            {}
+        )
+
+
+    def get_performance(self):
+
+        return self.current_statistics.get(
+            "performance",
+            {}
+        )
+    
+    # ============================================================
+    # Delete Statistics
+    # ============================================================
 
     def delete_statistics(
         self,
         statistics_id: int
     ) -> bool:
 
-        if statistics_id < len(self.statistics_history):
+        if (
+            statistics_id < 1
+            or
+            statistics_id > len(self.statistics_history)
+        ):
+            return False
 
-            del self.statistics_history[statistics_id]
+        del self.statistics_history[
+            statistics_id - 1
+        ]
 
-            return True
-
-        return False
-
-    # ========================================================
-    # Dashboard Values
-    # ========================================================
-
-    def get_density(self):
-
-        return {
-            "density": self.current_statistics["density"]
-        }
+        return True
+    
+    # ============================================================
+    # Current Temperature
+    # ============================================================
 
     def get_temperature(self):
 
         return {
-            "temperature": self.current_statistics["temperature"]
+            "temperature":
+                self.current_detection.get(
+                    "temperature",
+                    0
+                ),
+            "unit": "°C"
         }
+    
+    # ============================================================
+    # Statistics History
+    # ============================================================
 
-    def get_occupancy(self):
+    def get_statistics_history(self):
+        """
+        Returns historical statistics.
+        """
 
-        return {
-            "occupancy": self.current_statistics["occupancy"]
-        }
-
-    def get_current_risk(self):
-
-        return {
-            "risk_score": self.current_statistics["risk_score"],
-            "risk_level": self.current_statistics["risk_level"]
-        }
-
-    def get_highest_crowd(self):
-
-        if not self.statistics_history:
-
-            return {
-                "people_count": 0
-            }
-
-        highest = max(
-            self.statistics_history,
-            key=lambda item: item["people_count"]
-        )
-
-        return highest
+        return self.statistics_history 
+       
+    # ============================================================
+    # Statistics Summary
+    # ============================================================
 
     def get_statistics_summary(self):
 
-        total_records = len(self.statistics_history)
+        history = self.statistics_history
+
+        if not history:
+
+            return {
+
+                "records": 0,
+
+                "average_people": 0,
+
+                "highest_people": 0,
+
+                "average_temperature": 0,
+
+                "highest_risk": 0
+
+            }
+
+        people = [
+
+            s["detection"]["people_count"]
+
+            for s in history
+
+        ]
+
+        temperatures = [
+
+            s["weather"]["temperature"]
+
+            for s in history
+
+        ]
+
+        risks = [
+
+            s["risk"]["risk_score"]
+
+            for s in history
+
+        ]
 
         return {
-            "records": total_records,
-            "latest": self.current_statistics
+
+            "records": len(history),
+
+            "average_people":
+
+                sum(people)/len(people),
+
+            "highest_people":
+
+                max(people),
+
+            "average_temperature":
+
+                sum(temperatures)/len(temperatures),
+
+            "highest_risk":
+
+                max(risks)
+
         }
+    
+    # ============================================================
+    # Highest Crowd
+    # ============================================================
 
-    # ========================================================
-    # Alerts
-    # ========================================================
+    def get_highest_crowd(self):
+        """
+        Returns the highest crowd count.
+        """
 
-    def get_alerts(self):
+        history = self.statistics_history
 
-        return self.alerts
+        if not history:
 
-    def create_alert(
-        self,
-        request: AlertCreateRequest
-    ):
+            return {
 
-        alert = {
-            "id": len(self.alerts) + 1,
-            "title": request.title,
-            "severity": request.severity,
-            "description": request.description,
-            "resolved": False,
-            "created_at": datetime.now().isoformat()
-        }
+                "people_count":0,
 
-        self.alerts.append(alert)
+                "timestamp":None
 
-        return alert
+            }
 
-    def get_alert(
-        self,
-        alert_id: int
-    ):
+        highest = max(
 
-        for alert in self.alerts:
+            history,
 
-            if alert["id"] == alert_id:
+            key=lambda x:
 
-                return alert
+                x["detection"]["people_count"]
 
-        return None
-
-    def resolve_alert(
-        self,
-        alert_id: int
-    ):
-
-        alert = self.get_alert(alert_id)
-
-        if alert:
-
-            alert["resolved"] = True
-
-        return alert
-
-    def delete_alert(
-        self,
-        alert_id: int
-    ):
-
-        alert = self.get_alert(alert_id)
-
-        if alert:
-
-            self.alerts.remove(alert)
-
-            return True
-
-        return False
-
-    def get_alert_statistics(self):
+        )
 
         return {
-            "total": len(self.alerts),
-            "active": len(
-                [
-                    a
-                    for a in self.alerts
-                    if not a["resolved"]
-                ]
-            ),
-            "resolved": len(
-                [
-                    a
-                    for a in self.alerts
-                    if a["resolved"]
-                ]
-            )
+
+            "people_count":
+
+                highest["detection"]["people_count"],
+
+            "timestamp":
+
+                highest["timestamp"]
+
         }
+    
+    # ============================================================
+    # Current Risk
+    # ============================================================
+
+    def get_current_risk(self):
+        """
+        Returns current crowd risk.
+        """
+
+        return self.current_risk
+    
+
 
     # ========================================================
     # Simulation
@@ -443,39 +739,26 @@ class AIService:
         Reset demo data.
         """
 
-        self.current_statistics = {
-            "id": 0,
+        self.current_detection={}
 
-            # Camera
-            "camera_id": "",
-            "camera_name": "",
-            "venue": "",
-            "city": "",
-            "country": "",
-            "latitude": 0.0,
-            "longitude": 0.0,
+        self.current_statistics={}
 
-            # Crowd
-            "people_count": 0,
-            "density": "Low",
-            "occupancy": 0,
+        self.current_alerts=[]
 
-            # Weather
-            "temperature": 25.0,
-            "humidity": 50.0,
-            "heat_index": 27.0,
-            "wind_speed": 10.0,
-            "weather_code": 1,
+        self.active_cameras.clear()
 
-            # Risk
-            "risk_score": 0,
-            "risk_level": "Low",
+        self.engine_status={
 
-            "timestamp": datetime.now().isoformat()
+            "status":"Running",
+
+            "started_at":datetime.utcnow().isoformat(),
+
+            "processed_frames":0,
+
+            "statistics_generated":0,
+
+            "detections_processed":0
+
         }
-
-        self.statistics_history.clear()
-
-        self.alerts.clear()
 
         return True

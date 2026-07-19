@@ -1,0 +1,614 @@
+Your current `AIService` is already a solid foundation, but it is acting as **too many things at once**:
+
+* AI processing
+* Statistics manager
+* Alert manager
+* In-memory database
+* Dashboard service
+* History service
+* Simulation service
+
+For a presentation it works, but for the upgraded backend we designed (CameraManager, StatisticsManager, AlertManager, Cache, Storage, NotificationService), the service should become an **orchestrator** instead of owning everything.
+
+## Overall architecture
+
+Instead of
+
+```
+API
+ │
+ ▼
+AIService
+ ├── statistics_history
+ ├── alerts
+ ├── current_statistics
+ └── processing
+```
+
+make it
+
+```
+                FastAPI
+                   │
+                   ▼
+              AIService
+         ┌────────┼─────────┐
+         ▼        ▼         ▼
+ CameraManager StatisticsManager AlertManager
+         │        │         │
+         ▼        ▼         ▼
+ FrameCache StatisticsCache AlertCache
+         │
+         ▼
+ NotificationService
+         │
+         ▼
+ ArchiveStorage
+```
+
+This reduces AIService to around 250 lines instead of 700+.
+
+---
+
+# 1. Inject Managers
+
+Instead of
+
+```python
+def __init__(self):
+```
+
+replace with
+
+```python
+def __init__(
+    self,
+    statistics_manager=None,
+    alert_manager=None,
+    camera_manager=None,
+    notification_service=None,
+    archive_storage=None
+):
+```
+
+Then
+
+```python
+self.statistics_manager = statistics_manager
+self.alert_manager = alert_manager
+self.camera_manager = camera_manager
+self.notification_service = notification_service
+self.archive_storage = archive_storage
+```
+
+Now AIService becomes independent.
+
+---
+
+# 2. Remove history ownership
+
+Instead of
+
+```python
+self.statistics_history=[]
+```
+
+statistics should belong to
+
+```
+StatisticsManager
+```
+
+Replace
+
+```python
+self.statistics_history.append(...)
+```
+
+with
+
+```python
+if self.statistics_manager:
+
+    self.statistics_manager.add_statistics(
+        self.current_statistics
+    )
+```
+
+---
+
+# 3. Remove alert ownership
+
+Instead of
+
+```python
+self.alerts=[]
+```
+
+use
+
+```python
+self.alert_manager.create(...)
+```
+
+instead of
+
+```python
+self.alerts.append(alert)
+```
+
+---
+
+# 4. Store camera statistics
+
+Inside
+
+```python
+process_statistics()
+```
+
+after statistics are generated
+
+add
+
+```python
+if self.camera_manager:
+
+    self.camera_manager.update_statistics(
+
+        camera_id=request.camera.camera_id,
+
+        fps=request.performance.current_fps,
+
+        people=request.detection.people_count,
+
+        congestion=request.congestion.score,
+
+        risk=request.risk.risk_score
+
+    )
+```
+
+Now every camera automatically updates.
+
+---
+
+# 5. Automatically archive
+
+Instead of only
+
+```python
+return self.current_statistics
+```
+
+also
+
+```python
+if self.archive_storage:
+
+    self.archive_storage.store_statistics(
+        self.current_statistics
+    )
+```
+
+Now every statistics packet is archived.
+
+---
+
+# 6. Broadcast automatically
+
+Instead of API routes manually sending websocket messages
+
+AIService should.
+
+At end of processing
+
+```python
+if self.notification_service:
+
+    await self.notification_service.statistics_update(
+
+        self.current_statistics
+
+    )
+```
+
+Now backend updates automatically.
+
+---
+
+# 7. Automatic alert generation
+
+Currently alerts are manual.
+
+Instead
+
+```
+Risk > 80
+
+↓
+
+AIService
+
+↓
+
+AlertManager
+
+↓
+
+NotificationService
+
+↓
+
+Websocket
+```
+
+Example
+
+```python
+if request.risk["risk_score"] >= 80:
+
+    self.alert_manager.create(
+
+        title="High Crowd Risk",
+
+        severity="critical",
+
+        description="Immediate intervention required."
+
+    )
+```
+
+---
+
+# 8. Camera heartbeat
+
+Every statistics packet means
+
+```
+camera alive
+```
+
+So
+
+```python
+self.camera_manager.heartbeat(
+    request.camera.camera_id
+)
+```
+
+This enables
+
+```
+Online cameras
+
+Offline cameras
+
+Last seen
+
+Dropped connections
+```
+
+---
+
+# 9. Trend calculations
+
+Instead of frontend calculating trends
+
+AIService should.
+
+Add
+
+```python
+def calculate_trends(self):
+```
+
+Returns
+
+```
+People ↑
+
+Temperature ↓
+
+Occupancy ↑
+
+Risk ↑
+
+FPS ↓
+```
+
+Dashboard becomes smarter.
+
+---
+
+# 10. Auto health monitoring
+
+Every statistics packet
+
+Check
+
+```
+FPS
+
+Latency
+
+Dropped Frames
+
+AI Status
+```
+
+Example
+
+```python
+if request.performance.current_fps < 5:
+
+    create warning
+```
+
+Likewise
+
+```
+processing_time > 300ms
+
+↓
+
+Performance alert
+```
+
+---
+
+# 11. Multi-camera aggregation
+
+Instead of
+
+```
+current_statistics
+```
+
+support
+
+```python
+self.active_cameras = {}
+```
+
+Every camera
+
+```
+camera_id
+
+↓
+
+statistics
+```
+
+Example
+
+```python
+self.active_cameras[request.camera.camera_id] = \
+    self.current_statistics
+```
+
+Then dashboard can show
+
+```
+Camera A
+
+Camera B
+
+Camera C
+
+Camera D
+```
+
+simultaneously.
+
+---
+
+# 12. AI pipeline timings
+
+Instead of
+
+```
+processing_time
+```
+
+store
+
+```python
+{
+
+"detector":22,
+
+"tracker":4,
+
+"movement":2,
+
+"density":1,
+
+"occupancy":1,
+
+"risk":2,
+
+"drawing":6
+
+}
+```
+
+Frontend can produce
+
+```
+Performance graphs
+```
+
+---
+
+# 13. Live system summary
+
+Add
+
+```python
+def get_system_status(self):
+```
+
+Returns
+
+```python
+{
+
+"online_cameras":5,
+
+"people":241,
+
+"alerts":3,
+
+"critical_alerts":1,
+
+"average_fps":28.7,
+
+"average_latency":48,
+
+"average_risk":22.4,
+
+"uptime":"2h 15m"
+
+}
+```
+
+One endpoint.
+
+Whole dashboard.
+
+---
+
+# 14. Performance cache
+
+Instead of recomputing
+
+```
+Highest crowd
+
+Average occupancy
+
+Average risk
+```
+
+every request
+
+cache them
+
+using
+
+```
+StatisticsCache
+```
+
+---
+
+# 15. Event recording
+
+AIService should automatically create events.
+
+```
+Risk changes
+
+↓
+
+Event
+
+```
+
+```
+Low
+
+↓
+
+Medium
+
+↓
+
+High
+
+↓
+
+Critical
+```
+
+Later reports become
+
+```
+17:32
+
+Risk became HIGH
+
+17:40
+
+Emergency vehicle dispatched
+
+17:48
+
+Crowd normalized
+```
+
+without writing manual code.
+
+---
+
+# 16. Automatic report snapshots
+
+Every
+
+```
+60 seconds
+```
+
+or
+
+```
+500 frames
+```
+
+AIService can call
+
+```python
+archive_storage.save_snapshot(...)
+```
+
+Later
+
+```
+Replay timeline
+
+↓
+
+Graphs
+
+↓
+
+Historical analytics
+```
+
+become possible.
+
+---
+
+## Final architecture after these enhancements
+
+```text
+                    AI Engine
+                        │
+                        ▼
+                  AIService
+                        │
+ ┌──────────────────────┼──────────────────────────┐
+ ▼                      ▼                          ▼
+CameraManager     StatisticsManager          AlertManager
+ ▼                      ▼                          ▼
+FrameCache        StatisticsCache           AlertCache
+ ▼                      ▼                          ▼
+ArchiveStorage    NotificationService     WebSocketManager
+                        │
+                        ▼
+                  FastAPI Dashboard
+```
+
+At that point, your backend would move beyond being a simple API receiver. It would function as a **real-time command center** that continuously ingests AI output, tracks multiple cameras, manages alerts and events, archives operational history, monitors system health, and streams synchronized updates to the frontend. That's the kind of architecture expected in professional surveillance, crowd analytics, and smart-city platforms, while still remaining compact enough to grow incrementally.

@@ -34,9 +34,28 @@ class ReportService:
         "ReportService"
     )
 
-    def __init__(self):
+    def __init__(
+        self,
+        ai_service=None,
+        statistics_manager=None,
+        event_service=None,
+        archive_storage=None,
+        notification_service=None
+    ):
 
-        self.reports: List[dict] = []
+        self.ai_service = ai_service
+        self.statistics_manager = statistics_manager
+        self.event_service = event_service
+        self.archive_storage = archive_storage
+        self.notification_service = notification_service
+
+        self.reports = []
+
+        self.report_history = []
+
+        self.total_reports_generated = 0
+
+        self.current_report = None
 
     # ========================================================
     # Generate Report
@@ -53,6 +72,50 @@ class ReportService:
         self.logger.info(
             "Generating report"
         )
+        started = datetime.utcnow()
+
+        report_data = request.data
+
+        if report_data is None:
+
+            report_data = {
+
+                "statistics": (
+
+                    self.statistics_manager.dashboard()
+
+                    if self.statistics_manager
+
+                    else {}
+
+                ),
+
+                "event": (
+
+                    self.event_service.get_current_event()
+
+                    if self.event_service
+
+                    else {}
+
+                ),
+
+                "engine": (
+
+                    self.ai_service.get_engine()
+
+                    if self.ai_service
+
+                    else {}
+
+                )
+
+            }
+
+        finished = datetime.utcnow()
+        generation_time = (
+            finished-started
+        ).total_seconds()*1000
 
         report = {
             "id": len(self.reports) + 1,
@@ -66,10 +129,49 @@ class ReportService:
             ),
             "status": "Completed",
             "summary": request.summary,
-            "data": request.data
+            "data": report_data,
+            "updated_at": datetime.utcnow().isoformat(),
+            "generation_time_ms": generation_time
+            
         }
 
+        
+
+        self.current_report = report
+
+        self.total_reports_generated += 1
+
         self.reports.append(report)
+
+        if self.archive_storage:
+
+            self.archive_storage.archive_report(
+
+                report
+
+            )
+
+        if self.notification_service:
+
+            self.notification_service.broadcast_report(
+
+                report
+
+            )
+
+        self.logger.info(
+
+            f"Generating "
+
+            f"{request.report_type} "
+
+            f"report "
+
+            f"for "
+
+            f"{request.event}"
+
+        )
 
         self.logger.info(
             "Report generated successfully"
@@ -138,6 +240,23 @@ class ReportService:
         report = self.get_report(report_id)
 
         if report:
+            if self.archive_storage:
+
+                self.archive_storage.archive_deleted_report(
+
+                    report
+
+                )
+
+            self.report_history.append({
+
+                "report_id": report["id"],
+
+                "action":"deleted",
+
+                "timestamp": datetime.utcnow().isoformat()
+
+            })
 
             self.reports.remove(report)
 
@@ -164,9 +283,15 @@ class ReportService:
             return None
 
         return {
-            "report_id": report_id,
-            "file_name": f"report_{report_id}.json",
-            "download_ready": True
+
+            "report": report,
+
+            "download_ready": True,
+
+            "file_name": report["file_name"],
+
+            "generated_at": report["generated_at"]
+
         }
 
     # ========================================================
@@ -179,9 +304,15 @@ class ReportService:
         """
 
         return {
+
+            "status":"Export Complete",
+
+            "exported_at": datetime.utcnow().isoformat(),
+
             "total_reports": len(self.reports),
-            "status": "Export Complete",
-            "exported_at": datetime.now().isoformat()
+
+            "reports": self.reports
+
         }
 
     # ========================================================
@@ -222,10 +353,103 @@ class ReportService:
 
             for report in self.reports
 
-            if keyword in report["title"].lower()
+            if (
+
+                keyword in report["title"].lower()
+
+                or
+
+                keyword in report["event"].lower()
+
+                or
+
+                keyword in report["report_type"].lower()
+
+            )
 
         ]
 
+    def get_reports_by_type(
+
+        self,
+
+        report_type: str
+
+    ):
+
+        return [
+
+            report
+
+            for report in self.reports
+
+            if report["report_type"] == report_type
+
+        ]
+
+    def get_reports_by_event(
+
+        self,
+
+        event: str
+
+    ):
+
+        return [
+
+            report
+
+            for report in self.reports
+
+            if report["event"] == event
+
+        ]
+    
+    def get_reports_by_author(
+
+        self,
+
+        author: str
+
+    ):
+
+        return [
+
+            report
+
+            for report in self.reports
+
+            if report["generated_by"] == author
+
+        ]
+    
+    def get_current_report(self):
+
+      return self.current_report
+    
+    def get_report_history(self):
+
+        return self.report_history
+    
+    def get_total_generated(self):
+
+        return self.total_reports_generated
+    
+    def dashboard(self):
+
+        return {
+
+            "current_report": self.current_report,
+
+            "statistics": self.summary(),
+
+            "latest_report": self.latest_report(),
+
+            "total_generated":
+
+                self.total_reports_generated
+
+        }
     # ========================================================
     # Report Statistics
     # ========================================================
@@ -260,5 +484,11 @@ class ReportService:
         """
 
         self.reports.clear()
+
+        self.report_history.clear()
+
+        self.current_report = None
+
+        self.total_reports_generated = 0
 
         return True

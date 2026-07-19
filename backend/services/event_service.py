@@ -44,7 +44,16 @@ class EventService:
         "EventService"
     )
 
-    def __init__(self):
+    def __init__(
+        self,
+        notification_service=None,
+        archive_storage=None,
+        statistics_manager=None
+    ):
+
+        self.notification_service = notification_service
+        self.archive_storage = archive_storage
+        self.statistics_manager = statistics_manager
 
         self.events: List[dict] = [
             {
@@ -58,22 +67,33 @@ class EventService:
             }
         ]
 
+        # ========================================================
+        # Runtime State
+        # ========================================================
+
+        self.current_event = self.events[0]
+
+        self.event_history = []
+
+        self.total_events_created = len(self.events)
+
     # ========================================================
-    # Current Event
+    # Runtime
     # ========================================================
 
-    def get_current_event(self) -> dict:
-        """
-        Returns the currently active event.
-        """
+    def get_current_event(self):
 
-        for event in self.events:
+        return self.current_event
 
-            if event["status"] == "active":
 
-                return event
+    def get_event_history(self):
 
-        return {}
+        return self.event_history
+
+
+    def get_total_events_created(self):
+
+        return self.total_events_created
 
     # ========================================================
     # Event List
@@ -105,6 +125,42 @@ class EventService:
                 return event
 
         return None
+    
+    def get_events_by_status(
+
+        self,
+
+        status: str
+
+    ):
+
+        return [
+
+            event
+
+            for event in self.events
+
+            if event["status"] == status
+
+        ]
+    
+    def get_events_by_venue(
+
+        self,
+
+        venue: str
+
+    ):
+
+        return [
+
+            event
+
+            for event in self.events
+
+            if event["venue"] == venue
+
+        ]
 
     # ========================================================
     # Create Event
@@ -146,8 +202,40 @@ class EventService:
 
         self.events.append(event)
 
+        self.total_events_created += 1
+
+        self.event_history.append({
+
+            "action": "created",
+
+            "event_id": event["id"],
+
+            "timestamp": datetime.utcnow().isoformat()
+
+        })
+
+        if self.notification_service:
+
+            self.notification_service.broadcast_event(event)
+
+        if self.archive_storage:
+
+            self.archive_storage.archive_event(event)
+
         self.logger.info(
             f"Event created: {event['name']}"
+        )
+
+        self.logger.info(
+
+            f"Creating event "
+
+            f"{request.name} "
+
+            f"({request.venue}) "
+
+            f"capacity={request.capacity}"
+
         )
 
         return event
@@ -165,6 +253,10 @@ class EventService:
         Updates an event.
         """
 
+        if not validate_capacity(request.capacity):
+
+            raise ValueError("Invalid capacity")
+
         event = self.get_event(event_id)
 
         if event is None:
@@ -175,6 +267,11 @@ class EventService:
         event["venue"] = request.venue
         event["mode"] = request.mode
         event["capacity"] = request.capacity
+        event["updated_at"] = datetime.utcnow().isoformat()
+
+        if self.notification_service:
+
+            self.notification_service.broadcast_event(event)
 
         return event
 
@@ -194,7 +291,11 @@ class EventService:
 
         if event:
 
-            self.events.remove(event)
+            event["deleted_at"] = datetime.utcnow().isoformat()
+
+            if self.archive_storage:
+
+                self.archive_storage.delete_archive(event)
 
             return True
 
@@ -214,7 +315,8 @@ class EventService:
 
         for event in self.events:
 
-            event["status"] = "completed"
+            event["status"] = STATUS_COMPLETED
+            event["ended_at"] = datetime.utcnow().isoformat()
 
         event = self.get_event(event_id)
 
@@ -222,7 +324,13 @@ class EventService:
 
             return None
 
-        event["status"] = "active"
+        event["status"] = STATUS_ACTIVE
+        event["started_at"] = datetime.utcnow().isoformat()
+
+        self.current_event = event
+        if self.notification_service:
+
+            self.notification_service.broadcast_event(event)
 
         return event
 
@@ -240,7 +348,11 @@ class EventService:
 
             return None
 
-        event["status"] = "completed"
+        event["status"] = STATUS_COMPLETED
+
+        event["ended_at"] = datetime.utcnow().isoformat()
+
+        self.current_event = {}
 
         return event
 
@@ -259,13 +371,13 @@ class EventService:
 
         for event in self.events:
 
-            if event["status"] == "active":
+            if event["status"] == STATUS_ACTIVE:
                 active += 1
 
-            elif event["status"] == "scheduled":
+            elif event["status"] == STATUS_SCHEDULED:
                 scheduled += 1
 
-            elif event["status"] == "completed":
+            elif event["status"] == STATUS_COMPLETED:
                 completed += 1
 
         return {
@@ -273,6 +385,24 @@ class EventService:
             "active_events": active,
             "scheduled_events": scheduled,
             "completed_events": completed
+        }
+    
+    def dashboard(self):
+
+        return {
+
+            "current_event": self.current_event,
+
+            "statistics": self.get_statistics(),
+
+            "total_events_created": self.total_events_created,
+
+            "active_events": self.get_events_by_status(
+
+                STATUS_ACTIVE
+
+            )
+
         }
 
     # ========================================================
@@ -296,4 +426,19 @@ class EventService:
             }
         ]
 
+        self.current_event = self.events[0]
+
+        self.event_history.clear()
+
+        self.total_events_created = 1
+
         return True
+    
+# Future:
+#
+# - TicketService
+# - CameraService
+# - ZoneService
+# - CrowdSimulationService
+# - WeatherService
+# - AIService

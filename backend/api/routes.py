@@ -15,6 +15,7 @@ Version:
 """
 
 from fastapi import APIRouter, HTTPException
+from datetime import datetime
 
 # ============================================================
 # Schemas
@@ -111,13 +112,32 @@ async def receive_detection(
     from the AI Engine.
     """
 
-    result = ai_service.process_detection(request)
+    try:
+        result = ai_service.process_detection(request)
 
-    return DetectionResponse(
-        success=True,
-        message="Detection processed successfully.",
-        data=result
-    )
+        ai_service.logger.debug(
+            "Detection processed successfully."
+        )
+
+        return DetectionResponse(
+            success=True,
+            message="Detection processed successfully.",
+            data=result
+        )
+    
+    except ValueError as e:
+
+        raise HTTPException(
+            status_code=400,
+            detail=str(e)
+        )
+
+    except Exception:
+
+        raise HTTPException(
+            status_code=500,
+            detail="Detection processing failed."
+        )
 
 
 # ============================================================
@@ -135,13 +155,28 @@ async def current_event():
     active event.
     """
 
-    event = event_service.get_current_event()
+    try:
+        event = event_service.get_current_event()
 
-    return EventResponse(
-        success=True,
-        message="Current event loaded.",
-        data=event
-    )
+        return EventResponse(
+            success=True,
+            message="Current event loaded.",
+            data=event
+        )
+    
+    except ValueError as e:
+
+        raise HTTPException(
+            status_code=400,
+            detail=str(e)
+        )
+
+    except Exception:
+
+        raise HTTPException(
+            status_code=500,
+            detail="Getting current event failed."
+        )
 
 
 # ============================================================
@@ -159,13 +194,89 @@ async def statistics():
     dashboard statistics.
     """
 
-    stats = ai_service.get_statistics()
+    try:
+        # print(ai_service.get_statistics())    
+        stats = ai_service.get_statistics()
 
-    return StatisticsResponse(
-        success=True,
-        message="Statistics retrieved.",
-        data=stats
-    )
+        return StatisticsResponse(
+            success=True,
+            message="Statistics retrieved.",
+            data=stats
+        )
+    
+    except ValueError as e:
+
+        raise HTTPException(
+            status_code=400,
+            detail=str(e)
+        )
+
+    except Exception:
+
+        raise HTTPException(
+            status_code=500,
+            detail="Statistics processing failed."
+        )
+    
+@router.get(
+    "/engine/status"
+)
+async def engine_status():
+
+    return {
+
+        "success": True,
+
+        "message": "Engine status.",
+
+        "data": ai_service.engine_status
+
+    }
+
+@router.get(
+    "/cameras/active"
+)
+async def active_cameras():
+
+    return {
+
+        "success": True,
+
+        "message": "Active cameras.",
+
+        "data": ai_service.active_cameras
+
+    }
+
+@router.get(
+    "/detection/latest"
+)
+async def latest_detection():
+
+    return {
+
+        "success": True,
+
+        "message": "Latest detection.",
+
+        "data": ai_service.current_detection
+
+    }
+
+@router.get(
+    "/statistics/latest"
+)
+async def latest_statistics():
+
+    return {
+
+        "success": True,
+
+        "message": "Latest statistics.",
+
+        "data": ai_service.current_statistics
+
+    }
 
 
 # ============================================================
@@ -181,13 +292,28 @@ async def reset_simulation():
     Resets the simulation.
     """
 
-    ai_service.reset()
+    try:
+        ai_service.reset()
 
-    return {
-        "success": True,
-        "message": "Simulation reset successfully.",
-        "data": {}
-    }
+        return {
+            "success": True,
+            "message": "Simulation reset successfully.",
+            "data": {}
+        }
+    
+    except ValueError as e:
+
+        raise HTTPException(
+            status_code=400,
+            detail=str(e)
+        )
+
+    except Exception:
+
+        raise HTTPException(
+            status_code=500,
+            detail="Resetting simulation failed."
+        )
 
 
 # ============================================================
@@ -227,13 +353,27 @@ async def info():
     """
 
     return {
+
         "success": True,
-        "message": "Astravon Live Arena Backend",
+
+        "message": "Backend information.",
+
         "data": {
-            "version": "1.0.0",
-            "api": "v1",
-            "framework": "FastAPI"
+
+            "application":"Astravon Live Arena",
+
+            "version":"1.0.0",
+
+            "api":"v1",
+
+            "framework":"FastAPI",
+
+            "status":"Production",
+
+            "timestamp":datetime.utcnow().isoformat()
+
         }
+
     }
 
 

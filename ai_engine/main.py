@@ -96,7 +96,7 @@ class AIEngine:
         Starts the AI Engine.
         """
 
-        logger.info("Starting AI Engine...")
+        logger.info("Starting the AI Engine...")
 
         self.metrics.engine_status = "Running"
 
@@ -111,7 +111,7 @@ class AIEngine:
         Stops the AI Engine.
         """
 
-        logger.info("Stopping AI Engine...")
+        logger.info("Stopping the AI Engine...")
 
         self.metrics.engine_status = "Stopped"
 

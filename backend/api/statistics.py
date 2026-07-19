@@ -90,6 +90,143 @@ async def create_statistics(
     )
 
 
+@router.post(
+    "/weather",
+    summary="Weather Statistics"
+)
+async def weather():
+
+    return {
+
+        "success": True,
+
+        "message": "Weather retrieved.",
+
+        "data": ai_service.get_weather()
+
+    }
+
+@router.get(
+    "/density"
+)
+async def density():
+
+    return {
+
+        "success": True,
+
+        "message": "Density retrieved.",
+
+        "data": ai_service.get_density()
+
+    }
+
+@router.get(
+    "/risk"
+)
+async def risk():
+
+    return {
+
+        "success": True,
+
+        "message": "Risk retrieved.",
+
+        "data": ai_service.get_risk()
+
+    }
+
+@router.get(
+    "/occupancy"
+)
+async def occupancy():
+
+    return {
+
+        "success": True,
+
+        "message": "Occupancy retrieved.",
+
+        "data": ai_service.get_occupancy()
+
+    }
+
+@router.get(
+    "/congestion"
+)
+async def congestion():
+
+    return {
+
+        "success": True,
+
+        "message": "Congestion retrieved.",
+
+        "data": ai_service.get_congestion()
+
+    }
+
+@router.get(
+    "/detection"
+)
+async def detection():
+
+    return {
+
+        "success": True,
+
+        "message": "Detection statistics.",
+
+        "data": ai_service.get_detection()
+
+    }
+
+@router.get(
+    "/camera"
+)
+async def camera():
+
+    return {
+
+        "success": True,
+
+        "message": "Camera statistics.",
+
+        "data": ai_service.get_camera()
+
+    }
+
+@router.get(
+    "/performance"
+)
+async def performance():
+
+    return {
+
+        "success": True,
+
+        "message": "Performance statistics.",
+
+        "data": ai_service.get_performance()
+
+    }
+
+@router.get(
+    "/engine"
+)
+async def engine():
+
+    return {
+
+        "success": True,
+
+        "message": "Engine status.",
+
+        "data": ai_service.get_engine()
+
+    }
+
+
 # ============================================================
 # Statistics History
 # ============================================================

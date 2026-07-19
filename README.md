@@ -2343,3 +2343,75 @@ If I were developing Astravon Live Arena, my order would be:
 6. 🚀 Then return to the AI engine and improve detection accuracy, tracking, and performance.
 
 This sequence minimizes rework. By stabilizing the UI and communication layers now, you'll be able to upgrade the AI engine—and later add multiple cameras—without repeatedly modifying the frontend. Given the direction of Astravon Live Arena, I think investing in the navigation and state architecture first will save you considerably more time than jumping straight into AI enhancements.
+
+
+backend/
+│
+├── requirements.txt
+├── main.py
+├── config.py
+│
+├── api/
+│   ├── routes.py
+│   ├── websocket.py
+│   ├── alerts.py
+│   ├── statistics.py
+│   ├── reports.py
+│   └── routes/
+│       └── routes.py
+│
+├── services/
+│   ├── ai_service.py
+│   ├── camera_service.py          ← NEW
+│   ├── event_service.py
+│   ├── notification_service.py    ← NEW
+│   ├── route_service.py
+│   └── report_service.py
+│
+├── managers/
+│   ├── camera_manager.py          ← NEW
+│   ├── stream_manager.py          ← NEW
+│   ├── statistics_manager.py      ← NEW
+│   ├── alert_manager.py           ← NEW
+│   └── websocket_manager.py       ← NEW
+│
+├── cache/
+│   ├── frame_cache.py             ← NEW
+│   ├── statistics_cache.py        ← NEW
+│   └── alert_cache.py             ← NEW
+│
+├── storage/
+│   ├── json_storage.py            ← NEW
+│   └── archive_storage.py         ← NEW
+│
+├── models/
+│   ├── camera.py                  ← NEW
+│   ├── event.py
+│   ├── statistics.py
+│   ├── alert.py
+│   └── report.py
+│
+├── middleware/
+│   ├── logging.py
+│   ├── exception_handler.py
+│   └── cors.py
+│
+├── schemas/
+│   ├── camera.py                  ← NEW
+│   ├── detection.py
+│   ├── event.py
+│   ├── statistics.py
+│   ├── alert.py
+│   ├── report.py
+│   └── route.py
+│
+├── database/
+│   ├── connection.py
+│   └── session.py
+│
+└── utils/
+    ├── constants.py
+    ├── helpers.py
+    ├── logger.py
+    ├── responses.py
+    └── validators.py

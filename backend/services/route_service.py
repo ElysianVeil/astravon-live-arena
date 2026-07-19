@@ -34,20 +34,48 @@ class RouteService:
         "RouteService"
     )
 
-    def __init__(self):
+    def __init__(
+        self,
+        ai_service=None,
+        event_service=None,
+        notification_service=None,
+        archive_storage=None,
+        statistics_manager=None
+    ):
 
-        self.routes: List[dict] = [
-            {
-                "id": 1,
-                "vehicle": "Response Unit 1",
-                "origin": "Emergency Station",
-                "destination": "Zone A",
-                "distance_km": 1.8,
-                "estimated_time_min": 3,
-                "status": DEFAULT_ROUTE_STATUS,
-                "created_at": datetime.now().isoformat()
-            }
-        ]
+        self.ai_service = ai_service
+
+        self.event_service = event_service
+
+        self.notification_service = notification_service
+
+        self.archive_storage = archive_storage
+
+        self.statistics_manager = statistics_manager
+
+        self.routes = []
+
+        self.route_history = []
+
+        self.active_dispatches = []
+
+        self.current_route = None
+
+        self.total_routes_created = 0
+
+        self.total_dispatches = 0
+
+        self.available_units = {
+
+            "ambulance": 5,
+
+            "police": 6,
+
+            "fire": 3,
+
+            "security": 8
+
+        }
 
     # ========================================================
     # Route Retrieval
@@ -80,27 +108,35 @@ class RouteService:
     # ========================================================
 
     def calculate_route(
-        self,
-        origin: str,
-        destination: str
-    ) -> Dict:
-        """
-        Simulates route planning.
 
-        Future:
-        - OpenStreetMap
-        - Google Maps
-        - Dijkstra
-        - A* Search
-        """
+        self,
+
+        origin,
+
+        destination,
+
+        priority="Normal"
+
+    ):
 
         route = {
+
             "origin": origin,
+
             "destination": destination,
+
             "distance_km": 2.4,
+
             "estimated_time_min": 5,
+
             "traffic": "Low",
-            "status": "Ready"
+
+            "priority": priority,
+
+            "status": "Ready",
+
+            "generated_at": datetime.utcnow().isoformat()
+
         }
 
         return route
@@ -122,13 +158,146 @@ class RouteService:
         )
 
         dispatch = {
+
             "vehicle": vehicle,
+
             "destination": destination,
+
             "status": "Dispatched",
-            "dispatch_time": datetime.now().isoformat()
+
+            "dispatch_time": datetime.utcnow().isoformat()
+
         }
 
+        self.active_dispatches.append(dispatch)
+
+        self.total_dispatches += 1
+
+        if self.notification_service:
+
+            self.notification_service.broadcast_dispatch(
+
+                dispatch
+
+            )
+
         return dispatch
+    
+    # ========================================================
+    # Complete Route
+    # ========================================================
+
+    def complete_route(
+
+        self,
+
+        route_id
+
+    ):
+
+        route = self.get_route(route_id)
+
+        if route is None:
+
+            return None
+
+        route["status"] = "completed"
+
+        route["completed_at"] = datetime.utcnow().isoformat()
+
+        self.route_history.append({
+
+            "route_id": route_id,
+
+            "action": "completed",
+
+            "timestamp": datetime.utcnow().isoformat()
+
+        })
+
+        if self.archive_storage:
+
+            self.archive_storage.archive_completed_route(
+
+                route
+
+            )
+
+        return route
+
+    def cancel_route(
+
+        self,
+
+        route_id
+
+    ):
+
+        route = self.get_route(route_id)
+
+        if route is None:
+
+            return None
+
+        route["status"] = "cancelled"
+
+        route["cancelled_at"] = datetime.utcnow().isoformat()
+
+        return route
+
+    def get_active_routes(self):
+
+        return [
+
+            route
+
+            for route in self.routes
+
+            if route["status"] in (
+
+                "planned",
+
+                "dispatched",
+
+                "active"
+
+            )
+
+        ]
+
+    def get_route_history(self):
+
+        return self.route_history
+    
+    def get_current_route(self):
+
+        return self.current_route
+
+    def dispatch_dashboard(self):
+
+        return {
+
+            "active_dispatches":
+
+                len(self.active_dispatches),
+
+            "available_units":
+
+                self.available_units,
+
+            "total_routes":
+
+                len(self.routes),
+
+            "total_dispatches":
+
+                self.total_dispatches
+
+        }
+
+    def vehicle_status(self):
+
+        return self.available_units
 
     # ========================================================
     # Route Creation
@@ -148,6 +317,8 @@ class RouteService:
 
             "vehicle": request.vehicle_type,
 
+            "vehicle_status": "available",
+
             "origin": request.incident_location,
 
             "destination": request.destination,
@@ -156,15 +327,43 @@ class RouteService:
 
             "estimated_time_min": 0,
 
-            "status": "available",
+            "traffic_level": "Unknown",
 
-            "created_at": datetime.now().isoformat()
+            "priority": "Normal",
+
+            "status": "planned",
+
+            "created_at": datetime.utcnow().isoformat(),
+
+            "updated_at": datetime.utcnow().isoformat()
 
         }
 
         self.routes.append(
             route
         )
+
+        self.current_route = route
+
+        self.total_routes_created += 1
+
+        self.route_history.append({
+
+            "route_id": route["id"],
+
+            "action": "created",
+
+            "timestamp": datetime.utcnow().isoformat()
+
+        })
+
+        if self.archive_storage:
+
+            self.archive_storage.archive_route(route)
+
+        if self.notification_service:
+
+            self.notification_service.broadcast_route(route)
 
         return route
 
@@ -236,28 +435,115 @@ class RouteService:
         )
 
         return {
-            "total_routes": total,
-            "available_routes": available
+
+            "total_routes":
+
+                len(self.routes),
+
+            "active_routes":
+
+                len(
+
+                    self.get_active_routes()
+
+                ),
+
+            "dispatches":
+
+                self.total_dispatches,
+
+            "available_units":
+
+                self.available_units
+
         }
+
+    def dashboard(self):
+
+        return {
+
+            "statistics":
+
+                self.get_statistics(),
+
+            "current_route":
+
+                self.current_route,
+
+            "dispatches":
+
+                self.active_dispatches,
+
+            "history":
+
+                len(self.route_history)
+
+        }
+
+    def search_routes(
+
+        self,
+
+        keyword
+
+    ):
+
+        keyword = keyword.lower()
+
+        return [
+
+            route
+
+            for route in self.routes
+
+            if (
+
+                keyword in route["origin"].lower()
+
+                or
+
+                keyword in route["destination"].lower()
+
+                or
+
+                keyword in route["vehicle"].lower()
+
+            )
+
+        ]
 
     # ========================================================
     # Recommended Route
     # ========================================================
 
     def recommended_route(
+
         self,
-        destination: str
-    ) -> Dict:
-        """
-        Returns the recommended route.
-        """
+
+        destination
+
+    ):
+
+        current_event = {}
+
+        if self.event_service:
+
+            current_event = self.event_service.get_current_event()
 
         return {
+
             "vehicle": "Response Unit 1",
+
             "destination": destination,
+
             "estimated_time_min": 4,
+
             "distance_km": 2.1,
-            "priority": "High"
+
+            "priority": "High",
+
+            "event": current_event
+
         }
 
     # ========================================================
@@ -269,17 +555,30 @@ class RouteService:
         Restores default routes.
         """
 
-        self.routes = [
-            {
-                "id": 1,
-                "vehicle": "Response Unit 1",
-                "origin": "Emergency Station",
-                "destination": "Zone A",
-                "distance_km": 1.8,
-                "estimated_time_min": 3,
-                "status": "available",
-                "created_at": datetime.now().isoformat()
-            }
-        ]
+        self.routes.clear()
+
+        self.route_history.clear()
+
+        self.active_dispatches.clear()
+
+        self.current_route = None
+
+        self.total_routes_created = 0
+
+        self.total_dispatches = 0
+
+        self.available_units = {
+
+            "ambulance": 5,
+
+            "police": 6,
+
+            "fire": 3,
+
+            "security": 8
+
+        }
 
         return True
+
+    

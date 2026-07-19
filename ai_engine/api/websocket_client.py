@@ -411,12 +411,6 @@ class WebSocketClient:
 
     async def send_camera_frame(self, payload):
 
-        _, buffer = cv2.imencode(".jpg", payload["frame"])
-
-        payload["frame"] = base64.b64encode(
-            buffer
-        ).decode("utf-8")
-
         await self.send({
             "type": "frame",
             "data": payload

@@ -3557,3 +3557,262 @@ Instead of sending data from every module separately, the backend receives somet
 ```
 
 This gives your frontend a single, consistent source of truth while preserving the responsibility of each module. As you continue providing the `info()` outputs from each module, you can progressively redesign `CrowdStatistics` to aggregate them into this unified payload without duplicating logic across the pipeline.
+
+
+{
+    "success": true,
+    "message": "Statistics retrieved.",
+    "data": {
+        "timestamp": "2026-07-18T14:05:08.727285",
+        "statistics_version": "3.0",
+        "engine": {
+            "name": "Astravon Live Arena AI Engine",
+            "version": "1.0.0",
+            "status": "Running",
+            "uptime": 164.11,
+            "generated_statistics": 330
+        },
+        "camera": {
+            "camera_count": 1,
+            "connected": 1,
+            "frames": 663,
+            "failures": 0,
+            "last_update": 1784372708.3721423
+        },
+        "detection": {
+            "people_count": 1,
+            "detector": {
+                "model": "best.pt",
+                "ready": true,
+                "frames_processed": 331,
+                "total_detections": 331,
+                "processing_time_ms": 143.4,
+                "average_processing_time_ms": 89.63,
+                "class_filter": [
+                    0,
+                    2,
+                    5
+                ],
+                "last_detection_time": 1784372708.516735,
+                "fps": 6.97
+            }
+        },
+        "movement": {
+            "tracked_people": 1,
+            "frames_processed": 331,
+            "processing_time_ms": 0.03,
+            "average_processing_time_ms": 0.04,
+            "fps": 34364.24
+        },
+        "density": {
+            "frames_processed": 331,
+            "maximum_people": 1,
+            "maximum_density": 0.01,
+            "average_density": 0.01,
+            "average_occupancy": 0.4,
+            "rolling_density": 0.01,
+            "trend": "Stable"
+        },
+        "occupancy": {
+            "capacity": 250,
+            "people_count": 1,
+            "occupancy_percentage": 0.4,
+            "available_space": 249,
+            "status": "Mostly Empty",
+            "alert": null,
+            "risk_level": "LOW",
+            "estimated_time_until_full": null,
+            "peak_occupancy": 0.4,
+            "minimum_occupancy": 0.4,
+            "average_occupancy": 0.4,
+            "trend": "Stable"
+        },
+        "congestion": {
+            "frames_processed": 331,
+            "current_score": 8.36,
+            "current_level": "Free Flow",
+            "peak_score": 20.36,
+            "average_score": 12.8,
+            "trend": "Increasing"
+        },
+        "risk": {
+            "timestamp": "2026-07-18T14:05:08.724046",
+            "people_count": 1,
+            "venue_capacity": 250,
+            "occupancy": 0.4,
+            "density": "Low",
+            "movement": {
+                "average_speed": 19.85,
+                "flow_level": "Busy",
+                "moving_people": 1,
+                "stationary_people": 0
+            },
+            "temperature": 24.9,
+            "humidity": 46,
+            "heat": {
+                "timestamp": "2026-07-18T14:05:08.723992",
+                "temperature": 24.9,
+                "humidity": 46,
+                "heat_index": 27.2,
+                "status": "Caution",
+                "severity": "Moderate",
+                "comfort": "Warm",
+                "risk_score": 21,
+                "heatstroke_probability": 6.6,
+                "recommendation": "Increase hydration.",
+                "trend": "Stable"
+            },
+            "risk_score": 5,
+            "risk_level": "Low",
+            "recommendations": [
+                "Continue normal monitoring.",
+                "Investigate abnormal crowd movement.",
+                "Keep emergency teams on standby.",
+                "Maintain routine security patrols.",
+                "Monitor crowd statistics."
+            ]
+        },
+        "weather": {
+            "temperature": 24.9,
+            "humidity": 46,
+            "heat_index": 26.2,
+            "wind_speed": 4.5,
+            "weather_code": 51,
+            "weather_desc": "Light Drizzle",
+            "severity": "Normal",
+            "heat_stress": "Safe",
+            "comfort": "Comfortable",
+            "trend": "Stable",
+            "timestamp": "2026-07-18T11:05:08.723882"
+        },
+        "trends": {
+            "records": 300,
+            "latest_people_count": 1,
+            "average_people": 2.0,
+            "peak_people": 3,
+            "minimum_people": 1,
+            "average_speed": 18.35,
+            "average_risk": 5,
+            "peak_risk": 5,
+            "average_occupancy": 0.4,
+            "peak_occupancy": 0.4,
+            "pressure": "Low",
+            "direction": "Stable",
+            "growth_rate": 0.0,
+            "momentum": 0,
+            "stability": "Stable"
+        },
+        "zones": null,
+        "performance": {
+            "average_processing_time": 0.3736,
+            "processing_time": 1.1947,
+            "average_fps": 2.95,
+            "current_fps": 0.84,
+            "camera": {
+                "camera_count": 1,
+                "connected": 1,
+                "frames": 663,
+                "failures": 0,
+                "last_update": 1784372708.3721423
+            },
+            "detector": {
+                "model": "best.pt",
+                "ready": true,
+                "frames_processed": 331,
+                "total_detections": 331,
+                "processing_time_ms": 143.4,
+                "average_processing_time_ms": 89.63,
+                "class_filter": [
+                    0,
+                    2,
+                    5
+                ],
+                "last_detection_time": 1784372708.516735,
+                "fps": 6.97
+            },
+            "tracker": {
+                "tracker": "ByteTrack",
+                "configured_fps": 30,
+                "frames_processed": 331,
+                "active_tracks": 1,
+                "maximum_active_tracks": 3,
+                "total_tracks_created": 42,
+                "processing_time_ms": 4.05,
+                "average_processing_time_ms": 1.61,
+                "tracking_fps": 247.21,
+                "last_update": 1784372708.522053
+            },
+            "movement": {
+                "tracked_people": 1,
+                "frames_processed": 331,
+                "processing_time_ms": 0.03,
+                "average_processing_time_ms": 0.04,
+                "fps": 34364.24
+            },
+            "feature_extractor": {
+                "module": "Feature Extractor",
+                "version": "1.0.0",
+                "status": "Running",
+                "device": "cpu",
+                "model": "osnet_x1_0",
+                "embedding_dimension": 512,
+                "statistics": {
+                    "total_extractions": 663,
+                    "failed_extractions": 0,
+                    "average_processing_time_ms": 103.3,
+                    "device": "cpu",
+                    "embedding_dimension": 512,
+                    "model_loaded": true,
+                    "model_name": "osnet_x1_0"
+                }
+            },
+            "counter": {
+                "current_count": 1,
+                "peak_count": 1,
+                "average_count": 2.0,
+                "rolling_average": 1,
+                "occupancy": 0.4,
+                "crowd_level": "Low",
+                "entries": 1,
+                "exits": 0,
+                "unique_people": 1,
+                "active_tracks": 1,
+                "frames_processed": 331,
+                "people_per_minute": 0.37,
+                "trend": "Stable",
+                "uptime": 164.07
+            },
+            "density": {
+                "frames_processed": 331,
+                "maximum_people": 1,
+                "maximum_density": 0.01,
+                "average_density": 0.01,
+                "average_occupancy": 0.4,
+                "rolling_density": 0.01,
+                "trend": "Stable"
+            },
+            "occupancy": {
+                "capacity": 250,
+                "people_count": 1,
+                "occupancy_percentage": 0.4,
+                "available_space": 249,
+                "status": "Mostly Empty",
+                "alert": null,
+                "risk_level": "LOW",
+                "estimated_time_until_full": null,
+                "peak_occupancy": 0.4,
+                "minimum_occupancy": 0.4,
+                "average_occupancy": 0.4,
+                "trend": "Stable"
+            },
+            "congestion": {
+                "frames_processed": 331,
+                "current_score": 8.36,
+                "current_level": "Free Flow",
+                "peak_score": 20.36,
+                "average_score": 12.8,
+                "trend": "Increasing"
+            }
+        }
+    }
+}

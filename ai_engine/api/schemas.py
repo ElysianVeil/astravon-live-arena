@@ -118,9 +118,13 @@ class DetectionStatistics(AstravonSchema):
 
 class PerformanceStatistics(AstravonSchema):
 
+    average_processing_time: float = Field(ge=0)
+
     processing_time: float = Field(ge=0)
 
-    fps: float = Field(ge=0)
+    average_fps: float = Field(ge=0)
+
+    current_fps: float = Field(ge=0)
 
     camera: Dict[str, Any]
 

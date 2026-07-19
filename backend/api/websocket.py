@@ -17,8 +17,14 @@ Version:
 
 from typing import List
 import asyncio
+from collections import deque
+import uuid
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from datetime import datetime
+from backend.utils.logger import get_logger
+
+logger = get_logger("WebSocketManager")
 
 # ============================================================
 # Router
@@ -29,11 +35,31 @@ router = APIRouter(
 )
 
 class LiveState:
-    latest_statistics = None
-    latest_frame = None
-    latest_alert = None
-    latest_detection = None
-    latest_event = None
+    # latest_statistics = None
+    # latest_frame = None
+    recent_frames = deque(
+        maxlen=5
+    )
+    recent_detections = deque(
+        maxlen=20
+    )
+    recent_statistics = deque(
+        maxlen=20
+    )
+    recent_alerts = deque(
+        maxlen=50
+    )
+    recent_events = deque(
+        maxlen=20
+    )
+
+    engine_status = {
+        "connected": False,
+        "last_message": None
+    }
+    # latest_alert = None
+    # latest_detection = None
+    # latest_event = None
 
     @classmethod
     def update(cls, message: dict):
@@ -41,37 +67,37 @@ class LiveState:
         message_type = message.get("type")
 
         if message_type == "statistics":
-            cls.latest_statistics = message
+            cls.recent_statistics.append(message)
 
         elif message_type == "frame":
-            cls.latest_frame = message
+            cls.recent_frames.append(message)
 
         elif message_type == "alert":
-            cls.latest_alert = message
+            cls.recent_alerts.append(message)
 
         elif message_type == "detection":
-            cls.latest_detection = message
+            cls.recent_detections.append(message)
 
         elif message_type == "event":
-            cls.latest_event = message
+            cls.recent_events.append(message)
 
     @classmethod
     async def sync(cls, websocket: WebSocket):
 
-        if cls.latest_statistics:
-            await websocket.send_json(cls.latest_statistics)
+        for stat in cls.recent_statistics:
+            await websocket.send_json(stat)
 
-        if cls.latest_frame:
-            await websocket.send_json(cls.latest_frame)
+        for frame in cls.recent_frames:
+            await websocket.send_json(frame)
 
-        if cls.latest_detection:
-            await websocket.send_json(cls.latest_detection)
+        for detection in cls.recent_detections:
+            await websocket.send_json(detection)
 
-        if cls.latest_alert:
-            await websocket.send_json(cls.latest_alert)
+        for alert in cls.recent_alerts:
+            await websocket.send_json(alert)
 
-        if cls.latest_event:
-            await websocket.send_json(cls.latest_event)
+        for event in cls.recent_events:
+            await websocket.send_json(event)
 
 # ============================================================
 # Connection Manager
@@ -84,15 +110,36 @@ class ConnectionManager:
 
     def __init__(self):
         self.active_connections: List[WebSocket] = []
+        self.connection_info = {}
+        LiveState.engines = {}
 
     async def connect(self, websocket: WebSocket):
         """
         Accept a new websocket connection.
         """
+        client_id = uuid.uuid4().hex
 
         await websocket.accept()
+        self.connection_info[websocket] = {
+
+            "connected_at": datetime.utcnow().isoformat(),
+
+            "messages_sent": 0,
+
+            "client": str(websocket.client)
+
+        }
+        self.connection_info[websocket]["id"] = client_id
 
         self.active_connections.append(websocket)
+
+        await websocket.send_json({
+
+            "type":"connected",
+
+            "client_id": client_id
+
+        })
 
         print(
             f"[WebSocket] Client Connected "
@@ -106,6 +153,10 @@ class ConnectionManager:
 
         if websocket in self.active_connections:
             self.active_connections.remove(websocket)
+            self.connection_info.pop(
+                websocket,
+                None
+            )
 
         print(
             f"[WebSocket] Client Disconnected "
@@ -136,13 +187,43 @@ class ConnectionManager:
         for connection in self.active_connections:
 
             try:
+
                 await connection.send_json(message)
 
+                info = self.connection_info.get(connection)
+
+                if info:
+                    info["messages_sent"] += 1
+
             except Exception:
+
                 disconnected.append(connection)
 
         for connection in disconnected:
             self.disconnect(connection)
+
+    async def broadcast_detection(
+        self,
+        detection
+    ):
+        await self.broadcast({
+            "type":"detection",
+            "data": detection
+        })
+
+    async def heartbeat():
+
+        while True:
+
+            await asyncio.sleep(30)
+
+            await manager.broadcast({
+
+                "type":"heartbeat",
+
+                "timestamp": datetime.utcnow().isoformat()
+
+            })
 
     def connection_count(self) -> int:
         """
@@ -163,6 +244,17 @@ async def engine_socket(websocket: WebSocket):
 
     await websocket.accept()
 
+    LiveState.engine_status = {
+        "connected": True,
+        "last_message": datetime.utcnow().isoformat()
+    }
+
+    logger.info("AI Engine Connected")
+
+    # asyncio.create_task(
+    #     self.heartbeat()
+    # )
+
     print("AI Engine Connected")
 
     try:
@@ -171,11 +263,62 @@ async def engine_socket(websocket: WebSocket):
 
             message = await websocket.receive_json()
 
+            if message.get("type") == "ping":
+
+                await websocket.send_json({
+
+                    "type":"pong",
+
+                    "timestamp":
+
+                        datetime.utcnow().isoformat()
+
+                })
+
+                continue
+
+            message_type = message.get("type")
+
+            if message_type not in {
+                "statistics",
+                "detection",
+                "frame",
+                "alert",
+                "event",
+                "system",
+                "heartbeat"
+            }:
+                continue
+
+            payload = message.get("data")
+
+            if payload is None:
+                continue
+            
+
             LiveState.update(message)
+
+            LiveState.engine_status = {
+
+                "last_message": datetime.utcnow(),
+
+                "connected": True
+
+            }
+
+            message.setdefault(
+
+                "timestamp",
+
+                datetime.utcnow().isoformat()
+
+            )
 
             await manager.broadcast(message)
 
     except WebSocketDisconnect:
+
+        LiveState.engine_status["connected"] = False
 
         print("AI Engine Disconnected")
 
@@ -210,7 +353,11 @@ async def websocket_endpoint(
 
         manager.disconnect(websocket)
 
-        print(f"WebSocket Error: {error}")
+        logger.exception(
+
+            "WebSocket failure"
+
+        )
 
 
 # ============================================================
@@ -317,5 +464,25 @@ def active_connections():
     """
 
     return {
-        "active_connections": manager.connection_count()
+
+        "active_connections":
+
+            manager.connection_count(),
+
+        "engine_connected":
+
+            LiveState.engine_status["connected"],
+
+        "messages_sent":
+
+            sum(
+
+                x["messages_sent"]
+
+                for x
+
+                in manager.connection_info.values()
+
+            )
+
     }

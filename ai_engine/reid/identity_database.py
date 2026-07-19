@@ -440,7 +440,7 @@ class IdentityDatabase:
     
     def all_identities(self):
         with self.lock:
-            return self.identities
+            return list(self.identities.values())
 
     # ========================================================
     # Reset

@@ -401,7 +401,7 @@ class ReIDMatcher:
 
         for identity in identities:
 
-            stored = identity.get("embedding")
+            stored = identity.embedding
 
             if stored is None:
                 continue
@@ -413,11 +413,11 @@ class ReIDMatcher:
 
             candidates.append(
                 {
-                    "global_id": identity["global_id"],
-                    "camera": identity.get("camera"),
+                    "global_id": identity.global_id,
+                    "camera_id": identity.camera_id,
                     "similarity": similarity,
                     "metrics": metrics,
-                    "last_seen": identity.get("last_seen")
+                    "last_seen": identity.last_seen
                 }
             )
 
@@ -585,8 +585,8 @@ class ReIDMatcher:
 
                 "matched_camera_id": candidate["camera_id"],
 
-                "matched_camera":
-                candidate["camera"],
+                # "matched_camera":
+                # candidate["camera"],
 
                 "similarity": round(
                     similarity,

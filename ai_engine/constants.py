@@ -260,6 +260,22 @@ COLOR_ORANGE = (0, 165, 255)
 
 COLOR_PURPLE = (255, 0, 255)
 
+# ============================================================
+# Additional HUD Colors
+# ============================================================
+
+COLOR_GRAY = (170, 170, 170)
+
+COLOR_DARK_GRAY = (45, 45, 45)
+
+COLOR_LIGHT_GRAY = (220, 220, 220)
+
+COLOR_CYAN = (255, 220, 0)      # BGR (bright cyan)
+
+COLOR_BLUE = (255, 120, 40)
+
+COLOR_GOLD = (0, 215, 255)
+
 DEFAULT_ZONE_THICKNESS = 2
 
 
