@@ -136,6 +136,10 @@ class PerformanceStatistics(AstravonSchema):
 
     feature_extractor: Dict[str, Any]
 
+    identity_database: Dict[str, Any]
+
+    matcher: Dict[str, Any]
+
     counter: Dict[str, Any]
 
     density: Dict[str, Any]

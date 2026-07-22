@@ -205,9 +205,11 @@ class IdentityDatabase:
             for global_id, record in self.identities.items():
 
                 similarity = float(
-                    np.dot(
-                        embedding,
-                        record.embedding
+                    np.dot(embedding, record.embedding) /
+                    (
+                        np.linalg.norm(embedding) *
+                        np.linalg.norm(record.embedding) +
+                        1e-12
                     )
                 )
 
@@ -265,7 +267,11 @@ class IdentityDatabase:
 
             identity.camera_id = camera_id
 
-            identity.bbox = bbox
+            identity.bbox = (
+                [int(v) for v in bbox]
+                if bbox is not None
+                else None
+            )
 
             identity.appearances += 1
 
@@ -421,22 +427,49 @@ class IdentityDatabase:
 
     def info(self) -> Dict:
 
-        return {
+        with self.lock:
 
-            "module": "Identity Database",
+            identities = []
 
-            "status": "Running",
+            for identity in self.identities.values():
 
-            "population": len(self.identities),
+                identities.append({
 
-            "similarity_threshold": self.similarity_threshold,
+                    "global_id": identity.global_id,
 
-            "maximum_identity_age": self.maximum_identity_age,
+                    "camera_id": identity.camera_id,
 
-            "database_size_limit": self.maximum_database_size,
+                    "appearances": identity.appearances,
 
-            "statistics": self.statistics()
-        }
+                    "confidence": round(identity.confidence, 3),
+
+                    "first_seen": identity.first_seen.isoformat(),
+
+                    "last_seen": identity.last_seen.isoformat(),
+
+                    "bbox": identity.bbox
+
+                })
+
+            return {
+
+                "module": "Identity Database",
+
+                "status": "Running",
+
+                "population": len(self.identities),
+
+                "similarity_threshold": self.similarity_threshold,
+
+                "maximum_identity_age": self.maximum_identity_age,
+
+                "database_size_limit": self.maximum_database_size,
+
+                "statistics": self.statistics(),
+
+                "identities": identities
+
+            }
     
     def all_identities(self):
         with self.lock:

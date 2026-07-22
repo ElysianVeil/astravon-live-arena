@@ -76,6 +76,8 @@ class CrowdStatistics:
         tracker,
         movement,
         feature_extractor,
+        identity_database,
+        matcher,
         crowd_counter,
         density,
         occupancy,
@@ -219,6 +221,10 @@ class CrowdStatistics:
                 "movement": movement,
 
                 "feature_extractor": feature_extractor,
+
+                "identity_database": identity_database,
+
+                "matcher": matcher,
 
                 "counter": crowd_counter,
 

@@ -2415,3 +2415,392 @@ backend/
     ├── logger.py
     ├── responses.py
     └── validators.py
+
+
+    I actually think this is the perfect time to redesign the frontend. Your backend has evolved from a simple detection pipeline into a **real-time command center**. The frontend should reflect that evolution.
+
+Your original frontend structure is good, but it still resembles a standard dashboard. The backend now supports:
+
+* Multi-camera streaming
+* Real-time WebSocket updates
+* Person ReID
+* Weather integration
+* Risk analysis
+* Congestion analysis
+* Occupancy
+* Crowd trends
+* Statistics
+* Alerts
+* Future emergency response
+
+The UI should expose those capabilities.
+
+---
+
+# Proposed Astravon Live Arena v2 Dashboard
+
+```
+frontend/
+│
+├── index.html
+│
+├── assets/
+│   ├── images/
+│   ├── icons/
+│   ├── fonts/
+│   ├── sounds/
+│   ├── animations/
+│   └── videos/
+│
+├── css/
+│   ├── variables.css
+│   ├── global.css
+│   ├── layout.css
+│   ├── animations.css
+│   ├── dashboard.css
+│   ├── camera.css
+│   ├── analytics.css
+│   ├── maps.css
+│   ├── alerts.css
+│   ├── reports.css
+│   ├── settings.css
+│   └── responsive.css
+│
+├── js/
+│   ├── app.js
+│   ├── api.js
+│   ├── websocket.js
+│   ├── router.js
+│   ├── state.js
+│   ├── event_bus.js
+│   ├── utils.js
+│   └── constants.js
+│
+├── components/
+│   │
+│   ├── layout/
+│   │   ├── navbar.js
+│   │   ├── sidebar.js
+│   │   ├── footer.js
+│   │   └── notifications.js
+│   │
+│   ├── cameras/
+│   │   ├── camera_grid.js
+│   │   ├── camera_card.js
+│   │   ├── camera_toolbar.js
+│   │   └── fullscreen.js
+│   │
+│   ├── analytics/
+│   │   ├── statistics.js
+│   │   ├── charts.js
+│   │   ├── density.js
+│   │   ├── occupancy.js
+│   │   ├── congestion.js
+│   │   ├── movement.js
+│   │   ├── weather.js
+│   │   ├── heat_index.js
+│   │   └── trends.js
+│   │
+│   ├── risk/
+│   │   ├── risk_gauge.js
+│   │   ├── alerts.js
+│   │   ├── emergency.js
+│   │   └── evacuation.js
+│   │
+│   ├── maps/
+│   │   ├── venue_map.js
+│   │   ├── heatmap.js
+│   │   ├── routes.js
+│   │   └── gps.js
+│   │
+│   ├── people/
+│   │   ├── reid.js
+│   │   ├── tracking.js
+│   │   ├── identities.js
+│   │   └── history.js
+│   │
+│   └── reports/
+│       ├── report_table.js
+│       ├── report_export.js
+│       └── report_filters.js
+│
+├── pages/
+│   ├── dashboard.html
+│   ├── analytics.html
+│   ├── cameras.html
+│   ├── map.html
+│   ├── reports.html
+│   ├── settings.html
+│   └── about.html
+│
+└── workers/
+    ├── websocket_worker.js
+    └── chart_worker.js
+
+css/
+│
+├── variables.css          ← Colors, spacing, typography, shadows, z-index
+│
+├── global.css             ← Reset, body, links, typography, scrollbar, utilities
+│
+├── layout.css             ← App shell
+│                           Navbar
+│                           Sidebar
+│                           Footer
+│                           Main layout
+│                           Content wrappers
+│
+├── animations.css         ← Keyframes, transitions, loading animations
+│
+├── components.css         ← Buttons
+│                           Cards
+│                           Forms
+│                           Tables
+│                           Badges
+│                           Modals
+│                           Toasts
+│                           Dropdowns
+│                           Progress bars
+│                           Reusable widgets
+│
+├── dashboard.css          ← Dashboard homepage ONLY
+│                           Dashboard overview
+│                           Live statistics
+│                           Dashboard cards
+│                           Dashboard widgets
+│
+├── monitoring.css         ← Camera page
+│                           Analytics page
+│                           Maps page
+│                           Live monitoring widgets
+│                           Camera grids
+│                           AI metrics
+│                           Heatmaps
+│                           Charts
+│                           Venue maps
+│
+├── management.css         ← Alerts
+│                           Reports
+│                           Settings
+│                           Tables
+│                           Filters
+│                           Forms
+│                           Logs
+│                           Configuration panels
+│
+├── pages.css              ← About page
+│                           Empty states
+│                           Generic page headers
+│                           Timeline
+│                           Documentation layouts
+│
+└── responsive.css         ← ALL media queries
+                            Desktop
+                            Laptop
+                            Tablet
+                            Mobile
+```
+
+---
+
+# Dashboard Layout
+
+I'd redesign the dashboard into something that resembles a professional security operations center.
+
+```
+┌───────────────────────────────────────────────────────────────┐
+│ Astravon Live Arena                               User Status │
+├───────────────┬───────────────────────────────────────────────┤
+│               │                                               │
+│               │        LIVE CAMERA GRID                       │
+│               │                                               │
+│ Navigation    │   Camera 1     Camera 2     Camera 3          │
+│               │                                               │
+│ Dashboard     │                                               │
+│ Cameras       │                                               │
+│ Analytics     │                                               │
+│ Risk          │                                               │
+│ Map           │                                               │
+│ Reports       │                                               │
+│ Settings      │                                               │
+├───────────────┼───────────────────────────────────────────────┤
+│ Risk Gauge    │ People      Density      Occupancy            │
+│               │                                               │
+│ Weather       │ Heat Index  Congestion   Movement             │
+│               │                                               │
+│ Alerts        │ Charts      Trends       Statistics           │
+└───────────────┴───────────────────────────────────────────────┘
+```
+
+---
+
+# WebSocket Channels
+
+Your backend already sends multiple kinds of messages, so the frontend should subscribe to each separately.
+
+```
+Frame Stream
+
+↓
+
+Camera Component
+
+Detection Stream
+
+↓
+
+Detection Overlay
+
+Statistics Stream
+
+↓
+
+Statistics Cards
+
+Alert Stream
+
+↓
+
+Alert Panel
+
+Risk Stream
+
+↓
+
+Risk Gauge
+
+Weather Stream
+
+↓
+
+Weather Widget
+```
+
+This keeps the UI modular and makes it easier to extend later.
+
+---
+
+# Components to Add
+
+Since your backend now calculates these, surface them in the UI:
+
+* Live Risk Gauge (green → yellow → red)
+* Crowd Density Meter
+* Occupancy Gauge
+* Congestion Gauge
+* Heat Index Card
+* Weather Card
+* Camera Health Indicator
+* AI Performance (FPS, inference time)
+* Global Person ID display
+* Recent Alerts panel
+* Trend graphs
+
+---
+
+# Presentation Mode
+
+I'd also add a dedicated presentation mode.
+
+Pressing **F11** or a "Presentation" button would:
+
+* Hide developer controls
+* Enlarge camera feeds
+* Increase font sizes
+* Highlight alerts
+* Animate metric updates smoothly
+* Display the Astravon branding prominently
+
+That makes the system much more engaging during a live demo.
+
+---
+
+## Development priority
+
+Given where your project is now, I'd tackle the frontend in this order:
+
+1. **Core layout** (navbar, sidebar, camera grid, responsive design).
+2. **WebSocket integration** (live frames, detections, statistics, alerts).
+3. **Analytics widgets** (risk, density, occupancy, weather, congestion).
+4. **Charts and trends** (historical data visualization).
+5. **Map and emergency views** (heatmaps, routes, future-ready features).
+6. **Presentation mode** and final polish (animations, branding, transitions).
+
+At this stage, I'd treat the frontend as an **operations center** rather than a simple dashboard. That design will better showcase the sophistication of the backend you've built and create a much stronger impression during your presentation.
+
+
+Or, even better, since all five charts follow exactly the same logic, create a single reusable helper.
+
+/*
+============================================================
+Generic Streaming Chart Update
+============================================================
+*/
+
+updateStreamingChart(id, value) {
+
+    const chart = this.charts.get(id);
+
+    if (!chart) return;
+
+    chart.data.labels.push("");
+
+    chart.data.datasets[0].data.push(value);
+
+    while (chart.data.labels.length > this.maxHistory) {
+
+        chart.data.labels.shift();
+        chart.data.datasets[0].data.shift();
+
+    }
+
+    chart.update();
+
+}
+
+Now every specialized function becomes a one-liner.
+
+updatePeopleChart(value) {
+
+    this.updateStreamingChart(
+        "peopleChart",
+        value
+    );
+
+}
+
+updateDensityChart(value) {
+
+    this.updateStreamingChart(
+        "densityChart",
+        value
+    );
+
+}
+
+updateRiskChart(value) {
+
+    this.updateStreamingChart(
+        "riskChart",
+        value
+    );
+
+}
+
+updateMovementChart(value) {
+
+    this.updateStreamingChart(
+        "movementChart",
+        value
+    );
+
+}
+
+updateOccupancyChart(value) {
+
+    this.updateStreamingChart(
+        "occupancyChart",
+        value
+    );
+
+}

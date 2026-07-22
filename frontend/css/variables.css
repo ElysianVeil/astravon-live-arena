@@ -1,212 +1,293 @@
 /*
 ============================================================
 Astravon Live Arena
-CSS Variables
+Design System Variables
 
 Purpose:
-    Global design system variables used throughout
-    the dashboard.
+    Central design tokens used throughout the
+    entire application.
+
+Contents:
+    • Brand Colors
+    • Semantic Colors
+    • Backgrounds
+    • Typography
+    • Spacing
+    • Border Radius
+    • Shadows
+    • Transitions
+    • Z-Index
+    • Layout
+    • Component Sizes
 
 Author:
     House of Astravon
 
 Version:
-    1.0.0
+    2.0.0
 ============================================================
 */
 
-:root {
+:root{
 
-    /*========================================================
-      Brand Colors
-    ========================================================*/
+/*==========================================================
+    Brand Identity
+==========================================================*/
 
-    --color-primary: #0B1A3A;
-    --color-primary-light: #18305F;
-    --color-primary-dark: #061026;
+--color-primary:#0B1A3A;
+--color-primary-light:#16346F;
+--color-primary-dark:#071226;
 
-    --color-secondary: #D4AF37;
-    --color-secondary-light: #F2D46B;
-    --color-secondary-dark: #A17E1B;
+--color-secondary:#D4AF37;
+--color-secondary-light:#E6C85C;
+--color-secondary-dark:#B88B12;
 
-    --color-accent: #38BDF8;
+--color-accent:#38BDF8;
 
-    /*========================================================
-      Status Colors
-    ========================================================*/
+/*==========================================================
+    Semantic Colors
+==========================================================*/
 
-    --color-success: #10B981;
-    --color-warning: #F59E0B;
-    --color-danger: #EF4444;
-    --color-info: #3B82F6;
+--color-success:#10B981;
+--color-success-light:#34D399;
+--color-success-dark:#047857;
 
-    /*========================================================
-      Background Colors
-    ========================================================*/
+--color-warning:#F59E0B;
+--color-warning-light:#FBBF24;
+--color-warning-dark:#B45309;
 
-    --background-main: #07111F;
-    --background-secondary: #0F172A;
-    --background-card: #16213E;
-    --background-sidebar: #0B1A3A;
-    --background-navbar: rgba(11, 26, 58, 0.95);
+--color-danger:#EF4444;
+--color-danger-light:#F87171;
+--color-danger-dark:#B91C1C;
 
-    /*========================================================
-      Text Colors
-    ========================================================*/
+--color-info:#3B82F6;
+--color-info-light:#60A5FA;
+--color-info-dark:#1D4ED8;
 
-    --text-primary: #FFFFFF;
-    --text-secondary: #CBD5E1;
-    --text-muted: #94A3B8;
-    --text-disabled: #64748B;
+/*==========================================================
+    Backgrounds
+==========================================================*/
 
-    /*========================================================
-      Borders
-    ========================================================*/
+--background-app:#071226;
+--background-main:#0B1A3A;
+--background-surface:#102447;
+--background-card:#142B55;
+--background-secondary:#1A3567;
+--background-hover:#213F78;
+--background-overlay:rgba(7,18,38,.80);
 
-    --border-color: rgba(255, 255, 255, 0.08);
-    --border-light: rgba(255, 255, 255, 0.15);
+/*==========================================================
+    Text Colors
+==========================================================*/
 
-    /*========================================================
-      Shadows
-    ========================================================*/
+--text-primary:#F8FAFC;
+--text-secondary:#CBD5E1;
+--text-muted:#94A3B8;
+--text-disabled:#64748B;
+--text-inverse:#0F172A;
 
-    --shadow-small:
-        0 2px 8px rgba(0, 0, 0, 0.25);
+/*==========================================================
+    Borders
+==========================================================*/
 
-    --shadow-medium:
-        0 8px 20px rgba(0, 0, 0, 0.35);
+--border-color:#28456E;
+--border-light:#355987;
+--border-focus:#D4AF37;
 
-    --shadow-large:
-        0 16px 40px rgba(0, 0, 0, 0.45);
+/*==========================================================
+    Typography
+==========================================================*/
 
-    --shadow-glow:
-        0 0 20px rgba(212, 175, 55, 0.35);
+--font-heading:"Orbitron",sans-serif;
+--font-body:"Inter",sans-serif;
+--font-mono:"Consolas","Courier New",monospace;
 
-    /*========================================================
-      Typography
-    ========================================================*/
+/*==========================================================
+    Font Sizes
+==========================================================*/
 
-    --font-primary:
-        "Inter",
-        "Segoe UI",
-        sans-serif;
+--text-xs:.75rem;
+--text-sm:.875rem;
+--text-md:1rem;
+--text-lg:1.125rem;
+--text-xl:1.25rem;
+--text-2xl:1.5rem;
+--text-3xl:2rem;
+--text-4xl:2.5rem;
+--text-5xl:3rem;
 
-    --font-heading:
-        "Orbitron",
-        sans-serif;
+/*==========================================================
+    Font Weights
+==========================================================*/
 
-    --font-monospace:
-        "JetBrains Mono",
-        monospace;
+--weight-light:300;
+--weight-regular:400;
+--weight-medium:500;
+--weight-semibold:600;
+--weight-bold:700;
+--weight-black:800;
 
-    /* Font Sizes */
+/*==========================================================
+    Line Heights
+==========================================================*/
 
-    --text-xs: 0.75rem;
-    --text-sm: 0.875rem;
-    --text-md: 1rem;
-    --text-lg: 1.125rem;
-    --text-xl: 1.25rem;
-    --text-2xl: 1.5rem;
-    --text-3xl: 2rem;
-    --text-4xl: 3rem;
+--line-tight:1.2;
+--line-normal:1.5;
+--line-relaxed:1.8;
 
-    /* Font Weights */
+/*==========================================================
+    Spacing Scale
+==========================================================*/
 
-    --weight-light: 300;
-    --weight-normal: 400;
-    --weight-medium: 500;
-    --weight-semibold: 600;
-    --weight-bold: 700;
+--space-1:4px;
+--space-2:8px;
+--space-3:12px;
+--space-4:16px;
+--space-5:20px;
+--space-6:24px;
+--space-7:28px;
+--space-8:32px;
+--space-9:40px;
+--space-10:48px;
+--space-11:56px;
+--space-12:64px;
 
-    /*========================================================
-      Spacing
-    ========================================================*/
+/*==========================================================
+    Border Radius
+==========================================================*/
 
-    --space-1: 4px;
-    --space-2: 8px;
-    --space-3: 12px;
-    --space-4: 16px;
-    --space-5: 20px;
-    --space-6: 24px;
-    --space-8: 32px;
-    --space-10: 40px;
-    --space-12: 48px;
-    --space-16: 64px;
+--radius-xs:4px;
+--radius-sm:6px;
+--radius-md:10px;
+--radius-lg:16px;
+--radius-xl:22px;
+--radius-2xl:28px;
+--radius-pill:999px;
 
-    /*========================================================
-      Border Radius
-    ========================================================*/
+/*==========================================================
+    Shadows
+==========================================================*/
 
-    --radius-xs: 4px;
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 16px;
-    --radius-xl: 20px;
-    --radius-2xl: 28px;
-    --radius-circle: 50%;
+--shadow-xs:
+0 1px 2px rgba(0,0,0,.15);
 
-    /*========================================================
-      Layout
-    ========================================================*/
+--shadow-sm:
+0 3px 8px rgba(0,0,0,.18);
 
-    --navbar-height: 72px;
-    --sidebar-width: 280px;
-    --sidebar-collapsed-width: 90px;
+--shadow-md:
+0 8px 18px rgba(0,0,0,.22);
 
-    --container-width: 1600px;
+--shadow-lg:
+0 15px 30px rgba(0,0,0,.28);
 
-    --content-padding: 24px;
+--shadow-xl:
+0 24px 48px rgba(0,0,0,.35);
 
-    /*========================================================
-      Cards
-    ========================================================*/
+--shadow-gold:
+0 0 0 1px rgba(212,175,55,.20),
+0 0 18px rgba(212,175,55,.18);
 
-    --card-padding: 20px;
-    --card-gap: 20px;
+/*==========================================================
+    Glass Effects
+==========================================================*/
 
-    /*========================================================
-      Buttons
-    ========================================================*/
+--glass-bg:rgba(20,43,85,.78);
+--glass-border:rgba(255,255,255,.08);
+--glass-blur:16px;
 
-    --button-height: 46px;
-    --button-radius: 10px;
+/*==========================================================
+    Component Sizes
+==========================================================*/
 
-    /*========================================================
-      Inputs
-    ========================================================*/
+--navbar-height:72px;
+--sidebar-width:280px;
+--sidebar-collapsed-width:84px;
+--footer-height:50px;
+--z-footer:900;
 
-    --input-height: 46px;
-    --input-radius: 10px;
+--card-padding:24px;
 
-    /*========================================================
-      Tables
-    ========================================================*/
+--button-height:46px;
+--button-radius:12px;
 
-    --table-row-height: 56px;
+--input-height:46px;
+--input-radius:12px;
 
-    /*========================================================
-      Charts
-    ========================================================*/
+--avatar-size:46px;
 
-    --chart-height: 350px;
+--chart-height:360px;
 
-    /*========================================================
-      Transitions
-    ========================================================*/
+/*==========================================================
+    Layout
+==========================================================*/
 
-    --transition-fast: 0.2s ease;
-    --transition-normal: 0.3s ease;
-    --transition-slow: 0.5s ease;
+--page-max-width:1800px;
+--content-padding:32px;
+--grid-gap:24px;
 
-    /*========================================================
-      Z-Index
-    ========================================================*/
+/*==========================================================
+    Animation
+==========================================================*/
 
-    --z-dropdown: 100;
-    --z-sticky: 500;
-    --z-sidebar: 800;
-    --z-navbar: 900;
-    --z-modal: 1000;
-    --z-loader: 2000;
+--transition-fast:.2s ease;
+--transition-normal:.3s ease;
+--transition-slow:.5s ease;
+
+/*==========================================================
+    Opacity
+==========================================================*/
+
+--opacity-disabled:.55;
+--opacity-hover:.90;
+
+/*==========================================================
+    Z Index
+==========================================================*/
+
+--z-base:1;
+--z-dropdown:100;
+--z-sticky:200;
+--z-sidebar:300;
+--z-navbar:400;
+--z-overlay:900;
+--z-modal:1000;
+--z-toast:1100;
+--z-loader:1200;
+--z-emergency:1300;
+
+/*==========================================================
+    Scrollbar
+==========================================================*/
+
+--scrollbar-width:10px;
+--scrollbar-radius:999px;
+--scrollbar-track:#0F1F3D;
+--scrollbar-thumb:#355987;
+--scrollbar-thumb-hover:#4D74A9;
+
+/*==========================================================
+    Status Indicators
+==========================================================*/
+
+--status-online:#10B981;
+--status-offline:#EF4444;
+--status-idle:#F59E0B;
+--status-processing:#3B82F6;
+
+/*==========================================================
+    Charts
+==========================================================*/
+
+--chart-grid:rgba(255,255,255,.05);
+--chart-axis:#94A3B8;
+--chart-text:#E2E8F0;
+
+/*==========================================================
+    Maps
+==========================================================*/
+
+--map-control-bg:#102447;
+--map-control-hover:#16346F;
+--map-border:#28456E;
 
 }

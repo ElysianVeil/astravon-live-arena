@@ -1,16 +1,291 @@
-<section class="page-header">
+<main class="reports-page">
 
-    <h1>📊 Reports & Analytics</h1>
+    <!-- ===================================================== -->
+    <!-- Page Header -->
+    <!-- ===================================================== -->
 
-    <p>
-        Historical AI statistics,
-        crowd analytics and event summaries.
-    </p>
+    <section class="page-header">
 
-</section>
+        <h1>Reports & Analytics</h1>
 
-<section class="dashboard-grid">
+        <p>
+            Explore historical AI detections, crowd behaviour,
+            venue safety, weather conditions, risk evolution,
+            and operational performance across all monitored events.
+        </p>
 
-    <!-- Your existing dashboard cards -->
+    </section>
 
-</section>
+    <!-- ===================================================== -->
+    <!-- Report Overview -->
+    <!-- ===================================================== -->
+
+    <section class="report-overview">
+
+        <div
+            id="eventsAnalyzedCard"
+            class="report-overview-card"
+        ></div>
+
+        <div
+            id="peopleDetectedCard"
+            class="report-overview-card"
+        ></div>
+
+        <div
+            id="alertsGeneratedCard"
+            class="report-overview-card"
+        ></div>
+
+        <div
+            id="averageRiskCard"
+            class="report-overview-card"
+        ></div>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- Report Controls -->
+    <!-- ===================================================== -->
+
+    <section class="dashboard-card report-controls-panel">
+
+        <div class="card-header">
+
+            <h2>Report Filters</h2>
+
+        </div>
+
+        <div class="report-toolbar">
+
+            <select id="reportPeriod">
+
+                <option value="today">Today</option>
+
+                <option value="week">Last 7 Days</option>
+
+                <option value="month">Last 30 Days</option>
+
+                <option value="event">Current Event</option>
+
+                <option value="custom">Custom Range</option>
+
+            </select>
+
+            <select id="venueSelector">
+
+                <option value="all">All Venues</option>
+
+            </select>
+
+            <select id="cameraSelector">
+
+                <option value="all">All Cameras</option>
+
+            </select>
+
+            <button id="generateReportBtn">
+
+                Generate Report
+
+            </button>
+
+            <button id="exportPdfBtn">
+
+                Export PDF
+
+            </button>
+
+            <button id="exportCsvBtn">
+
+                Export CSV
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- Analytics Charts -->
+    <!-- ===================================================== -->
+
+    <section class="reports-grid">
+
+        <section
+            class="dashboard-card"
+            id="peopleTrendPanel"
+        >
+
+            <div class="card-header">
+
+                <h2>People Trend</h2>
+
+            </div>
+
+            <canvas id="peopleTrendChart"></canvas>
+
+        </section>
+
+        <section
+            class="dashboard-card"
+            id="riskTrendPanel"
+        >
+
+            <div class="card-header">
+
+                <h2>Risk Evolution</h2>
+
+            </div>
+
+            <canvas id="riskTrendChart"></canvas>
+
+        </section>
+
+        <section
+            class="dashboard-card"
+            id="densityTrendPanel"
+        >
+
+            <div class="card-header">
+
+                <h2>Crowd Density</h2>
+
+            </div>
+
+            <canvas id="densityTrendChart"></canvas>
+
+        </section>
+
+        <section
+            class="dashboard-card"
+            id="occupancyTrendPanel"
+        >
+
+            <div class="card-header">
+
+                <h2>Occupancy</h2>
+
+            </div>
+
+            <canvas id="occupancyTrendChart"></canvas>
+
+        </section>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- Operational Analytics -->
+    <!-- ===================================================== -->
+
+    <section class="reports-grid">
+
+        <section
+            class="dashboard-card"
+            id="movementPanel"
+        >
+
+            <div class="card-header">
+
+                <h2>Movement Analysis</h2>
+
+            </div>
+
+            <canvas id="movementChart"></canvas>
+
+        </section>
+
+        <section
+            class="dashboard-card"
+            id="weatherPanel"
+        >
+
+            <div class="card-header">
+
+                <h2>Weather History</h2>
+
+            </div>
+
+            <canvas id="weatherChart"></canvas>
+
+        </section>
+
+        <section
+            class="dashboard-card"
+            id="performancePanel"
+        >
+
+            <div class="card-header">
+
+                <h2>AI Performance</h2>
+
+            </div>
+
+            <canvas id="performanceChart"></canvas>
+
+        </section>
+
+        <section
+            class="dashboard-card"
+            id="alertsPanel"
+        >
+
+            <div class="card-header">
+
+                <h2>Alert Distribution</h2>
+
+            </div>
+
+            <canvas id="alertsChart"></canvas>
+
+        </section>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- Event Summary -->
+    <!-- ===================================================== -->
+
+    <section
+        id="eventSummaryPanel"
+        class="dashboard-card"
+    >
+
+        <div class="card-header">
+
+            <h2>Event Summary</h2>
+
+        </div>
+
+        <div id="eventSummary">
+
+            <!-- Generated dynamically -->
+
+        </div>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- Historical Reports -->
+    <!-- ===================================================== -->
+
+    <section
+        id="historyPanel"
+        class="dashboard-card"
+    >
+
+        <div class="card-header">
+
+            <h2>Historical Reports</h2>
+
+        </div>
+
+        <div id="historyTable">
+
+            <!-- Dynamic report table -->
+
+        </div>
+
+    </section>
+
+</main>

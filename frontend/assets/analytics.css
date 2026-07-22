@@ -1,0 +1,669 @@
+/*
+============================================================
+Astravon Live Arena
+Analytics Styles
+
+Purpose:
+    Styling for analytics dashboards including
+    charts, KPIs, AI performance, trends,
+    reports, comparisons and prediction panels.
+
+Author:
+    House of Astravon
+
+Version:
+    2.0.0
+============================================================
+*/
+
+/*==========================================================
+    Analytics Layout
+==========================================================*/
+
+.analytics-page{
+
+    display:flex;
+    flex-direction:column;
+
+    gap:24px;
+
+}
+
+/*==========================================================
+    KPI Grid
+==========================================================*/
+
+.analytics-kpis{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(220px,1fr));
+
+    gap:20px;
+
+}
+
+.kpi-card{
+
+    background:var(--background-card);
+
+    border:1px solid var(--border-color);
+
+    border-radius:18px;
+
+    padding:22px;
+
+    transition:.3s;
+
+    box-shadow:var(--shadow-small);
+
+}
+
+.kpi-card:hover{
+
+    transform:translateY(-4px);
+
+    border-color:rgba(212,175,55,.30);
+
+    box-shadow:var(--shadow-medium);
+
+}
+
+.kpi-label{
+
+    font-size:.85rem;
+
+    color:var(--text-muted);
+
+    margin-bottom:10px;
+
+}
+
+.kpi-value{
+
+    font-size:2rem;
+
+    font-weight:700;
+
+    color:var(--color-secondary);
+
+}
+
+.kpi-change{
+
+    margin-top:10px;
+
+    font-size:.85rem;
+
+    font-weight:600;
+
+}
+
+.kpi-up{
+
+    color:var(--color-success);
+
+}
+
+.kpi-down{
+
+    color:var(--color-danger);
+
+}
+
+/*==========================================================
+    Chart Grid
+==========================================================*/
+
+.analytics-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        2fr
+        1fr;
+
+    gap:24px;
+
+}
+
+.analytics-column{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:24px;
+
+}
+
+/*==========================================================
+    Chart Cards
+==========================================================*/
+
+.chart-card{
+
+    background:var(--background-card);
+
+    border:1px solid var(--border-color);
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:var(--shadow-small);
+
+}
+
+.chart-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px 22px;
+
+    border-bottom:1px solid var(--border-color);
+
+}
+
+.chart-title{
+
+    font-size:1rem;
+
+    font-weight:700;
+
+}
+
+.chart-actions{
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+.chart-body{
+
+    padding:20px;
+
+}
+
+.chart-container{
+
+    position:relative;
+
+    width:100%;
+
+    height:360px;
+
+}
+
+.chart-container canvas{
+
+    width:100% !important;
+
+    height:100% !important;
+
+}
+
+/*==========================================================
+    AI Summary
+==========================================================*/
+
+.ai-summary{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(160px,1fr));
+
+    gap:16px;
+
+}
+
+.ai-stat{
+
+    background:rgba(255,255,255,.03);
+
+    border-radius:14px;
+
+    padding:18px;
+
+    text-align:center;
+
+}
+
+.ai-stat h3{
+
+    font-size:1.6rem;
+
+    color:var(--color-secondary);
+
+    margin-bottom:8px;
+
+}
+
+.ai-stat p{
+
+    color:var(--text-muted);
+
+    font-size:.85rem;
+
+}
+
+/*==========================================================
+    Heatmap Card
+==========================================================*/
+
+.heatmap-card{
+
+    min-height:420px;
+
+}
+
+.heatmap-placeholder{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    height:320px;
+
+    border-radius:14px;
+
+    background:linear-gradient(
+        135deg,
+        rgba(255,0,0,.15),
+        rgba(255,255,0,.10),
+        rgba(0,255,255,.12)
+    );
+
+    color:var(--text-secondary);
+
+    font-weight:600;
+
+}
+
+/*==========================================================
+    AI Prediction
+==========================================================*/
+
+.prediction-panel{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.prediction-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:16px;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.03);
+
+}
+
+.prediction-title{
+
+    font-weight:600;
+
+}
+
+.prediction-value{
+
+    font-size:1.3rem;
+
+    font-weight:700;
+
+    color:var(--color-secondary);
+
+}
+
+/*==========================================================
+    Progress Indicators
+==========================================================*/
+
+.progress-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.progress-item{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+.progress-title{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    font-size:.9rem;
+
+}
+
+.progress-bar{
+
+    width:100%;
+
+    height:12px;
+
+    border-radius:20px;
+
+    background:#1f2937;
+
+    overflow:hidden;
+
+}
+
+.progress-fill{
+
+    height:100%;
+
+    width:0;
+
+    border-radius:20px;
+
+    transition:width .6s ease;
+
+    background:linear-gradient(
+        90deg,
+        var(--color-success),
+        var(--color-warning),
+        var(--color-danger)
+    );
+
+}
+
+/*==========================================================
+    AI Confidence Ring
+==========================================================*/
+
+.confidence-ring{
+
+    width:160px;
+    height:160px;
+
+    border-radius:50%;
+
+    margin:auto;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:
+        conic-gradient(
+            var(--color-secondary) 0deg,
+            var(--color-secondary) 300deg,
+            rgba(255,255,255,.06) 300deg
+        );
+
+}
+
+.confidence-ring::before{
+
+    content:"";
+
+    width:125px;
+    height:125px;
+
+    border-radius:50%;
+
+    background:var(--background-card);
+
+    position:absolute;
+
+}
+
+.confidence-value{
+
+    position:relative;
+
+    font-size:2rem;
+
+    font-weight:700;
+
+    color:var(--color-secondary);
+
+}
+
+/*==========================================================
+    Timeline
+==========================================================*/
+
+.analytics-timeline{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+}
+
+.timeline-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:14px 18px;
+
+    border-left:4px solid var(--color-accent);
+
+    border-radius:10px;
+
+    background:rgba(255,255,255,.025);
+
+}
+
+.timeline-row:hover{
+
+    background:rgba(255,255,255,.05);
+
+}
+
+.timeline-time{
+
+    color:var(--text-muted);
+
+    font-size:.85rem;
+
+}
+
+/*==========================================================
+    Comparison Table
+==========================================================*/
+
+.analytics-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.analytics-table th{
+
+    padding:14px;
+
+    text-align:left;
+
+    color:var(--text-secondary);
+
+    border-bottom:1px solid var(--border-color);
+
+}
+
+.analytics-table td{
+
+    padding:14px;
+
+    border-bottom:1px solid rgba(255,255,255,.05);
+
+}
+
+.analytics-table tbody tr:hover{
+
+    background:rgba(255,255,255,.03);
+
+}
+
+/*==========================================================
+    Export Panel
+==========================================================*/
+
+.export-panel{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:16px;
+
+}
+
+.export-btn{
+
+    padding:12px 18px;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    background:var(--color-primary-light);
+
+    color:white;
+
+    transition:.3s;
+
+}
+
+.export-btn:hover{
+
+    background:var(--color-secondary);
+
+    color:#07111f;
+
+}
+
+/*==========================================================
+    Filters
+==========================================================*/
+
+.analytics-filters{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:16px;
+
+    margin-bottom:20px;
+
+}
+
+.analytics-select{
+
+    min-width:180px;
+
+    height:44px;
+
+    padding:0 14px;
+
+    border-radius:10px;
+
+    border:1px solid var(--border-color);
+
+    background:var(--background-secondary);
+
+    color:var(--text-primary);
+
+}
+
+/*==========================================================
+    Responsive
+==========================================================*/
+
+@media (max-width:1200px){
+
+    .analytics-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media (max-width:768px){
+
+    .analytics-kpis{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+    .chart-container{
+
+        height:280px;
+
+    }
+
+}
+
+@media (max-width:520px){
+
+    .analytics-kpis{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .analytics-filters{
+
+        flex-direction:column;
+
+    }
+
+    .analytics-select{
+
+        width:100%;
+
+    }
+
+}

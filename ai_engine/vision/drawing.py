@@ -58,6 +58,7 @@ class Drawing:
     frames_drawn = 0
     current_draw_time = 0.0
     total_draw_time = 0.0
+    live_detections = 0
     _cached_time = ""
     _last_second = -1
 
@@ -1879,8 +1880,9 @@ class Drawing:
         # AI Detections
         # ======================================================
 
+        Drawing.live_detections = len(detections or [])
+
         if detections:
-            Drawing.live_detections = len(detections or [])
 
             for det in detections:
 

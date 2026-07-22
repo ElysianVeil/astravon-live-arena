@@ -1,73 +1,517 @@
-<section class="page-header">
+<main class="settings-page">
 
-    <h1>⚙ System Settings</h1>
+    <!-- ===================================================== -->
+    <!-- Page Header -->
+    <!-- ===================================================== -->
 
-    <p>
-        Configure the AI Engine,
-        backend services,
-        alerts and monitoring.
-    </p>
+    <section class="page-header">
 
-</section>
+        <h1>System Settings</h1>
 
-<section class="dashboard-grid">
-
-    <section class="dashboard-card">
-
-        <h2>AI Engine</h2>
-
-        <!-- form -->
+        <p>
+            Configure the Astravon Live Arena AI Engine,
+            backend services, cameras, alerts,
+            dashboard preferences and system behaviour.
+        </p>
 
     </section>
 
-    <section class="dashboard-card">
+    <!-- ===================================================== -->
+    <!-- Settings Grid -->
+    <!-- ===================================================== -->
 
-        <h2>Backend Connection</h2>
+    <section class="settings-grid">
 
-        <!-- form -->
+        <!-- =============================================== -->
+        <!-- AI ENGINE -->
+        <!-- =============================================== -->
+
+        <section class="dashboard-card">
+
+            <div class="card-header">
+
+                <h2>AI Engine</h2>
+
+            </div>
+
+            <div class="settings-form">
+
+                <label>
+
+                    Detection Confidence
+
+                    <input
+                        id="confidenceThreshold"
+                        type="range"
+                        min="0.1"
+                        max="1"
+                        step="0.05"
+                    >
+
+                </label>
+
+                <label>
+
+                    Detection Resolution
+
+                    <select id="resolutionSelect">
+
+                        <option>416</option>
+
+                        <option>512</option>
+
+                        <option selected>640</option>
+
+                        <option>768</option>
+
+                    </select>
+
+                </label>
+
+                <label>
+
+                    Maximum AI Threads
+
+                    <input
+                        id="threadCount"
+                        type="number"
+                        min="1"
+                        max="32"
+                    >
+
+                </label>
+
+                <label>
+
+                    Enable Person Re-Identification
+
+                    <input
+                        id="enableReID"
+                        type="checkbox"
+                    >
+
+                </label>
+
+                <label>
+
+                    Enable ByteTrack
+
+                    <input
+                        id="enableTracking"
+                        type="checkbox"
+                        checked
+                    >
+
+                </label>
+
+            </div>
+
+        </section>
+
+        <!-- =============================================== -->
+        <!-- CAMERA SETTINGS -->
+        <!-- =============================================== -->
+
+        <section class="dashboard-card">
+
+            <div class="card-header">
+
+                <h2>Camera Settings</h2>
+
+            </div>
+
+            <div class="settings-form">
+
+                <label>
+
+                    Default Camera
+
+                    <select id="defaultCamera"></select>
+
+                </label>
+
+                <label>
+
+                    Auto Reconnect
+
+                    <input
+                        id="autoReconnect"
+                        type="checkbox"
+                        checked
+                    >
+
+                </label>
+
+                <label>
+
+                    Enable Camera Recording
+
+                    <input
+                        id="cameraRecording"
+                        type="checkbox"
+                    >
+
+                </label>
+
+                <label>
+
+                    Record on Critical Alerts Only
+
+                    <input
+                        id="criticalRecording"
+                        type="checkbox"
+                    >
+
+                </label>
+
+            </div>
+
+        </section>
+
+        <!-- =============================================== -->
+        <!-- BACKEND -->
+        <!-- =============================================== -->
+
+        <section class="dashboard-card">
+
+            <div class="card-header">
+
+                <h2>Backend Connection</h2>
+
+            </div>
+
+            <div class="settings-form">
+
+                <label>
+
+                    REST API URL
+
+                    <input
+                        id="apiUrl"
+                        type="text"
+                    >
+
+                </label>
+
+                <label>
+
+                    WebSocket URL
+
+                    <input
+                        id="websocketUrl"
+                        type="text"
+                    >
+
+                </label>
+
+                <label>
+
+                    Automatic Reconnection
+
+                    <input
+                        id="autoReconnectWS"
+                        type="checkbox"
+                        checked
+                    >
+
+                </label>
+
+                <label>
+
+                    Heartbeat Interval (sec)
+
+                    <input
+                        id="heartbeatInterval"
+                        type="number"
+                    >
+
+                </label>
+
+            </div>
+
+        </section>
+
+        <!-- =============================================== -->
+        <!-- ALERTS -->
+        <!-- =============================================== -->
+
+        <section class="dashboard-card">
+
+            <div class="card-header">
+
+                <h2>Alert Configuration</h2>
+
+            </div>
+
+            <div class="settings-form">
+
+                <label>
+
+                    Risk Threshold
+
+                    <input
+                        id="riskThreshold"
+                        type="range"
+                        min="0"
+                        max="100"
+                    >
+
+                </label>
+
+                <label>
+
+                    Enable Audio Alerts
+
+                    <input
+                        id="audioAlerts"
+                        type="checkbox"
+                    >
+
+                </label>
+
+                <label>
+
+                    Desktop Notifications
+
+                    <input
+                        id="desktopAlerts"
+                        type="checkbox"
+                    >
+
+                </label>
+
+                <label>
+
+                    Email Notifications
+
+                    <input
+                        id="emailAlerts"
+                        type="checkbox"
+                    >
+
+                </label>
+
+            </div>
+
+        </section>
+
+        <!-- =============================================== -->
+        <!-- EVENT MODE -->
+        <!-- =============================================== -->
+
+        <section class="dashboard-card">
+
+            <div class="card-header">
+
+                <h2>Event Mode</h2>
+
+            </div>
+
+            <div class="settings-form">
+
+                <label>
+
+                    Default Event Mode
+
+                    <select id="defaultEventMode">
+
+                        <option>Concert</option>
+
+                        <option>Football Match</option>
+
+                        <option>Festival</option>
+
+                        <option>Conference</option>
+
+                        <option>Simulation</option>
+
+                    </select>
+
+                </label>
+
+                <label>
+
+                    Automatic Event Detection
+
+                    <input
+                        id="autoEventDetection"
+                        type="checkbox"
+                    >
+
+                </label>
+
+            </div>
+
+        </section>
+
+        <!-- =============================================== -->
+        <!-- DASHBOARD -->
+        <!-- =============================================== -->
+
+        <section class="dashboard-card">
+
+            <div class="card-header">
+
+                <h2>Dashboard Appearance</h2>
+
+            </div>
+
+            <div class="settings-form">
+
+                <label>
+
+                    Dark Theme
+
+                    <input
+                        id="darkTheme"
+                        type="checkbox"
+                        checked
+                    >
+
+                </label>
+
+                <label>
+
+                    Live Statistics
+
+                    <input
+                        id="liveStatistics"
+                        type="checkbox"
+                        checked
+                    >
+
+                </label>
+
+                <label>
+
+                    Animated Charts
+
+                    <input
+                        id="animatedCharts"
+                        type="checkbox"
+                        checked
+                    >
+
+                </label>
+
+                <label>
+
+                    Show FPS Monitor
+
+                    <input
+                        id="showFPS"
+                        type="checkbox"
+                    >
+
+                </label>
+
+                <label>
+
+                    Show AI Performance
+
+                    <input
+                        id="showPerformance"
+                        type="checkbox"
+                        checked
+                    >
+
+                </label>
+
+            </div>
+
+        </section>
+
+        <!-- =============================================== -->
+        <!-- SYSTEM -->
+        <!-- =============================================== -->
+
+        <section class="dashboard-card">
+
+            <div class="card-header">
+
+                <h2>System Information</h2>
+
+            </div>
+
+            <div id="systemInformation">
+
+                <!-- Loaded dynamically -->
+
+            </div>
+
+        </section>
+
+        <!-- =============================================== -->
+        <!-- LOGS -->
+        <!-- =============================================== -->
+
+        <section class="dashboard-card">
+
+            <div class="card-header">
+
+                <h2>Logs & Diagnostics</h2>
+
+            </div>
+
+            <div class="settings-actions">
+
+                <button id="downloadLogsBtn">
+
+                    Download Logs
+
+                </button>
+
+                <button id="clearLogsBtn">
+
+                    Clear Logs
+
+                </button>
+
+                <button id="runDiagnosticsBtn">
+
+                    Run Diagnostics
+
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- =============================================== -->
+        <!-- SAVE -->
+        <!-- =============================================== -->
+
+        <section class="dashboard-card settings-footer">
+
+            <button
+                class="btn-primary"
+                id="saveSettingsBtn"
+            >
+
+                Save Settings
+
+            </button>
+
+            <button
+                class="btn-secondary"
+                id="resetSettingsBtn"
+            >
+
+                Reset Defaults
+
+            </button>
+
+            <button
+                class="btn-secondary"
+                id="restartEngineBtn"
+            >
+
+                Restart AI Engine
+
+            </button>
+
+        </section>
 
     </section>
 
-    <section class="dashboard-card">
-
-        <h2>Alert Configuration</h2>
-
-        <!-- form -->
-
-    </section>
-
-    <section class="dashboard-card">
-
-        <h2>Default Event Mode</h2>
-
-        <!-- select -->
-
-    </section>
-
-    <section class="dashboard-card">
-
-        <h2>Dashboard Appearance</h2>
-
-        <!-- checkboxes -->
-
-    </section>
-
-    <section class="dashboard-card">
-
-        <button
-            class="btn-primary"
-            id="saveSettingsBtn"
-        >
-            Save Settings
-        </button>
-
-        <button
-            class="btn-secondary"
-            id="resetSettingsBtn"
-        >
-            Reset Defaults
-        </button>
-
-    </section>
-
-</section>
+</main>

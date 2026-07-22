@@ -1,0 +1,287 @@
+<main class="map-page">
+
+    <!-- ===================================================== -->
+    <!-- Map Overview -->
+    <!-- ===================================================== -->
+
+    <section class="map-overview">
+
+        <div
+            id="venueCard"
+            class="map-overview-card"
+        ></div>
+
+        <div
+            id="activeCamerasCard"
+            class="map-overview-card"
+        ></div>
+
+        <div
+            id="crowdStatusCard"
+            class="map-overview-card"
+        ></div>
+
+        <div
+            id="riskStatusCard"
+            class="map-overview-card"
+        ></div>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- Map Controls -->
+    <!-- ===================================================== -->
+
+    <section class="dashboard-card map-controls-panel">
+
+        <div class="card-header">
+
+            <h2>Venue Map Controls</h2>
+
+            <div class="map-toolbar">
+
+                <button id="toggleHeatmapBtn">
+                    Heatmap
+                </button>
+
+                <button id="toggleCrowdBtn">
+                    Crowd Density
+                </button>
+
+                <button id="toggleCameraBtn">
+                    Cameras
+                </button>
+
+                <button id="toggleRoutesBtn">
+                    Emergency Routes
+                </button>
+
+                <button id="toggleZonesBtn">
+                    Safety Zones
+                </button>
+
+                <button id="fullscreenMapBtn">
+                    Fullscreen
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- Main Map -->
+    <!-- ===================================================== -->
+
+    <section class="map-layout">
+
+        <section
+            id="venueMapPanel"
+            class="dashboard-card venue-map-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Live Venue Map</h2>
+
+            </div>
+
+            <div id="venueMap"></div>
+
+        </section>
+
+        <!-- ============================================= -->
+        <!-- Map Legend -->
+        <!-- ============================================= -->
+
+        <aside
+            id="mapLegendPanel"
+            class="dashboard-card map-legend-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Legend</h2>
+
+            </div>
+
+            <div id="mapLegend"></div>
+
+        </aside>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- Live Spatial Analytics -->
+    <!-- ===================================================== -->
+
+    <section class="map-analytics-grid">
+
+        <!-- ============================================= -->
+        <!-- Crowd Heatmap -->
+        <!-- ============================================= -->
+
+        <section
+            id="heatmapPanel"
+            class="dashboard-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Heatmap</h2>
+
+            </div>
+
+            <div id="heatmapContainer"></div>
+
+        </section>
+
+        <!-- ============================================= -->
+        <!-- Camera Locations -->
+        <!-- ============================================= -->
+
+        <section
+            id="cameraLocationPanel"
+            class="dashboard-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Camera Locations</h2>
+
+            </div>
+
+            <div id="cameraLocations"></div>
+
+        </section>
+
+        <!-- ============================================= -->
+        <!-- Crowd Zones -->
+        <!-- ============================================= -->
+
+        <section
+            id="crowdZonesPanel"
+            class="dashboard-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Crowd Zones</h2>
+
+            </div>
+
+            <div id="crowdZones"></div>
+
+        </section>
+
+        <!-- ============================================= -->
+        <!-- Risk Zones -->
+        <!-- ============================================= -->
+
+        <section
+            id="riskZonesPanel"
+            class="dashboard-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Risk Zones</h2>
+
+            </div>
+
+            <div id="riskZones"></div>
+
+        </section>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- Emergency Response -->
+    <!-- ===================================================== -->
+
+    <section class="emergency-grid">
+
+        <!-- ============================================= -->
+        <!-- Evacuation Routes -->
+        <!-- ============================================= -->
+
+        <section
+            id="evacuationPanel"
+            class="dashboard-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Evacuation Routes</h2>
+
+            </div>
+
+            <div id="evacuationRoutes"></div>
+
+        </section>
+
+        <!-- ============================================= -->
+        <!-- Emergency Vehicles -->
+        <!-- ============================================= -->
+
+        <section
+            id="responsePanel"
+            class="dashboard-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Emergency Response</h2>
+
+            </div>
+
+            <div id="responseVehicles"></div>
+
+        </section>
+
+        <!-- ============================================= -->
+        <!-- Safe Assembly Areas -->
+        <!-- ============================================= -->
+
+        <section
+            id="assemblyPanel"
+            class="dashboard-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Assembly Areas</h2>
+
+            </div>
+
+            <div id="assemblyAreas"></div>
+
+        </section>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- Live Event Feed -->
+    <!-- ===================================================== -->
+
+    <section
+        id="mapEventsPanel"
+        class="dashboard-card"
+    >
+
+        <div class="card-header">
+
+            <h2>Spatial Event Feed</h2>
+
+        </div>
+
+        <div id="mapEventsContainer">
+
+            <!-- Dynamic map events -->
+
+        </div>
+
+    </section>
+
+</main>

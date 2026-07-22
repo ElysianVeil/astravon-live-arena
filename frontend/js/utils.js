@@ -4,40 +4,79 @@ Astravon Live Arena
 Utility Functions
 
 Purpose:
-    Shared helper functions used throughout
-    the frontend dashboard.
+    Shared utility library used throughout
+    the Astravon Live Arena frontend.
+
+Part:
+    1 — DOM, Elements, Math,
+        Formatting, Dates,
+        Objects, Arrays
 
 Author:
     House of Astravon
 
 Version:
-    1.0.0
+    2.0.0
 ============================================================
 */
 
-/*
-============================================================
-DOM Helpers
-============================================================
-*/
+/*==========================================================
+    DOM Helpers
+==========================================================*/
 
-export function $(selector) {
+export function $(selector, parent = document) {
 
-    return document.querySelector(selector);
+    return parent.querySelector(selector);
 
 }
 
-export function $$(selector) {
+export function $$(selector, parent = document) {
 
-    return document.querySelectorAll(selector);
+    return [...parent.querySelectorAll(selector)];
 
 }
 
-/*
-============================================================
-Element
-============================================================
-*/
+export function byId(id) {
+
+    return document.getElementById(id);
+
+}
+
+export function exists(selector, parent = document) {
+
+    return parent.querySelector(selector) !== null;
+
+}
+
+export function ready(callback) {
+
+    if (
+
+        document.readyState === "loading"
+
+    ) {
+
+        document.addEventListener(
+
+            "DOMContentLoaded",
+
+            callback
+
+        );
+
+    }
+
+    else {
+
+        callback();
+
+    }
+
+}
+
+/*==========================================================
+    Element Helpers
+==========================================================*/
 
 export function createElement(
 
@@ -59,7 +98,7 @@ export function createElement(
 
     }
 
-    if (text) {
+    if (text !== "") {
 
         element.textContent = text;
 
@@ -69,11 +108,97 @@ export function createElement(
 
 }
 
-/*
-============================================================
-Numbers
-============================================================
-*/
+export function clearElement(element) {
+
+    if (!element) return;
+
+    element.innerHTML = "";
+
+}
+
+export function removeElement(element) {
+
+    if (!element) return;
+
+    element.remove();
+
+}
+
+export function show(element) {
+
+    if (!element) return;
+
+    element.style.display = "";
+
+}
+
+export function hide(element) {
+
+    if (!element) return;
+
+    element.style.display = "none";
+
+}
+
+export function toggle(
+
+    element,
+
+    visible = true
+
+) {
+
+    if (!element) return;
+
+    element.style.display =
+
+        visible
+
+            ? ""
+
+            : "none";
+
+}
+
+export function addClass(
+
+    element,
+
+    className
+
+) {
+
+    element?.classList.add(className);
+
+}
+
+export function removeClass(
+
+    element,
+
+    className
+
+) {
+
+    element?.classList.remove(className);
+
+}
+
+export function toggleClass(
+
+    element,
+
+    className
+
+) {
+
+    element?.classList.toggle(className);
+
+}
+
+/*==========================================================
+    Number Helpers
+==========================================================*/
 
 export function clamp(
 
@@ -105,7 +230,7 @@ export function round(
 
     return Number(
 
-        value.toFixed(decimals)
+        Number(value).toFixed(decimals)
 
     );
 
@@ -135,57 +260,191 @@ export function percentage(
 
 }
 
-/*
-============================================================
-Formatting
-============================================================
-*/
+export function lerp(
 
-export function formatNumber(number) {
+    start,
+
+    end,
+
+    alpha
+
+) {
+
+    return start +
+
+        (end - start) * alpha;
+
+}
+
+export function mapRange(
+
+    value,
+
+    inMin,
+
+    inMax,
+
+    outMin,
+
+    outMax
+
+) {
+
+    return (
+
+        (
+
+            value - inMin
+
+        ) *
+
+        (
+
+            outMax - outMin
+
+        ) /
+
+        (
+
+            inMax - inMin
+
+        )
+
+    ) + outMin;
+
+}
+
+/*==========================================================
+    Formatting
+==========================================================*/
+
+export function formatNumber(value) {
 
     return new Intl.NumberFormat()
 
-        .format(number);
+        .format(value);
+
+}
+
+export function formatMetric(
+
+    value,
+
+    unit,
+
+    decimals = 1
+
+) {
+
+    return `${
+
+        round(value, decimals)
+
+    } ${unit}`;
 
 }
 
 export function formatTemperature(value) {
 
-    return `${round(value)} °C`;
+    return formatMetric(
+
+        value,
+
+        "°C"
+
+    );
 
 }
 
 export function formatHumidity(value) {
 
-    return `${round(value)} %`;
+    return formatMetric(
+
+        value,
+
+        "%"
+
+    );
 
 }
 
 export function formatFPS(value) {
 
-    return `${round(value)} FPS`;
+    return formatMetric(
+
+        value,
+
+        "FPS"
+
+    );
 
 }
 
 export function formatMilliseconds(value) {
 
-    return `${round(value)} ms`;
+    return formatMetric(
+
+        value,
+
+        "ms"
+
+    );
 
 }
 
-export function formatTime(date = new Date()) {
+export function formatPercentage(value) {
+
+    return `${
+
+        round(value, 1)
+
+    }%`;
+
+}
+
+/*==========================================================
+    Date & Time
+==========================================================*/
+
+export function now() {
+
+    return Date.now();
+
+}
+
+export function timestamp() {
+
+    return new Date()
+
+        .toISOString();
+
+}
+
+export function formatTime(
+
+    date = new Date()
+
+) {
 
     return date.toLocaleTimeString();
 
 }
 
-export function formatDate(date = new Date()) {
+export function formatDate(
+
+    date = new Date()
+
+) {
 
     return date.toLocaleDateString();
 
 }
 
-export function formatDateTime(date = new Date()) {
+export function formatDateTime(
+
+    date = new Date()
+
+) {
 
     return `${
 
@@ -199,141 +458,233 @@ export function formatDateTime(date = new Date()) {
 
 }
 
-/*
-============================================================
-Risk Helpers
-============================================================
-*/
+/*==========================================================
+    Object Helpers
+==========================================================*/
 
-export function riskColor(score) {
+export function deepClone(object) {
 
-    if (score >= 80) {
-
-        return "danger";
-
-    }
-
-    if (score >= 60) {
-
-        return "warning";
-
-    }
-
-    if (score >= 30) {
-
-        return "moderate";
-
-    }
-
-    return "safe";
+    return structuredClone(object);
 
 }
 
-export function riskLabel(score) {
+export function merge(
 
-    if (score >= 80) {
+    target,
 
-        return "Critical";
-
-    }
-
-    if (score >= 60) {
-
-        return "High";
-
-    }
-
-    if (score >= 30) {
-
-        return "Moderate";
-
-    }
-
-    return "Low";
-
-}
-
-/*
-============================================================
-Storage
-============================================================
-*/
-
-export function save(
-
-    key,
-
-    value
+    source
 
 ) {
 
-    localStorage.setItem(
+    return Object.assign(
 
-        key,
+        {},
 
-        JSON.stringify(value)
+        target,
+
+        source
 
     );
 
 }
 
-export function load(
+export function freeze(object) {
 
-    key,
+    return Object.freeze(object);
 
-    defaultValue = null
+}
+
+export function deepFreeze(object) {
+
+    Object.freeze(object);
+
+    Object.keys(object).forEach(key => {
+
+        const value = object[key];
+
+        if (
+
+            value &&
+
+            typeof value === "object" &&
+
+            !Object.isFrozen(value)
+
+        ) {
+
+            deepFreeze(value);
+
+        }
+
+    });
+
+    return object;
+
+}
+
+/*==========================================================
+    Array Helpers
+==========================================================*/
+
+export function unique(array) {
+
+    return [
+
+        ...new Set(array)
+
+    ];
+
+}
+
+export function chunk(
+
+    array,
+
+    size
 
 ) {
 
-    const item =
+    const result = [];
 
-        localStorage.getItem(key);
+    for (
 
-    if (!item) {
+        let i = 0;
 
-        return defaultValue;
+        i < array.length;
+
+        i += size
+
+    ) {
+
+        result.push(
+
+            array.slice(
+
+                i,
+
+                i + size
+
+            )
+
+        );
 
     }
 
-    try {
-
-        return JSON.parse(item);
-
-    }
-
-    catch {
-
-        return defaultValue;
-
-    }
+    return result;
 
 }
 
-export function remove(key) {
+export function last(array) {
 
-    localStorage.removeItem(key);
+    return array[
 
-}
+        array.length - 1
 
-export function clearStorage() {
-
-    localStorage.clear();
+    ];
 
 }
 
-/*
-============================================================
-Random
-============================================================
-*/
+export function first(array) {
 
-export function uuid() {
-
-    return crypto.randomUUID();
+    return array[0];
 
 }
 
-export function randomInt(
+export function shuffle(array) {
+
+    return [
+
+        ...array
+
+    ].sort(
+
+        () =>
+
+            Math.random() - 0.5
+
+    );
+
+}
+
+/*==========================================================
+    Validation
+==========================================================*/
+
+export function isNumber(value) {
+
+    return !Number.isNaN(Number(value));
+
+}
+
+export function isInteger(value) {
+
+    return Number.isInteger(Number(value));
+
+}
+
+export function isString(value) {
+
+    return typeof value === "string";
+
+}
+
+export function isBoolean(value) {
+
+    return typeof value === "boolean";
+
+}
+
+export function isObject(value) {
+
+    return (
+
+        value !== null &&
+
+        typeof value === "object" &&
+
+        !Array.isArray(value)
+
+    );
+
+}
+
+export function isArray(value) {
+
+    return Array.isArray(value);
+
+}
+
+export function isFunction(value) {
+
+    return typeof value === "function";
+
+}
+
+export function isEmpty(value) {
+
+    return (
+
+        value === null ||
+
+        value === undefined ||
+
+        value === "" ||
+
+        (Array.isArray(value) && value.length === 0)
+
+    );
+
+}
+
+export function hasValue(value) {
+
+    return !isEmpty(value);
+
+}
+
+export function between(
+
+    value,
 
     min,
 
@@ -341,21 +692,267 @@ export function randomInt(
 
 ) {
 
-    return Math.floor(
-
-        Math.random() *
-
-        (max - min + 1)
-
-    ) + min;
+    return value >= min && value <= max;
 
 }
 
-/*
-============================================================
-Delay
-============================================================
-*/
+export function validateRange(
+
+    value,
+
+    min,
+
+    max
+
+) {
+
+    if (!isNumber(value)) return false;
+
+    return between(
+
+        Number(value),
+
+        min,
+
+        max
+
+    );
+
+}
+
+/*==========================================================
+    Storage
+==========================================================*/
+
+export const Storage = {
+
+    save(
+
+        key,
+
+        value
+
+    ) {
+
+        localStorage.setItem(
+
+            key,
+
+            JSON.stringify(value)
+
+        );
+
+    },
+
+    load(
+
+        key,
+
+        defaultValue = null
+
+    ) {
+
+        const item =
+
+            localStorage.getItem(key);
+
+        if (!item) {
+
+            return defaultValue;
+
+        }
+
+        try {
+
+            return JSON.parse(item);
+
+        }
+
+        catch {
+
+            return defaultValue;
+
+        }
+
+    },
+
+    remove(key) {
+
+        localStorage.removeItem(key);
+
+    },
+
+    clear() {
+
+        localStorage.clear();
+
+    },
+
+    exists(key) {
+
+        return (
+
+            localStorage.getItem(key)
+
+            !== null
+
+        );
+
+    }
+
+};
+
+/*==========================================================
+    Browser Helpers
+==========================================================*/
+
+export function reload() {
+
+    window.location.reload();
+
+}
+
+export function redirect(url) {
+
+    window.location.href = url;
+
+}
+
+export function openWindow(
+
+    url,
+
+    target = "_blank"
+
+) {
+
+    window.open(
+
+        url,
+
+        target
+
+    );
+
+}
+
+export function currentURL() {
+
+    return window.location.href;
+
+}
+
+export function userAgent() {
+
+    return navigator.userAgent;
+
+}
+
+export function online() {
+
+    return navigator.onLine;
+
+}
+
+/*==========================================================
+    Network
+==========================================================*/
+
+export async function fetchJSON(
+
+    url,
+
+    options = {}
+
+) {
+
+    const response =
+
+        await fetch(
+
+            url,
+
+            options
+
+        );
+
+    if (!response.ok) {
+
+        throw new Error(
+
+            response.statusText
+
+        );
+
+    }
+
+    return response.json();
+
+}
+
+export async function fetchText(
+
+    url,
+
+    options = {}
+
+) {
+
+    const response =
+
+        await fetch(
+
+            url,
+
+            options
+
+        );
+
+    if (!response.ok) {
+
+        throw new Error(
+
+            response.statusText
+
+        );
+
+    }
+
+    return response.text();
+
+}
+
+export async function ping(url) {
+
+    try {
+
+        await fetch(
+
+            url,
+
+            {
+
+                method: "HEAD"
+
+            }
+
+        );
+
+        return true;
+
+    }
+
+    catch {
+
+        return false;
+
+    }
+
+}
+
+/*==========================================================
+    Async Helpers
+==========================================================*/
 
 export function sleep(ms) {
 
@@ -375,11 +972,91 @@ export function sleep(ms) {
 
 }
 
-/*
-============================================================
-Debounce
-============================================================
-*/
+export async function retry(
+
+    callback,
+
+    retries = 3
+
+) {
+
+    for (
+
+        let i = 0;
+
+        i < retries;
+
+        i++
+
+    ) {
+
+        try {
+
+            return await callback();
+
+        }
+
+        catch (error) {
+
+            if (
+
+                i === retries - 1
+
+            ) {
+
+                throw error;
+
+            }
+
+        }
+
+    }
+
+}
+
+export function timeout(
+
+    promise,
+
+    ms
+
+) {
+
+    return Promise.race([
+
+        promise,
+
+        new Promise(
+
+            (_, reject) =>
+
+                setTimeout(
+
+                    () =>
+
+                        reject(
+
+                            new Error(
+
+                                "Timeout"
+
+                            )
+
+                        ),
+
+                    ms
+
+                )
+
+        )
+
+    ]);
+
+}
+
+/*==========================================================
+    Performance
+==========================================================*/
 
 export function debounce(
 
@@ -397,7 +1074,9 @@ export function debounce(
 
         timeout = setTimeout(
 
-            () => callback(...args),
+            () =>
+
+                callback(...args),
 
             delay
 
@@ -406,12 +1085,6 @@ export function debounce(
     };
 
 }
-
-/*
-============================================================
-Throttle
-============================================================
-*/
 
 export function throttle(
 
@@ -451,67 +1124,505 @@ export function throttle(
 
 }
 
-/*
-============================================================
-Validation
-============================================================
-*/
+export function measure(
 
-export function isNumber(value) {
+    name,
 
-    return !Number.isNaN(
+    callback
 
-        Number(value)
+) {
+
+    const start =
+
+        performance.now();
+
+    const result =
+
+        callback();
+
+    const end =
+
+        performance.now();
+
+    console.log(
+
+        `${name}: ${
+
+            round(
+
+                end - start,
+
+                2
+
+            )
+
+        } ms`
+
+    );
+
+    return result;
+
+}
+
+export function nextFrame() {
+
+    return new Promise(
+
+        resolve =>
+
+            requestAnimationFrame(resolve)
 
     );
 
 }
 
-export function isEmpty(value) {
+export function idle(callback) {
+
+    if (
+
+        "requestIdleCallback"
+
+        in window
+
+    ) {
+
+        requestIdleCallback(
+
+            callback
+
+        );
+
+    }
+
+    else {
+
+        setTimeout(
+
+            callback,
+
+            1
+
+        );
+
+    }
+
+}
+
+/*
+============================================================
+Camera Helpers
+============================================================
+*/
+
+/*
+------------------------------------------------------------
+Convert Base64 Frame
+------------------------------------------------------------
+*/
+
+export function frameToDataURL(frame) {
+
+    if (!frame) {
+
+        return "";
+
+    }
+
+    return `data:image/jpeg;base64,${frame}`;
+
+}
+
+/*
+------------------------------------------------------------
+Frame Exists
+------------------------------------------------------------
+*/
+
+export function hasFrame(frame) {
 
     return (
 
-        value === null ||
+        typeof frame === "string" &&
 
-        value === undefined ||
-
-        value === ""
+        frame.length > 50
 
     );
 
 }
 
 /*
-============================================================
-Fullscreen
-============================================================
+------------------------------------------------------------
+Camera Online
+------------------------------------------------------------
 */
 
-export function enterFullscreen() {
+export function isCameraOnline(camera) {
 
-    document.documentElement
+    if (!camera) {
 
-        .requestFullscreen?.();
+        return false;
+
+    }
+
+    return (
+
+        camera.online === true ||
+
+        camera.connected === true
+
+    );
 
 }
 
-export function exitFullscreen() {
+/*
+------------------------------------------------------------
+Camera Badge
+------------------------------------------------------------
+*/
 
-    document.exitFullscreen?.();
+export function cameraStatusClass(camera) {
+
+    if (!camera) {
+
+        return "offline";
+
+    }
+
+    if (camera.recording) {
+
+        return "recording";
+
+    }
+
+    return isCameraOnline(camera)
+
+        ? "online"
+
+        : "offline";
+
+}
+
+/*
+------------------------------------------------------------
+FPS Color
+------------------------------------------------------------
+*/
+
+export function fpsColor(fps) {
+
+    if (fps >= 25) return "success";
+
+    if (fps >= 15) return "warning";
+
+    return "danger";
+
+}
+
+/*
+------------------------------------------------------------
+Resolution String
+------------------------------------------------------------
+*/
+
+export function resolution(width, height) {
+
+    return `${width} × ${height}`;
 
 }
 
 /*
 ============================================================
-Download JSON
+Statistics Helpers
 ============================================================
 */
 
-export function downloadJSON(
+/*
+------------------------------------------------------------
+Occupancy Percentage
+------------------------------------------------------------
+*/
+
+export function occupancyPercentage(
+
+    people,
+
+    capacity
+
+) {
+
+    if (!capacity) {
+
+        return 0;
+
+    }
+
+    return round(
+
+        (people / capacity) * 100,
+
+        1
+
+    );
+
+}
+
+/*
+------------------------------------------------------------
+Density Label
+------------------------------------------------------------
+*/
+
+export function densityLabel(value) {
+
+    if (value >= 8) {
+
+        return "Critical";
+
+    }
+
+    if (value >= 6) {
+
+        return "High";
+
+    }
+
+    if (value >= 4) {
+
+        return "Medium";
+
+    }
+
+    return "Low";
+
+}
+
+/*
+------------------------------------------------------------
+Density Color
+------------------------------------------------------------
+*/
+
+export function densityColor(value) {
+
+    if (value >= 8) return "danger";
+
+    if (value >= 6) return "warning";
+
+    if (value >= 4) return "moderate";
+
+    return "safe";
+
+}
+
+/*
+------------------------------------------------------------
+Heat Index Label
+------------------------------------------------------------
+*/
+
+export function heatLabel(value) {
+
+    if (value >= 41) return "Extreme";
+
+    if (value >= 33) return "Danger";
+
+    if (value >= 27) return "Warm";
+
+    return "Comfortable";
+
+}
+
+/*
+------------------------------------------------------------
+Heat Color
+------------------------------------------------------------
+*/
+
+export function heatColor(value) {
+
+    if (value >= 41) return "danger";
+
+    if (value >= 33) return "warning";
+
+    if (value >= 27) return "moderate";
+
+    return "safe";
+
+}
+
+/*
+============================================================
+Risk Helpers
+============================================================
+*/
+
+/*
+------------------------------------------------------------
+Risk Class
+------------------------------------------------------------
+*/
+
+export function riskClass(level) {
+
+    switch (
+
+        String(level).toLowerCase()
+
+    ) {
+
+        case "critical":
+
+            return "danger";
+
+        case "high":
+
+            return "danger";
+
+        case "medium":
+
+            return "warning";
+
+        case "moderate":
+
+            return "moderate";
+
+        case "low":
+
+            return "safe";
+
+        default:
+
+            return "secondary";
+
+    }
+
+}
+
+/*
+------------------------------------------------------------
+Risk Icon
+------------------------------------------------------------
+*/
+
+export function riskIcon(level) {
+
+    switch (
+
+        String(level).toLowerCase()
+
+    ) {
+
+        case "critical":
+
+            return "🛑";
+
+        case "high":
+
+            return "🚨";
+
+        case "medium":
+
+            return "⚠️";
+
+        case "low":
+
+            return "✅";
+
+        default:
+
+            return "ℹ️";
+
+    }
+
+}
+
+/*
+------------------------------------------------------------
+Risk Message
+------------------------------------------------------------
+*/
+
+export function riskMessage(score) {
+
+    if (score >= 90)
+
+        return "Immediate evacuation required.";
+
+    if (score >= 75)
+
+        return "Emergency teams should respond.";
+
+    if (score >= 50)
+
+        return "Monitor crowd closely.";
+
+    return "Situation stable.";
+
+}
+
+/*
+============================================================
+Fullscreen Helpers
+============================================================
+*/
+
+/*
+------------------------------------------------------------
+Toggle Element
+------------------------------------------------------------
+*/
+
+export async function toggleFullscreen(element) {
+
+    if (!element) {
+
+        return;
+
+    }
+
+    if (document.fullscreenElement) {
+
+        await document.exitFullscreen();
+
+    }
+
+    else {
+
+        await element.requestFullscreen();
+
+    }
+
+}
+
+/*
+------------------------------------------------------------
+Fullscreen State
+------------------------------------------------------------
+*/
+
+export function isFullscreen() {
+
+    return !!document.fullscreenElement;
+
+}
+
+/*
+============================================================
+Downloads
+============================================================
+*/
+
+/*
+------------------------------------------------------------
+Download Text
+------------------------------------------------------------
+*/
+
+export function downloadText(
 
     filename,
 
-    data
+    text
 
 ) {
 
@@ -519,23 +1630,11 @@ export function downloadJSON(
 
         new Blob(
 
-            [
-
-                JSON.stringify(
-
-                    data,
-
-                    null,
-
-                    4
-
-                )
-
-            ],
+            [text],
 
             {
 
-                type: "application/json"
+                type: "text/plain"
 
             }
 
@@ -560,112 +1659,309 @@ export function downloadJSON(
 }
 
 /*
-============================================================
-Loading Screen
-============================================================
+------------------------------------------------------------
+Download CSV
+------------------------------------------------------------
 */
 
-export function showLoading(message = "Loading...") {
+export function downloadCSV(
 
-    const screen = document.getElementById("loadingScreen");
+    filename,
 
-    if (!screen) return;
+    rows = []
 
-    screen.style.display = "flex";
+) {
 
-    const text = screen.querySelector("p");
+    const csv = rows
 
-    if (text) {
-        text.textContent = message;
-    }
+        .map(
 
-}
+            row => row.join(",")
 
-export function hideLoading() {
+        )
 
-    const screen = document.getElementById("loadingScreen");
+        .join("\n");
 
-    if (!screen) return;
+    downloadText(
 
-    screen.style.opacity = "0";
+        filename,
 
-    setTimeout(() => {
+        csv
 
-        screen.style.display = "none";
-
-    }, 300);
+    );
 
 }
 
-export function setLoading(message) {
+/*
+------------------------------------------------------------
+Download Image
+------------------------------------------------------------
+*/
 
-    const screen = document.getElementById("loadingScreen");
+export function downloadImage(
 
-    if (!screen) return;
+    filename,
 
-    const text = screen.querySelector("p");
+    imageURL
 
-    if (text) {
-        text.textContent = message;
-    }
+) {
+
+    const link =
+
+        document.createElement("a");
+
+    link.href = imageURL;
+
+    link.download = filename;
+
+    link.click();
 
 }
 
 /*
 ============================================================
-Toast Notifications
+Loading Manager
 ============================================================
 */
 
-export function showToast(
+class LoadingManager {
 
-    message,
+    constructor() {
 
-    type = "info",
+        this.screen = null;
 
-    duration = 3000
+        this.messageElement = null;
 
-) {
-
-    let container = document.getElementById("toastContainer");
-
-    if (!container) {
-
-        container = document.createElement("div");
-
-        container.id = "toastContainer";
-
-        document.body.appendChild(container);
+        this.visible = false;
 
     }
 
-    const toast = document.createElement("div");
+    initialize() {
 
-    toast.className = `toast ${type}`;
+        this.screen = document.getElementById(
+            "loadingScreen"
+        );
 
-    toast.textContent = message;
+        if (!this.screen) return;
 
-    container.appendChild(toast);
+        this.messageElement =
+            this.screen.querySelector("p");
 
-    requestAnimationFrame(() => {
+    }
 
-        toast.classList.add("show");
+    show(message = "Loading...") {
 
-    });
+        if (!this.screen) {
 
-    setTimeout(() => {
+            this.initialize();
 
-        toast.classList.remove("show");
+        }
+
+        if (!this.screen) return;
+
+        this.visible = true;
+
+        this.screen.style.display = "flex";
+
+        this.screen.style.opacity = "1";
+
+        this.setMessage(message);
+
+    }
+
+    hide() {
+
+        if (!this.screen) return;
+
+        this.visible = false;
+
+        this.screen.style.opacity = "0";
 
         setTimeout(() => {
 
-            toast.remove();
+            if (!this.visible) {
+
+                this.screen.style.display = "none";
+
+            }
 
         }, 300);
 
-    }, duration);
+    }
+
+    setMessage(message) {
+
+        if (this.messageElement) {
+
+            this.messageElement.textContent =
+
+                message;
+
+        }
+
+    }
 
 }
+
+export const Loading = new LoadingManager();
+
+
+/*
+============================================================
+Toast Manager
+============================================================
+*/
+
+class ToastManager {
+
+    constructor() {
+
+        this.container = null;
+
+    }
+
+    initialize() {
+
+        this.container = document.getElementById(
+
+            "toastContainer"
+
+        );
+
+        if (!this.container) {
+
+            this.container =
+
+                document.createElement("div");
+
+            this.container.id =
+
+                "toastContainer";
+
+            document.body.appendChild(
+
+                this.container
+
+            );
+
+        }
+
+    }
+
+    show(
+
+        message,
+
+        type = "info",
+
+        duration = 3000
+
+    ) {
+
+        if (!this.container) {
+
+            this.initialize();
+
+        }
+
+        const toast =
+
+            document.createElement("div");
+
+        toast.className =
+
+            `toast ${type}`;
+
+        toast.textContent =
+
+            message;
+
+        this.container.appendChild(
+
+            toast
+
+        );
+
+        requestAnimationFrame(() => {
+
+            toast.classList.add(
+
+                "show"
+
+            );
+
+        });
+
+        setTimeout(() => {
+
+            toast.classList.remove(
+
+                "show"
+
+            );
+
+            setTimeout(() => {
+
+                toast.remove();
+
+            }, 300);
+
+        }, duration);
+
+    }
+
+    success(message) {
+
+        this.show(
+
+            message,
+
+            "success"
+
+        );
+
+    }
+
+    info(message) {
+
+        this.show(
+
+            message,
+
+            "info"
+
+        );
+
+    }
+
+    warning(message) {
+
+        this.show(
+
+            message,
+
+            "warning"
+
+        );
+
+    }
+
+    error(message) {
+
+        this.show(
+
+            message,
+
+            "danger"
+
+        );
+
+    }
+
+}
+
+export const Toast = new ToastManager();
+
 
 /*
 ============================================================
@@ -673,56 +1969,317 @@ Logger
 ============================================================
 */
 
-export function log(
+class Logger {
 
-    message,
+    constructor(prefix = "Astravon") {
 
-    data = null
+        this.prefix = prefix;
+
+    }
+
+    info(message, data = null) {
+
+        console.info(
+
+            `[${this.prefix}] ${message}`,
+
+            data ?? ""
+
+        );
+
+    }
+
+    log(message, data = null) {
+
+        console.log(
+
+            `[${this.prefix}] ${message}`,
+
+            data ?? ""
+
+        );
+
+    }
+
+    warn(message, data = null) {
+
+        console.warn(
+
+            `[${this.prefix}] ${message}`,
+
+            data ?? ""
+
+        );
+
+    }
+
+    error(message, data = null) {
+
+        console.error(
+
+            `[${this.prefix}] ${message}`,
+
+            data ?? ""
+
+        );
+
+    }
+
+    table(data) {
+
+        console.table(data);
+
+    }
+
+    group(title) {
+
+        console.group(
+
+            `[${this.prefix}] ${title}`
+
+        );
+
+    }
+
+    groupEnd() {
+
+        console.groupEnd();
+
+    }
+
+}
+
+export const logger =
+
+    new Logger();
+
+
+/*
+============================================================
+Color Helpers
+============================================================
+*/
+
+export function hexToRGB(hex) {
+
+    hex =
+
+        hex.replace("#", "");
+
+    const bigint =
+
+        parseInt(hex, 16);
+
+    return {
+
+        r: (bigint >> 16) & 255,
+
+        g: (bigint >> 8) & 255,
+
+        b: bigint & 255
+
+    };
+
+}
+
+export function rgbToHex(
+
+    r,
+
+    g,
+
+    b
 
 ) {
 
-    console.log(
+    return "#" +
 
-        `[Astravon] ${message}`,
+        [r, g, b]
 
-        data ?? ""
+            .map(
+
+                value =>
+
+                    value
+
+                        .toString(16)
+
+                        .padStart(2, "0")
+
+            )
+
+            .join("");
+
+}
+
+export function randomColor() {
+
+    return rgbToHex(
+
+        randomInt(0,255),
+
+        randomInt(0,255),
+
+        randomInt(0,255)
 
     );
 
 }
 
-export function warn(
 
-    message,
+/*
+============================================================
+Miscellaneous
+============================================================
+*/
 
-    data = null
+export function noop(){}
 
-) {
+export function identity(value){
 
-    console.warn(
+    return value;
 
-        `[Astravon] ${message}`,
+}
 
-        data ?? ""
+export function capitalize(text){
+
+    if(!text) return "";
+
+    return
+
+        text.charAt(0)
+
+        .toUpperCase()
+
+        +
+
+        text.slice(1);
+
+}
+
+export function titleCase(text){
+
+    return String(text)
+
+        .split(" ")
+
+        .map(capitalize)
+
+        .join(" ");
+
+}
+
+export function copy(text){
+
+    navigator.clipboard?.writeText(
+
+        text
 
     );
 
 }
 
-export function error(
+export function uid(prefix="id"){
 
-    message,
-
-    data = null
-
-) {
-
-    console.error(
-
-        `[Astravon] ${message}`,
-
-        data ?? ""
-
-    );
+    return `${prefix}_${Date.now()}_${randomInt(1000,9999)}`;
 
 }
+
+export function once(fn){
+
+    let called = false;
+
+    return (...args)=>{
+
+        if(called) return;
+
+        called = true;
+
+        return fn(...args);
+
+    };
+
+}
+
+
+/*
+============================================================
+Backward Compatibility
+============================================================
+*/
+
+export const showLoading =
+
+    (...args)=>
+
+        Loading.show(...args);
+
+export const hideLoading =
+
+    (...args)=>
+
+        Loading.hide(...args);
+
+export const setLoading =
+
+    (...args)=>
+
+        Loading.setMessage(...args);
+
+export const showToast =
+
+    (...args)=>
+
+        Toast.show(...args);
+
+export const log =
+
+    (...args)=>
+
+        logger.log(...args);
+
+export const warn =
+
+    (...args)=>
+
+        logger.warn(...args);
+
+export const error =
+
+    (...args)=>
+
+        logger.error(...args);
+
+
+/*
+============================================================
+Initialize Utilities
+============================================================
+*/
+
+export function initializeUtilities(){
+
+    Loading.initialize();
+
+    Toast.initialize();
+
+}
+
+
+/*
+============================================================
+Default Export
+============================================================
+*/
+
+export default {
+
+    Loading,
+
+    Toast,
+
+    logger,
+
+    initializeUtilities
+
+};

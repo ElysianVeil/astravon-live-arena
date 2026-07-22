@@ -1,19 +1,34 @@
 /*
 ============================================================
 Astravon Live Arena
-Components Styles
+Components
 
 Purpose:
-    Shared reusable UI components used across the
-    entire dashboard.
+    Reusable UI components shared across the entire
+    Astravon Live Arena interface.
+
+Contents
+    • Buttons
+    • Button Groups
+    • Icon Buttons
+    • Cards
+    • Card Header
+    • Forms
+    • Inputs
+    • Select
+    • Textarea
+    • Checkbox
+    • Toggle Switch
+    • Search Box
 
 Author:
     House of Astravon
 
 Version:
-    1.0.0
+    2.0.0
 ============================================================
 */
+
 
 /*==========================================================
     Buttons
@@ -28,20 +43,39 @@ Version:
 
     gap:10px;
 
-    min-height:var(--button-height);
+    min-height:46px;
 
-    padding:0 20px;
+    padding:0 22px;
 
     border:none;
 
-    border-radius:var(--button-radius);
+    border-radius:var(--radius-md);
+
+    font-family:inherit;
+
+    font-size:var(--text-sm);
+
+    font-weight:600;
 
     cursor:pointer;
 
-    font-size:var(--text-md);
-    font-weight:var(--weight-semibold);
+    white-space:nowrap;
 
-    transition:var(--transition-normal);
+    transition:all var(--transition-fast);
+
+}
+
+.btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:var(--shadow-md);
+
+}
+
+.btn:active{
+
+    transform:scale(.97);
 
 }
 
@@ -51,19 +85,28 @@ Version:
 
     opacity:.6;
 
+    transform:none;
+
+    box-shadow:none;
+
 }
+
+
+/*==========================================================
+    Button Variants
+==========================================================*/
 
 .btn-primary{
 
     background:var(--color-primary);
 
-    color:#fff;
+    color:#ffffff;
 
 }
 
 .btn-primary:hover{
 
-    background:var(--color-primary-light);
+    background:var(--color-primary-hover);
 
 }
 
@@ -77,7 +120,7 @@ Version:
 
 .btn-secondary:hover{
 
-    background:var(--color-secondary-light);
+    background:var(--color-secondary-hover);
 
 }
 
@@ -85,7 +128,15 @@ Version:
 
     background:var(--color-success);
 
-    color:#fff;
+    color:#ffffff;
+
+}
+
+.btn-warning{
+
+    background:var(--color-warning);
+
+    color:#111827;
 
 }
 
@@ -93,7 +144,7 @@ Version:
 
     background:var(--color-danger);
 
-    color:#fff;
+    color:#ffffff;
 
 }
 
@@ -115,61 +166,201 @@ Version:
 
 }
 
+.btn-ghost{
+
+    background:transparent;
+
+    color:var(--text-secondary);
+
+}
+
+.btn-ghost:hover{
+
+    background:rgba(255,255,255,.05);
+
+}
+
+
+/*==========================================================
+    Button Sizes
+==========================================================*/
+
+.btn-sm{
+
+    min-height:36px;
+
+    padding:0 14px;
+
+    font-size:var(--text-xs);
+
+}
+
+.btn-lg{
+
+    min-height:54px;
+
+    padding:0 28px;
+
+    font-size:var(--text-md);
+
+}
+
+
+/*==========================================================
+    Button Group
+==========================================================*/
+
+.btn-group{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+}
+
+
+/*==========================================================
+    Icon Button
+==========================================================*/
+
+.icon-btn{
+
+    width:42px;
+
+    height:42px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:var(--surface-2);
+
+    color:var(--text-primary);
+
+    cursor:pointer;
+
+    transition:all var(--transition-fast);
+
+}
+
+.icon-btn:hover{
+
+    background:var(--color-primary);
+
+    color:#ffffff;
+
+}
+
+
 /*==========================================================
     Cards
 ==========================================================*/
 
 .card{
 
-    background:var(--background-card);
+    background:var(--surface-1);
 
     border:1px solid var(--border-color);
 
     border-radius:var(--radius-lg);
 
-    box-shadow:var(--shadow-small);
+    box-shadow:var(--shadow-sm);
 
     overflow:hidden;
+
+    transition:all var(--transition-normal);
+
+}
+
+.card:hover{
+
+    border-color:rgba(212,175,55,.18);
+
+    box-shadow:var(--shadow-md);
 
 }
 
 .card-header{
 
-    padding:20px;
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    padding:20px 24px;
 
     border-bottom:1px solid var(--border-color);
 
 }
 
-.card-title{
+.card-header h2,
+.card-header h3{
+
+    margin:0;
 
     font-size:var(--text-lg);
 
-    font-weight:var(--weight-semibold);
-
     font-family:var(--font-heading);
+
+    font-weight:600;
 
 }
 
 .card-body{
 
-    padding:20px;
+    padding:24px;
 
 }
 
 .card-footer{
 
-    padding:18px 20px;
+    padding:20px 24px;
 
     border-top:1px solid var(--border-color);
 
+    background:rgba(255,255,255,.015);
+
 }
 
+
 /*==========================================================
-    Inputs
+    Forms
 ==========================================================*/
 
-.input-group{
+.form{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:24px;
+
+}
+
+.form-row{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+    gap:20px;
+
+}
+
+.form-group{
 
     display:flex;
 
@@ -179,13 +370,20 @@ Version:
 
 }
 
-.input-label{
+.form-label{
 
     font-size:var(--text-sm);
+
+    font-weight:500;
 
     color:var(--text-secondary);
 
 }
+
+
+/*==========================================================
+    Inputs
+==========================================================*/
 
 .input,
 select,
@@ -193,29 +391,28 @@ textarea{
 
     width:100%;
 
-    min-height:var(--input-height);
-
     padding:12px 16px;
+
+    background:var(--surface-2);
 
     color:var(--text-primary);
 
-    background:var(--background-secondary);
-
     border:1px solid var(--border-color);
 
-    border-radius:var(--input-radius);
+    border-radius:var(--radius-md);
 
-    outline:none;
+    font-size:var(--text-sm);
 
-    transition:var(--transition-fast);
+    font-family:inherit;
+
+    transition:all var(--transition-fast);
 
 }
 
-textarea{
+.input::placeholder,
+textarea::placeholder{
 
-    resize:vertical;
-
-    min-height:120px;
+    color:var(--text-muted);
 
 }
 
@@ -223,11 +420,133 @@ textarea{
 select:focus,
 textarea:focus{
 
-    border-color:var(--color-secondary);
+    outline:none;
 
-    box-shadow:0 0 0 3px rgba(212,175,55,.15);
+    border-color:var(--color-primary);
+
+    box-shadow:0 0 0 3px rgba(37,99,235,.18);
 
 }
+
+textarea{
+
+    resize:vertical;
+
+    min-height:130px;
+
+}
+
+
+/*==========================================================
+    Select
+==========================================================*/
+
+select{
+
+    appearance:none;
+
+    cursor:pointer;
+
+}
+
+
+/*==========================================================
+    Checkbox
+==========================================================*/
+
+.checkbox{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    cursor:pointer;
+
+    color:var(--text-primary);
+
+}
+
+.checkbox input{
+
+    width:18px;
+
+    height:18px;
+
+}
+
+
+/*==========================================================
+    Toggle Switch
+==========================================================*/
+
+.switch{
+
+    position:relative;
+
+    display:inline-block;
+
+    width:52px;
+
+    height:28px;
+
+}
+
+.switch input{
+
+    display:none;
+
+}
+
+.slider{
+
+    position:absolute;
+
+    inset:0;
+
+    background:#475569;
+
+    border-radius:30px;
+
+    transition:.3s;
+
+}
+
+.slider::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:22px;
+
+    height:22px;
+
+    left:3px;
+
+    top:3px;
+
+    border-radius:50%;
+
+    background:#ffffff;
+
+    transition:.3s;
+
+}
+
+.switch input:checked + .slider{
+
+    background:var(--color-success);
+
+}
+
+.switch input:checked + .slider::before{
+
+    transform:translateX(24px);
+
+}
+
 
 /*==========================================================
     Search Box
@@ -239,13 +558,23 @@ textarea:focus{
 
     align-items:center;
 
-    background:var(--background-secondary);
+    gap:12px;
+
+    width:100%;
+
+    padding:0 16px;
+
+    background:var(--surface-2);
 
     border:1px solid var(--border-color);
 
-    border-radius:50px;
+    border-radius:999px;
 
-    padding:0 18px;
+}
+
+.search-box i{
+
+    color:var(--text-muted);
 
 }
 
@@ -253,21 +582,138 @@ textarea:focus{
 
     flex:1;
 
+    height:46px;
+
     background:none;
 
     border:none;
 
-    outline:none;
-
     color:var(--text-primary);
 
-    height:48px;
+    outline:none;
+
+    font-size:var(--text-sm);
 
 }
 
-/*==========================================================
-    Badges
-==========================================================*/
+.search-box input::placeholder{
+
+    color:var(--text-muted);
+
+}
+
+/*============================================================
+    PART 2
+    TABLES
+    BADGES
+    PROGRESS BARS
+    DROPDOWNS
+    TOOLTIPS
+    REUSABLE WIDGETS
+
+    Astravon Live Arena
+============================================================*/
+
+
+/*============================================================
+    TABLES
+============================================================*/
+
+.table-wrapper{
+
+    width:100%;
+
+    overflow-x:auto;
+
+    border:1px solid var(--border-color);
+
+    border-radius:var(--radius-lg);
+
+    background:var(--surface-color);
+
+}
+
+.table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    min-width:700px;
+
+}
+
+.table thead{
+
+    background:var(--surface-secondary);
+
+}
+
+.table th{
+
+    padding:16px 18px;
+
+    text-align:left;
+
+    font-size:var(--font-sm);
+
+    font-weight:600;
+
+    color:var(--text-secondary);
+
+    border-bottom:1px solid var(--border-color);
+
+    white-space:nowrap;
+
+}
+
+.table td{
+
+    padding:16px 18px;
+
+    color:var(--text-primary);
+
+    border-bottom:1px solid rgba(255,255,255,.05);
+
+    vertical-align:middle;
+
+}
+
+.table tbody tr{
+
+    transition:background .25s ease;
+
+}
+
+.table tbody tr:hover{
+
+    background:rgba(255,255,255,.03);
+
+}
+
+.table tbody tr:last-child td{
+
+    border-bottom:none;
+
+}
+
+.table-striped tbody tr:nth-child(even){
+
+    background:rgba(255,255,255,.02);
+
+}
+
+.table-compact th,
+.table-compact td{
+
+    padding:12px 14px;
+
+}
+
+
+/*============================================================
+    BADGES
+============================================================*/
 
 .badge{
 
@@ -277,19 +723,31 @@ textarea:focus{
 
     justify-content:center;
 
+    gap:6px;
+
     padding:6px 12px;
 
-    border-radius:50px;
+    border-radius:999px;
 
-    font-size:var(--text-xs);
+    font-size:var(--font-xs);
 
-    font-weight:var(--weight-semibold);
+    font-weight:600;
+
+    white-space:nowrap;
+
+}
+
+.badge-primary{
+
+    background:rgba(59,130,246,.15);
+
+    color:var(--color-primary);
 
 }
 
 .badge-success{
 
-    background:rgba(16,185,129,.15);
+    background:rgba(34,197,94,.15);
 
     color:var(--color-success);
 
@@ -313,75 +771,130 @@ textarea:focus{
 
 .badge-info{
 
-    background:rgba(59,130,246,.15);
+    background:rgba(14,165,233,.15);
 
     color:var(--color-info);
 
 }
 
-/*==========================================================
-    Progress Bar
-==========================================================*/
+.badge-secondary{
+
+    background:rgba(255,255,255,.08);
+
+    color:var(--text-secondary);
+
+}
+
+
+/*============================================================
+    STATUS DOT
+============================================================*/
+
+.status-dot{
+
+    width:10px;
+
+    height:10px;
+
+    border-radius:50%;
+
+    flex-shrink:0;
+
+}
+
+.status-online{
+
+    background:var(--color-success);
+
+}
+
+.status-warning{
+
+    background:var(--color-warning);
+
+}
+
+.status-offline{
+
+    background:var(--color-danger);
+
+}
+
+
+/*============================================================
+    PROGRESS BAR
+============================================================*/
 
 .progress{
 
     width:100%;
 
-    height:12px;
-
-    background:#1F2937;
-
-    border-radius:20px;
+    height:10px;
 
     overflow:hidden;
+
+    border-radius:999px;
+
+    background:var(--surface-secondary);
 
 }
 
 .progress-bar{
 
-    height:100%;
-
     width:0;
 
-    background:var(--color-secondary);
-
-    transition:width .5s ease;
-
-}
-
-/*==========================================================
-    Avatar
-==========================================================*/
-
-.avatar{
-
-    width:46px;
-    height:46px;
-
-    border-radius:50%;
-
-    overflow:hidden;
-
-    background:var(--background-secondary);
-
-}
-
-.avatar img{
-
-    width:100%;
     height:100%;
 
-    object-fit:cover;
+    border-radius:inherit;
+
+    transition:width .35s ease;
 
 }
 
-/*==========================================================
-    Dropdown
-==========================================================*/
+.progress-primary{
+
+    background:var(--color-primary);
+
+}
+
+.progress-success{
+
+    background:var(--color-success);
+
+}
+
+.progress-warning{
+
+    background:var(--color-warning);
+
+}
+
+.progress-danger{
+
+    background:var(--color-danger);
+
+}
+
+.progress-info{
+
+    background:var(--color-info);
+
+}
+
+
+/*============================================================
+    DROPDOWN
+============================================================*/
 
 .dropdown{
 
     position:relative;
+
+}
+
+.dropdown-toggle{
+
+    cursor:pointer;
 
 }
 
@@ -390,21 +903,28 @@ textarea:focus{
     position:absolute;
 
     top:110%;
+
     right:0;
 
     min-width:220px;
 
-    background:var(--background-card);
+    background:var(--surface-color);
 
     border:1px solid var(--border-color);
 
     border-radius:var(--radius-md);
 
-    box-shadow:var(--shadow-medium);
-
     overflow:hidden;
 
-    display:none;
+    box-shadow:var(--shadow-lg);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transform:translateY(8px);
+
+    transition:.25s ease;
 
     z-index:var(--z-dropdown);
 
@@ -412,7 +932,11 @@ textarea:focus{
 
 .dropdown.active .dropdown-menu{
 
-    display:block;
+    opacity:1;
+
+    visibility:visible;
+
+    transform:translateY(0);
 
 }
 
@@ -426,134 +950,36 @@ textarea:focus{
 
     padding:14px 18px;
 
-    transition:var(--transition-fast);
+    color:var(--text-primary);
+
+    transition:.2s ease;
+
+    cursor:pointer;
 
 }
 
 .dropdown-item:hover{
 
-    background:rgba(255,255,255,.04);
+    background:rgba(255,255,255,.05);
 
 }
 
-/*==========================================================
-    Modal
-==========================================================*/
+.dropdown-divider{
 
-.modal{
+    height:1px;
 
-    position:fixed;
-
-    inset:0;
-
-    display:none;
-
-    justify-content:center;
-
-    align-items:center;
-
-    background:rgba(0,0,0,.65);
-
-    z-index:var(--z-modal);
+    background:var(--border-color);
 
 }
 
-.modal.active{
 
-    display:flex;
-
-}
-
-.modal-content{
-
-    width:min(600px,90vw);
-
-    background:var(--background-card);
-
-    border-radius:var(--radius-xl);
-
-    box-shadow:var(--shadow-large);
-
-    overflow:hidden;
-
-}
-
-.modal-header,
-.modal-footer{
-
-    padding:20px;
-
-    border-bottom:1px solid var(--border-color);
-
-}
-
-.modal-footer{
-
-    border-top:1px solid var(--border-color);
-
-    border-bottom:none;
-
-}
-
-.modal-body{
-
-    padding:24px;
-
-}
-
-/*==========================================================
-    Notification
-==========================================================*/
-
-.notification{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:14px;
-
-    padding:18px;
-
-    border-radius:var(--radius-md);
-
-    margin-bottom:16px;
-
-}
-
-.notification.success{
-
-    background:rgba(16,185,129,.12);
-
-    border-left:4px solid var(--color-success);
-
-}
-
-.notification.warning{
-
-    background:rgba(245,158,11,.12);
-
-    border-left:4px solid var(--color-warning);
-
-}
-
-.notification.error{
-
-    background:rgba(239,68,68,.12);
-
-    border-left:4px solid var(--color-danger);
-
-}
-
-/*==========================================================
-    Tooltip
-==========================================================*/
+/*============================================================
+    TOOLTIP
+============================================================*/
 
 .tooltip{
 
     position:relative;
-
-    cursor:pointer;
 
 }
 
@@ -563,18 +989,21 @@ textarea:focus{
 
     position:absolute;
 
-    bottom:130%;
     left:50%;
+
+    bottom:130%;
 
     transform:translateX(-50%);
 
-    background:#111827;
+    padding:8px 12px;
+
+    border-radius:var(--radius-sm);
+
+    background:#0b1020;
 
     color:#fff;
 
-    padding:8px 12px;
-
-    border-radius:8px;
+    font-size:12px;
 
     white-space:nowrap;
 
@@ -582,7 +1011,9 @@ textarea:focus{
 
     pointer-events:none;
 
-    transition:var(--transition-fast);
+    transition:.2s ease;
+
+    box-shadow:var(--shadow-md);
 
 }
 
@@ -592,80 +1023,610 @@ textarea:focus{
 
 }
 
-/*==========================================================
-    Divider
-==========================================================*/
 
-.divider{
+/*============================================================
+    INFO WIDGET
+============================================================*/
 
-    width:100%;
+.info-widget{
 
-    height:1px;
+    display:flex;
 
-    background:var(--border-color);
+    align-items:center;
 
-    margin:20px 0;
+    justify-content:space-between;
+
+    gap:18px;
+
+    padding:18px;
+
+    border:1px solid var(--border-color);
+
+    border-radius:var(--radius-lg);
+
+    background:var(--surface-color);
 
 }
 
-/*==========================================================
-    Loader
-==========================================================*/
+.info-widget-title{
+
+    font-size:var(--font-sm);
+
+    color:var(--text-secondary);
+
+}
+
+.info-widget-value{
+
+    margin-top:6px;
+
+    font-size:var(--font-2xl);
+
+    font-weight:700;
+
+    color:var(--text-primary);
+
+}
+
+
+/*============================================================
+    METRIC ROW
+============================================================*/
+
+.metric-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    padding:10px 0;
+
+    border-bottom:1px solid rgba(255,255,255,.05);
+
+}
+
+.metric-row:last-child{
+
+    border-bottom:none;
+
+}
+
+.metric-label{
+
+    color:var(--text-secondary);
+
+}
+
+.metric-value{
+
+    font-weight:600;
+
+    color:var(--text-primary);
+
+}
+
+
+/*============================================================
+    EMPTY STATE
+============================================================*/
+
+.empty-state{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding:48px 24px;
+
+    text-align:center;
+
+    color:var(--text-muted);
+
+}
+
+.empty-state h3{
+
+    color:var(--text-primary);
+
+}
+
+
+/*============================================================
+    LOADER
+============================================================*/
 
 .loader{
 
     width:42px;
+
     height:42px;
 
     border-radius:50%;
 
-    border:4px solid rgba(255,255,255,.15);
+    border:4px solid rgba(255,255,255,.08);
 
-    border-top:4px solid var(--color-secondary);
+    border-top-color:var(--color-secondary);
 
     animation:spin .8s linear infinite;
 
 }
 
-@keyframes spin{
+/*============================================================
+    PART 3
+    MODALS
+    TOASTS
+    LOADERS
+    EMPTY STATES
+    PAGINATION
+    AVATARS
+    CHIPS
+    PILLS
+    DIVIDERS
+    UTILITIES
 
-    from{
+    Astravon Live Arena
+============================================================*/
 
-        transform:rotate(0deg);
 
-    }
+/*============================================================
+    MODAL
+============================================================*/
 
-    to{
+.modal{
 
-        transform:rotate(360deg);
+    position:fixed;
 
-    }
+    inset:0;
 
-}
+    display:flex;
 
-/*==========================================================
-    Pills
-==========================================================*/
-
-.pill{
-
-    display:inline-flex;
+    justify-content:center;
 
     align-items:center;
 
-    gap:8px;
+    background:rgba(0,0,0,.72);
 
-    padding:8px 16px;
+    backdrop-filter:blur(6px);
 
-    border-radius:999px;
+    opacity:0;
 
-    background:rgba(255,255,255,.05);
+    visibility:hidden;
+
+    transition:opacity .25s ease;
+
+    z-index:var(--z-modal);
 
 }
 
-/*==========================================================
-    Chips
-==========================================================*/
+.modal.active{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
+.modal-dialog{
+
+    width:min(700px,92vw);
+
+    max-height:90vh;
+
+    overflow:hidden;
+
+    display:flex;
+
+    flex-direction:column;
+
+    background:var(--surface-color);
+
+    border:1px solid var(--border-color);
+
+    border-radius:var(--radius-xl);
+
+    box-shadow:var(--shadow-xl);
+
+    animation:scaleIn .25s ease;
+
+}
+
+.modal-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:22px 26px;
+
+    border-bottom:1px solid var(--border-color);
+
+}
+
+.modal-header h2{
+
+    font-size:var(--font-xl);
+
+    font-weight:700;
+
+}
+
+.modal-close{
+
+    border:none;
+
+    background:none;
+
+    cursor:pointer;
+
+    font-size:1.3rem;
+
+    color:var(--text-secondary);
+
+}
+
+.modal-close:hover{
+
+    color:var(--color-danger);
+
+}
+
+.modal-body{
+
+    padding:26px;
+
+    overflow-y:auto;
+
+}
+
+.modal-footer{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:14px;
+
+    padding:20px 26px;
+
+    border-top:1px solid var(--border-color);
+
+}
+
+
+/*============================================================
+    TOASTS
+============================================================*/
+
+#toastContainer{
+
+    position:fixed;
+
+    top:24px;
+
+    right:24px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+    z-index:var(--z-toast);
+
+}
+
+.toast{
+
+    min-width:300px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding:16px 18px;
+
+    border-radius:var(--radius-lg);
+
+    color:#fff;
+
+    box-shadow:var(--shadow-lg);
+
+    transform:translateX(120%);
+
+    opacity:0;
+
+    transition:.35s ease;
+
+}
+
+.toast.show{
+
+    transform:translateX(0);
+
+    opacity:1;
+
+}
+
+.toast.success{
+
+    background:var(--color-success);
+
+}
+
+.toast.warning{
+
+    background:var(--color-warning);
+
+    color:#111827;
+
+}
+
+.toast.error{
+
+    background:var(--color-danger);
+
+}
+
+.toast.info{
+
+    background:var(--color-primary);
+
+}
+
+
+/*============================================================
+    LOADING OVERLAY
+============================================================*/
+
+.loading-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:rgba(0,0,0,.75);
+
+    backdrop-filter:blur(4px);
+
+    z-index:var(--z-overlay);
+
+}
+
+.loading-box{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.loading-text{
+
+    color:#fff;
+
+    font-weight:600;
+
+}
+
+
+/*============================================================
+    SKELETON
+============================================================*/
+
+.skeleton{
+
+    background:linear-gradient(
+        90deg,
+        rgba(255,255,255,.05),
+        rgba(255,255,255,.12),
+        rgba(255,255,255,.05)
+    );
+
+    background-size:400px 100%;
+
+    animation:shimmer 1.3s linear infinite;
+
+    border-radius:var(--radius-md);
+
+}
+
+.skeleton-text{
+
+    width:100%;
+
+    height:16px;
+
+}
+
+.skeleton-card{
+
+    width:100%;
+
+    height:180px;
+
+}
+
+
+/*============================================================
+    EMPTY STATE
+============================================================*/
+
+.empty{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:14px;
+
+    padding:60px 30px;
+
+    text-align:center;
+
+}
+
+.empty-icon{
+
+    font-size:3rem;
+
+    color:var(--color-secondary);
+
+}
+
+.empty-title{
+
+    font-size:var(--font-xl);
+
+    font-weight:700;
+
+}
+
+.empty-description{
+
+    color:var(--text-secondary);
+
+    max-width:450px;
+
+}
+
+
+/*============================================================
+    PAGINATION
+============================================================*/
+
+.pagination{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-top:24px;
+
+}
+
+.page-btn{
+
+    min-width:42px;
+
+    height:42px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border:1px solid var(--border-color);
+
+    background:var(--surface-color);
+
+    border-radius:var(--radius-md);
+
+    cursor:pointer;
+
+    transition:.25s ease;
+
+}
+
+.page-btn:hover{
+
+    background:var(--surface-secondary);
+
+}
+
+.page-btn.active{
+
+    background:var(--color-primary);
+
+    color:#fff;
+
+    border-color:var(--color-primary);
+
+}
+
+
+/*============================================================
+    AVATAR
+============================================================*/
+
+.avatar{
+
+    width:46px;
+
+    height:46px;
+
+    border-radius:50%;
+
+    overflow:hidden;
+
+    flex-shrink:0;
+
+    background:var(--surface-secondary);
+
+}
+
+.avatar img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+.avatar-sm{
+
+    width:34px;
+
+    height:34px;
+
+}
+
+.avatar-lg{
+
+    width:64px;
+
+    height:64px;
+
+}
+
+
+/*============================================================
+    CHIPS
+============================================================*/
 
 .chip{
 
@@ -677,57 +1638,263 @@ textarea:focus{
 
     padding:6px 14px;
 
-    border-radius:30px;
+    border-radius:999px;
 
     background:rgba(212,175,55,.12);
 
     color:var(--color-secondary);
 
+    font-size:var(--font-xs);
+
+    font-weight:600;
+
 }
 
-/* ==========================================
-   Toast Notifications
-========================================== */
 
-#toastContainer{
-    position:fixed;
-    top:20px;
-    right:20px;
+/*============================================================
+    PILLS
+============================================================*/
+
+.pill{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:8px 18px;
+
+    border-radius:999px;
+
+    background:var(--surface-secondary);
+
+    color:var(--text-primary);
+
+}
+
+
+/*============================================================
+    DIVIDER
+============================================================*/
+
+.divider{
+
+    width:100%;
+
+    height:1px;
+
+    background:var(--border-color);
+
+    margin:24px 0;
+
+}
+
+
+/*============================================================
+    FLEX UTILITIES
+============================================================*/
+
+.flex{
+
     display:flex;
+
+}
+
+.inline-flex{
+
+    display:inline-flex;
+
+}
+
+.flex-column{
+
     flex-direction:column;
-    gap:12px;
-    z-index:99999;
+
 }
 
-.toast{
-    min-width:260px;
-    padding:14px 18px;
-    border-radius:12px;
-    color:white;
-    background:#1f2937;
-    transform:translateX(120%);
-    opacity:0;
-    transition:.3s;
-    font-size:.95rem;
+.align-center{
+
+    align-items:center;
+
 }
 
-.toast.show{
-    transform:translateX(0);
-    opacity:1;
+.justify-center{
+
+    justify-content:center;
+
 }
 
-.toast.success{
-    background:#16a34a;
+.justify-between{
+
+    justify-content:space-between;
+
 }
 
-.toast.error{
-    background:#dc2626;
+.flex-wrap{
+
+    flex-wrap:wrap;
+
 }
 
-.toast.warning{
-    background:#d97706;
+.gap-xs{gap:6px;}
+.gap-sm{gap:12px;}
+.gap-md{gap:18px;}
+.gap-lg{gap:24px;}
+.gap-xl{gap:32px;}
+
+
+/*============================================================
+    DISPLAY UTILITIES
+============================================================*/
+
+.hidden{
+
+    display:none !important;
+
 }
 
-.toast.info{
-    background:#2563eb;
+.block{
+
+    display:block;
+
 }
+
+.w-100{
+
+    width:100%;
+
+}
+
+.h-100{
+
+    height:100%;
+
+}
+
+
+/*============================================================
+    TEXT UTILITIES
+============================================================*/
+
+.text-center{
+
+    text-align:center;
+
+}
+
+.text-right{
+
+    text-align:right;
+
+}
+
+.text-muted{
+
+    color:var(--text-secondary);
+
+}
+
+.text-primary{
+
+    color:var(--text-primary);
+
+}
+
+.text-success{
+
+    color:var(--color-success);
+
+}
+
+.text-warning{
+
+    color:var(--color-warning);
+
+}
+
+.text-danger{
+
+    color:var(--color-danger);
+
+}
+
+.text-info{
+
+    color:var(--color-info);
+
+}
+
+
+/*============================================================
+    SPACING UTILITIES
+============================================================*/
+
+.mt-sm{margin-top:12px;}
+.mt-md{margin-top:20px;}
+.mt-lg{margin-top:32px;}
+
+.mb-sm{margin-bottom:12px;}
+.mb-md{margin-bottom:20px;}
+.mb-lg{margin-bottom:32px;}
+
+.p-sm{padding:12px;}
+.p-md{padding:20px;}
+.p-lg{padding:30px;}
+
+
+/*============================================================
+    BORDER RADIUS
+============================================================*/
+
+.rounded-sm{
+
+    border-radius:var(--radius-sm);
+
+}
+
+.rounded{
+
+    border-radius:var(--radius-md);
+
+}
+
+.rounded-lg{
+
+    border-radius:var(--radius-lg);
+
+}
+
+.rounded-xl{
+
+    border-radius:var(--radius-xl);
+
+}
+
+
+/*============================================================
+    SHADOWS
+============================================================*/
+
+.shadow-sm{
+
+    box-shadow:var(--shadow-sm);
+
+}
+
+.shadow{
+
+    box-shadow:var(--shadow-md);
+
+}
+
+.shadow-lg{
+
+    box-shadow:var(--shadow-lg);
+
+}
+
+
+/*============================================================
+    END OF COMPONENTS
+============================================================*/

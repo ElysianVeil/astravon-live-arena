@@ -59,37 +59,41 @@ export default class AlertManager {
     ==========================================================
     */
 
-    add(
+    add(alert) {
 
-        title,
-        message,
-        level = "info"
+        const newAlert = {
 
-    ) {
+            id:
+                alert.id ??
+                Date.now(),
 
-        const alert = {
+            title:
+                alert.title ??
+                alert.risk_level ??
+                "Alert",
 
-            id: Date.now(),
+            message:
+                alert.message ??
+                alert.recommendation ??
+                "No description.",
 
-            title,
+            level:
+                (
+                    alert.level ??
+                    alert.severity ??
+                    "info"
+                ).toLowerCase(),
 
-            message,
-
-            level,
-
-            timestamp: new Date()
+            timestamp:
+                alert.timestamp
+                    ? new Date(alert.timestamp)
+                    : new Date()
 
         };
 
-        this.alerts.unshift(alert);
+        this.alerts.unshift(newAlert);
 
-        if (
-
-            this.alerts.length >
-
-            this.maxAlerts
-
-        ) {
+        if (this.alerts.length > this.maxAlerts) {
 
             this.alerts.pop();
 
@@ -97,7 +101,7 @@ export default class AlertManager {
 
         this.render();
 
-        this.playSound(level);
+        this.playSound(newAlert.level);
 
     }
 
@@ -296,6 +300,27 @@ export default class AlertManager {
         }
 
         this.container.innerHTML = "";
+
+        if (this.alerts.length === 0) {
+
+            this.container.innerHTML = `
+
+                <div class="alert-empty">
+
+                    <h3>✅ No alerts found</h3>
+
+                    <p>
+                        The AI Engine has not generated
+                        any alerts.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
 
         this.alerts.forEach(
 

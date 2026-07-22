@@ -1,0 +1,573 @@
+/*
+============================================================
+Astravon Live Arena
+Pages Styles
+
+Purpose:
+    Generic pages shared across the application.
+
+Contains:
+    • About Page
+    • Generic Page Headers
+    • Documentation Layouts
+    • Timeline
+    • Empty States
+    • Architecture Blocks
+    • Generic Content Sections
+
+Author:
+    House of Astravon
+
+Version:
+    2.0.0
+============================================================
+*/
+
+/*==========================================================
+    Generic Page
+==========================================================*/
+
+.about-page,
+.analytics-page,
+.cameras-page,
+.map-page,
+.reports-page,
+.settings-page{
+
+    overflow: auto;
+    display:flex;
+    flex-direction:column;
+    gap:var(--space-8);
+
+    width:100%;
+
+}
+
+/*==========================================================
+    Page Header
+==========================================================*/
+
+.page-header{
+
+    display:flex;
+    flex-direction:column;
+    gap:var(--space-3);
+
+}
+
+.page-header h1{
+
+    font-family:var(--font-heading);
+
+    font-size:var(--text-4xl);
+
+    font-weight:var(--weight-bold);
+
+    color:var(--text-primary);
+
+}
+
+.page-header p{
+
+    max-width:850px;
+
+    color:var(--text-secondary);
+
+    line-height:1.75;
+
+}
+
+/*==========================================================
+    Generic Sections
+==========================================================*/
+
+.page-section{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-5);
+
+}
+
+.page-section-title{
+
+    font-family:var(--font-heading);
+
+    font-size:var(--text-2xl);
+
+    font-weight:var(--weight-semibold);
+
+}
+
+.page-section-subtitle{
+
+    color:var(--text-secondary);
+
+}
+
+/*==========================================================
+    Documentation Layout
+==========================================================*/
+
+.documentation-layout{
+
+    display:grid;
+
+    grid-template-columns:280px 1fr;
+
+    gap:var(--space-8);
+
+}
+
+.documentation-sidebar{
+
+    position:sticky;
+
+    top:100px;
+
+    height:max-content;
+
+}
+
+.documentation-content{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-8);
+
+}
+
+.documentation-content h2{
+
+    margin-bottom:var(--space-3);
+
+    font-family:var(--font-heading);
+
+}
+
+.documentation-content p{
+
+    line-height:1.8;
+
+    color:var(--text-secondary);
+
+}
+
+.documentation-content ul{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+    padding-left:20px;
+
+}
+
+/*==========================================================
+    About Page
+==========================================================*/
+
+.about-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+
+    gap:var(--space-6);
+
+}
+
+.about-grid ul{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+    padding-left:18px;
+
+}
+
+.about-grid li{
+
+    color:var(--text-secondary);
+
+}
+
+.about-grid blockquote{
+
+    position:relative;
+
+    padding-left:20px;
+
+    border-left:4px solid var(--color-secondary);
+
+    color:var(--text-secondary);
+
+    font-style:italic;
+
+    line-height:1.8;
+
+}
+
+/*==========================================================
+    Architecture
+==========================================================*/
+
+.architecture-card pre{
+
+    overflow:auto;
+
+    padding:24px;
+
+    border-radius:var(--radius-md);
+
+    background:var(--background-secondary);
+
+    border:1px solid var(--border-color);
+
+    color:var(--text-primary);
+
+    font-family:var(--font-mono);
+
+    font-size:.9rem;
+
+    line-height:1.6;
+
+}
+
+/*==========================================================
+    Timeline
+==========================================================*/
+
+.timeline{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-6);
+
+}
+
+.timeline-item{
+
+    display:grid;
+
+    grid-template-columns:24px 1fr;
+
+    gap:18px;
+
+}
+
+.timeline-marker{
+
+    position:relative;
+
+}
+
+.timeline-marker::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:10px;
+
+    top:18px;
+
+    bottom:-32px;
+
+    width:2px;
+
+    background:var(--border-color);
+
+}
+
+.timeline-item:last-child
+.timeline-marker::before{
+
+    display:none;
+
+}
+
+.timeline-dot{
+
+    width:20px;
+    height:20px;
+
+    border-radius:50%;
+
+    background:var(--color-secondary);
+
+    border:4px solid rgba(212,175,55,.2);
+
+}
+
+.timeline-content h3{
+
+    margin-bottom:6px;
+
+}
+
+.timeline-content p{
+
+    color:var(--text-secondary);
+
+    line-height:1.7;
+
+}
+
+/*==========================================================
+    Information Lists
+==========================================================*/
+
+.info-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+}
+
+.info-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    padding-bottom:14px;
+
+    border-bottom:1px solid var(--border-color);
+
+}
+
+.info-label{
+
+    color:var(--text-secondary);
+
+}
+
+.info-value{
+
+    font-weight:600;
+
+    color:var(--text-primary);
+
+}
+
+/*==========================================================
+    Empty States
+==========================================================*/
+
+.empty-state{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    gap:18px;
+
+    min-height:320px;
+
+    padding:50px;
+
+}
+
+.empty-state-icon{
+
+    width:72px;
+    height:72px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:rgba(212,175,55,.12);
+
+    color:var(--color-secondary);
+
+    font-size:2rem;
+
+}
+
+.empty-state h2{
+
+    font-family:var(--font-heading);
+
+}
+
+.empty-state p{
+
+    max-width:480px;
+
+    color:var(--text-secondary);
+
+    line-height:1.8;
+
+}
+
+/*==========================================================
+    Generic Message
+==========================================================*/
+
+.message-box{
+
+    padding:20px;
+
+    border-radius:var(--radius-md);
+
+    background:var(--background-card);
+
+    border:1px solid var(--border-color);
+
+    color:var(--text-secondary);
+
+}
+
+.message-box strong{
+
+    color:var(--text-primary);
+
+}
+
+/*==========================================================
+    Code Blocks
+==========================================================*/
+
+.code-block{
+
+    overflow:auto;
+
+    padding:20px;
+
+    border-radius:var(--radius-md);
+
+    background:#0b1020;
+
+    border:1px solid var(--border-color);
+
+    font-family:var(--font-mono);
+
+    color:#d1d5db;
+
+    font-size:.9rem;
+
+}
+
+/*==========================================================
+    Generic Content Grid
+==========================================================*/
+
+.content-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+
+    gap:var(--space-6);
+
+}
+
+/*==========================================================
+    Generic Banner
+==========================================================*/
+
+.page-banner{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    padding:28px;
+
+    border-radius:var(--radius-lg);
+
+    background:linear-gradient(
+        135deg,
+        rgba(11,26,58,.95),
+        rgba(16,32,64,.92)
+    );
+
+    border:1px solid rgba(212,175,55,.18);
+
+}
+
+.page-banner h2{
+
+    margin-bottom:8px;
+
+    font-family:var(--font-heading);
+
+}
+
+.page-banner p{
+
+    color:var(--text-secondary);
+
+}
+
+/*==========================================================
+    Notes
+==========================================================*/
+
+.note{
+
+    padding:18px;
+
+    border-left:4px solid var(--color-info);
+
+    border-radius:var(--radius-sm);
+
+    background:rgba(59,130,246,.08);
+
+}
+
+.note.warning{
+
+    border-left-color:var(--color-warning);
+
+    background:rgba(245,158,11,.08);
+
+}
+
+.note.success{
+
+    border-left-color:var(--color-success);
+
+    background:rgba(34,197,94,.08);
+
+}
+
+.note.error{
+
+    border-left-color:var(--color-danger);
+
+    background:rgba(239,68,68,.08);
+
+}

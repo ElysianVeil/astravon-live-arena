@@ -1,22 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <!-- ============================================================
          Astravon Live Arena
-         Main Dashboard
-         Version: 1.0.0
+         Intelligent Crowd Monitoring Platform
+         House of Astravon
     ============================================================= -->
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Astravon Live Arena</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Astravon Live Arena - AI Powered Crowd Intelligence Platform"
+    >
+
+    <meta
+        name="theme-color"
+        content="#0d1117"
+    >
+
+    <title>
+        Astravon Live Arena
+    </title>
 
     <!-- ============================================================
          Fonts
     ============================================================= -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
 
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;700;800&display=swap"
@@ -24,90 +46,379 @@
     >
 
     <!-- ============================================================
-         CSS
+         Icons
     ============================================================= -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css"
+    >
+
+    <!-- ============================================================
+         Leaflet
+    ============================================================= -->
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet/dist/leaflet.css"
+    >
+
+    <!-- ============================================================
+     CSS
+    ============================================================ -->
+
+    <!-- Design System -->
     <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/components.css">
+
+    <!-- Layout -->
+    <link rel="stylesheet" href="css/layout.css">
+
+    <!-- Dashboard Modules -->
     <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/monitoring.css">
+    <link rel="stylesheet" href="css/management.css">
+    <link rel="stylesheet" href="css/pages.css">
+    
+
+    <!-- Responsive (Always Last) -->
     <link rel="stylesheet" href="css/responsive.css">
+
 </head>
 
 <body>
 
-    <!-- ============================================================
-         Loading Screen
-    ============================================================= -->
+<!-- ============================================================
+     Splash Screen
+============================================================= -->
 
-    <div id="loadingScreen">
-        <div class="loader">
-            <h1>ASTRAVON</h1>
-            <p>Live Arena</p>
-        </div>
-    </div>
+<div id="loadingScreen">
 
-    <!-- ============================================================
-         Application
-    ============================================================= -->
+    <div class="loader-container">
 
-    <div id="app">
+        <div class="loader-logo">
 
-        <!-- Navigation -->
-
-        <header id="navbar"></header>
-
-        <!-- Layout -->
-
-        <div class="layout">
-
-            <!-- Sidebar -->
-
-            <aside id="sidebar"></aside>
-
-            <!-- Main Content -->
-
-            <main id="mainContent">
-
-                <!-- Pages are injected here -->
-
-            </main>
+            ASTRAVON
 
         </div>
 
-        <!-- Footer -->
+        <div class="loader-subtitle">
 
-        <footer id="footer"></footer>
+            Live Arena
+
+        </div>
+
+        <div class="loader-progress">
+
+            <div id="loadingBar"></div>
+
+        </div>
+
+        <div class="loader-status">
+
+            Initializing AI Systems...
+
+        </div>
 
     </div>
 
-    <!-- ============================================================
-         JavaScript
-    ============================================================= -->
+</div>
 
-    <!-- Core -->
-    <script type="module" src="js/utils.js"></script>
-    <script type="module" src="js/api.js"></script>
-    <script type="module" src="js/websocket.js"></script>
+<!-- ============================================================
+     Application
+============================================================= -->
 
-    <!-- Dashboard -->
-    <script type="module" src="js/dashboard.js"></script>
-    <script type="module" src="js/charts.js"></script>
-    <script type="module" src="js/map.js"></script>
-    <script type="module" src="js/alerts.js"></script>
-    <script type="module" src="js/event_modes.js"></script>
+<div id="app">
 
-    <!-- Components -->
-    <script type="module" src="components/navbar.js"></script>
-    <script type="module" src="components/sidebar.js"></script>
-    <script type="module" src="components/statistics.js"></script>
-    <script type="module" src="components/camera_panel.js"></script>
-    <script type="module" src="components/alert_panel.js"></script>
-    <script type="module" src="components/footer.js"></script>
+    <!-- =======================================================
+         Navigation
+    ======================================================== -->
 
-    <!-- Entry -->
-     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script type="module" src="js/app.js"></script>
+    <header id="navbar"></header>
+
+    <!-- =======================================================
+         Workspace
+    ======================================================== -->
+
+    <div class="layout">
+
+        <aside id="sidebar"></aside>
+
+        <main id="mainContent">
+
+            <!-- Dynamic pages injected here -->
+
+        </main>
+
+    </div>
+
+    <!-- =======================================================
+         Footer
+    ======================================================== -->
+
+    <footer id="footer"></footer>
+
+</div>
+
+<!-- ============================================================
+     Global Status Bar
+============================================================= -->
+
+<div id="systemStatusBar">
+
+    <div class="status-item">
+
+        <span class="status-label">
+
+            Backend
+
+        </span>
+
+        <span
+            id="backendStatus"
+            class="status-indicator offline"
+        >
+            Offline
+        </span>
+
+    </div>
+
+    <div class="status-item">
+
+        <span class="status-label">
+
+            WebSocket
+
+        </span>
+
+        <span
+            id="socketStatus"
+            class="status-indicator offline"
+        >
+            Disconnected
+        </span>
+
+    </div>
+
+    <div class="status-item">
+
+        <span class="status-label">
+
+            AI Engine
+
+        </span>
+
+        <span
+            id="engineStatus"
+            class="status-indicator offline"
+        >
+            Stopped
+        </span>
+
+    </div>
+
+    <div class="status-item">
+
+        <span class="status-label">
+
+            Cameras
+
+        </span>
+
+        <span id="cameraCount">
+
+            0
+
+        </span>
+
+    </div>
+
+    <div class="status-item">
+
+        <span class="status-label">
+
+            FPS
+
+        </span>
+
+        <span id="globalFPS">
+
+            --
+
+        </span>
+
+    </div>
+
+</div>
+
+<!-- ============================================================
+     Notifications
+============================================================= -->
+
+<div id="toastContainer"></div>
+
+<!-- ============================================================
+     Modal System
+============================================================= -->
+
+<div
+    id="modalOverlay"
+    class="hidden"
+>
+
+    <div id="modalWindow">
+
+        <div id="modalContent"></div>
+
+    </div>
+
+</div>
+
+<!-- ============================================================
+     Fullscreen Loading Overlay
+============================================================= -->
+
+<div
+    id="processingOverlay"
+    class="hidden"
+>
+
+    <div class="processing-box">
+
+        <div class="spinner"></div>
+
+        <h2>
+
+            Processing...
+
+        </h2>
+
+    </div>
+
+</div>
+
+<!-- ============================================================
+     Emergency Banner
+============================================================= -->
+
+<div
+    id="emergencyBanner"
+    class="hidden"
+>
+
+    <span id="emergencyMessage">
+
+        Emergency Alert
+
+    </span>
+
+</div>
+
+<!-- ============================================================
+     Scripts
+============================================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- ============================================================
+     Core
+============================================================= -->
+
+<script type="module" src="js/constants.js"></script>
+<script type="module" src="js/utils.js"></script>
+<script type="module" src="js/event_bus.js"></script>
+<script type="module" src="js/state.js"></script>
+<script type="module" src="js/router.js"></script>
+<script type="module" src="js/api.js"></script>
+<script type="module" src="js/websocket.js"></script>
+
+<!-- ============================================================
+     Dashboard Modules
+============================================================= -->
+
+<script type="module" src="js/dashboard.js"></script>
+<script type="module" src="js/charts.js"></script>
+<script type="module" src="js/map.js"></script>
+<script type="module" src="js/alerts.js"></script>
+<script type="module" src="js/event_modes.js"></script>
+
+<!-- ============================================================
+     Layout Components
+============================================================= -->
+
+<script type="module" src="components/layout/navbar.js"></script>
+<script type="module" src="components/layout/sidebar.js"></script>
+<script type="module" src="components/layout/footer.js"></script>
+<script type="module" src="components/layout/notifications.js"></script>
+
+<!-- ============================================================
+     Camera Components
+============================================================= -->
+
+<script type="module" src="components/cameras/camera_grid.js"></script>
+<script type="module" src="components/cameras/camera_card.js"></script>
+<script type="module" src="components/cameras/camera_toolbar.js"></script>
+<script type="module" src="components/cameras/fullscreen.js"></script>
+
+<!-- ============================================================
+     Analytics Components
+============================================================= -->
+
+<script type="module" src="components/analytics/statistics.js"></script>
+<script type="module" src="components/analytics/charts.js"></script>
+<script type="module" src="components/analytics/density.js"></script>
+<script type="module" src="components/analytics/occupancy.js"></script>
+<script type="module" src="components/analytics/congestion.js"></script>
+<script type="module" src="components/analytics/movement.js"></script>
+<script type="module" src="components/analytics/weather.js"></script>
+<script type="module" src="components/analytics/heat_index.js"></script>
+<script type="module" src="components/analytics/trends.js"></script>
+
+<!-- ============================================================
+     Risk Components
+============================================================= -->
+
+<script type="module" src="components/risk/risk_gauge.js"></script>
+<script type="module" src="components/risk/alerts.js"></script>
+<script type="module" src="components/risk/emergency.js"></script>
+<script type="module" src="components/risk/evacuation.js"></script>
+
+<!-- ============================================================
+     Maps Components
+============================================================= -->
+
+<script type="module" src="components/maps/venue_map.js"></script>
+<script type="module" src="components/maps/heatmap.js"></script>
+<script type="module" src="components/maps/routes.js"></script>
+<script type="module" src="components/maps/gps.js"></script>
+
+<!-- ============================================================
+     People Components
+============================================================= -->
+
+<script type="module" src="components/people/reid.js"></script>
+<script type="module" src="components/people/tracking.js"></script>
+<script type="module" src="components/people/identities.js"></script>
+<script type="module" src="components/people/history.js"></script>
+
+<!-- ============================================================
+     Reports Components
+============================================================= -->
+
+<script type="module" src="components/reports/report_table.js"></script>
+<script type="module" src="components/reports/report_export.js"></script>
+<script type="module" src="components/reports/report_filters.js"></script>
+
+<!-- ============================================================
+     Application Entry
+============================================================= -->
+
+<script type="module" src="js/app.js"></script>
 
 </body>
+
 </html>

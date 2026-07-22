@@ -1,0 +1,587 @@
+/*
+============================================================
+Astravon Live Arena
+Alerts Styles
+
+Purpose:
+    Styling for the AI Alert Center, incident timeline,
+    emergency notifications, risk summaries and
+    response recommendations.
+
+Author:
+    House of Astravon
+
+Version:
+    2.0.0
+============================================================
+*/
+
+/*==========================================================
+    Alert Overview
+==========================================================*/
+
+.alert-overview{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(220px,1fr));
+
+    gap:var(--space-5);
+
+    margin-bottom:var(--space-6);
+
+}
+
+.alert-summary{
+
+    background:var(--background-card);
+
+    border:1px solid var(--border-color);
+
+    border-radius:var(--radius-lg);
+
+    padding:22px;
+
+    transition:var(--transition-normal);
+
+}
+
+.alert-summary:hover{
+
+    transform:translateY(-4px);
+
+    border-color:rgba(212,175,55,.25);
+
+}
+
+.alert-summary-title{
+
+    color:var(--text-secondary);
+
+    font-size:var(--text-sm);
+
+    margin-bottom:8px;
+
+}
+
+.alert-summary-value{
+
+    font-size:2rem;
+
+    font-weight:700;
+
+    color:var(--text-primary);
+
+}
+
+/*==========================================================
+    Alert Feed
+==========================================================*/
+
+.alert-feed{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.alert-card{
+
+    background:var(--background-card);
+
+    border-left:6px solid transparent;
+
+    border-radius:var(--radius-lg);
+
+    padding:20px;
+
+    box-shadow:var(--shadow-small);
+
+    transition:var(--transition-normal);
+
+}
+
+.alert-card:hover{
+
+    transform:translateX(6px);
+
+}
+
+.alert-card.high{
+
+    border-left-color:var(--color-danger);
+
+}
+
+.alert-card.medium{
+
+    border-left-color:var(--color-warning);
+
+}
+
+.alert-card.low{
+
+    border-left-color:var(--color-info);
+
+}
+
+.alert-card.info{
+
+    border-left-color:var(--color-success);
+
+}
+
+/*==========================================================
+    Alert Header
+==========================================================*/
+
+.alert-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    gap:20px;
+
+    margin-bottom:14px;
+
+}
+
+.alert-title{
+
+    font-size:var(--text-lg);
+
+    font-weight:600;
+
+}
+
+.alert-location{
+
+    margin-top:6px;
+
+    color:var(--text-muted);
+
+    font-size:var(--text-sm);
+
+}
+
+.alert-time{
+
+    color:var(--text-muted);
+
+    font-size:var(--text-xs);
+
+    white-space:nowrap;
+
+}
+
+/*==========================================================
+    Alert Body
+==========================================================*/
+
+.alert-description{
+
+    color:var(--text-secondary);
+
+    line-height:1.7;
+
+    margin-bottom:18px;
+
+}
+
+.alert-meta{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+}
+
+.alert-chip{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:8px 14px;
+
+    background:rgba(255,255,255,.04);
+
+    border-radius:30px;
+
+    font-size:var(--text-sm);
+
+    border:1px solid var(--border-color);
+
+}
+
+/*==========================================================
+    Alert Severity Badge
+==========================================================*/
+
+.severity{
+
+    padding:7px 14px;
+
+    border-radius:50px;
+
+    font-weight:600;
+
+    font-size:var(--text-xs);
+
+    text-transform:uppercase;
+
+    letter-spacing:.08em;
+
+}
+
+.severity.high{
+
+    background:rgba(239,68,68,.15);
+
+    color:var(--color-danger);
+
+}
+
+.severity.medium{
+
+    background:rgba(245,158,11,.15);
+
+    color:var(--color-warning);
+
+}
+
+.severity.low{
+
+    background:rgba(59,130,246,.15);
+
+    color:var(--color-info);
+
+}
+
+.severity.info{
+
+    background:rgba(16,185,129,.15);
+
+    color:var(--color-success);
+
+}
+
+/*==========================================================
+    AI Recommendation
+==========================================================*/
+
+.ai-recommendation{
+
+    margin-top:18px;
+
+    padding:18px;
+
+    border-radius:var(--radius-md);
+
+    background:rgba(56,189,248,.08);
+
+    border:1px solid rgba(56,189,248,.20);
+
+}
+
+.ai-recommendation h4{
+
+    margin-bottom:10px;
+
+    color:var(--color-accent);
+
+    font-family:var(--font-heading);
+
+}
+
+.ai-recommendation p{
+
+    color:var(--text-secondary);
+
+    line-height:1.6;
+
+}
+
+/*==========================================================
+    Emergency Actions
+==========================================================*/
+
+.alert-actions{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:14px;
+
+    margin-top:20px;
+
+}
+
+.alert-actions button{
+
+    min-width:150px;
+
+}
+
+/*==========================================================
+    Alert Timeline
+==========================================================*/
+
+.alert-timeline{
+
+    position:relative;
+
+    margin-top:20px;
+
+    padding-left:30px;
+
+}
+
+.alert-timeline::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:11px;
+
+    width:2px;
+    height:100%;
+
+    background:rgba(255,255,255,.08);
+
+}
+
+.timeline-event{
+
+    position:relative;
+
+    padding-bottom:24px;
+
+}
+
+.timeline-event:last-child{
+
+    padding-bottom:0;
+
+}
+
+.timeline-event::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:-24px;
+    top:5px;
+
+    width:12px;
+    height:12px;
+
+    border-radius:50%;
+
+    background:var(--color-secondary);
+
+    box-shadow:0 0 10px rgba(212,175,55,.45);
+
+}
+
+.timeline-title{
+
+    font-weight:600;
+
+    margin-bottom:6px;
+
+}
+
+.timeline-description{
+
+    color:var(--text-secondary);
+
+    line-height:1.6;
+
+    margin-bottom:4px;
+
+}
+
+.timeline-time{
+
+    color:var(--text-muted);
+
+    font-size:var(--text-xs);
+
+}
+
+/*==========================================================
+    Response Status
+==========================================================*/
+
+.response-status{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-top:18px;
+
+}
+
+.response-indicator{
+
+    width:14px;
+    height:14px;
+
+    border-radius:50%;
+
+}
+
+.response-pending{
+
+    background:var(--color-warning);
+
+}
+
+.response-active{
+
+    background:var(--color-success);
+
+}
+
+.response-complete{
+
+    background:var(--color-info);
+
+}
+
+/*==========================================================
+    Notification Banner
+==========================================================*/
+
+.alert-banner{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    padding:18px 24px;
+
+    border-radius:var(--radius-lg);
+
+    margin-bottom:var(--space-6);
+
+    background:linear-gradient(
+        90deg,
+        rgba(239,68,68,.18),
+        rgba(245,158,11,.12)
+    );
+
+    border:1px solid rgba(239,68,68,.30);
+
+}
+
+.alert-banner h3{
+
+    margin-bottom:6px;
+
+}
+
+.alert-banner p{
+
+    color:var(--text-secondary);
+
+}
+
+/*==========================================================
+    Empty State
+==========================================================*/
+
+.no-alerts{
+
+    text-align:center;
+
+    padding:70px 30px;
+
+}
+
+.no-alerts-icon{
+
+    font-size:4rem;
+
+    margin-bottom:20px;
+
+}
+
+.no-alerts h2{
+
+    margin-bottom:10px;
+
+}
+
+.no-alerts p{
+
+    color:var(--text-muted);
+
+}
+
+/*==========================================================
+    Responsive
+==========================================================*/
+
+@media (max-width:900px){
+
+    .alert-header{
+
+        flex-direction:column;
+
+    }
+
+    .alert-actions{
+
+        flex-direction:column;
+
+    }
+
+    .alert-actions button{
+
+        width:100%;
+
+    }
+
+}
+
+@media (max-width:768px){
+
+    .alert-overview{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .alert-banner{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+}

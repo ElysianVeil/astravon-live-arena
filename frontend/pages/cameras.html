@@ -1,0 +1,257 @@
+<main class="cameras-page">
+
+    <!-- ===================================================== -->
+    <!-- Camera Overview -->
+    <!-- ===================================================== -->
+
+    <section class="camera-overview">
+
+        <div
+            id="connectedCamerasCard"
+            class="camera-overview-card"
+        ></div>
+
+        <div
+            id="activeStreamsCard"
+            class="camera-overview-card"
+        ></div>
+
+        <div
+            id="recordingStatusCard"
+            class="camera-overview-card"
+        ></div>
+
+        <div
+            id="cameraHealthCard"
+            class="camera-overview-card"
+        ></div>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- Camera Controls -->
+    <!-- ===================================================== -->
+
+    <section class="dashboard-card camera-controls-panel">
+
+        <div class="card-header">
+
+            <h2>Camera Controls</h2>
+
+            <div class="camera-toolbar">
+
+                <button id="connectAllBtn">
+                    Connect All
+                </button>
+
+                <button id="disconnectAllBtn">
+                    Disconnect All
+                </button>
+
+                <button id="refreshCamerasBtn">
+                    Refresh
+                </button>
+
+                <button id="fullscreenGridBtn">
+                    Fullscreen
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- Camera Grid -->
+    <!-- ===================================================== -->
+
+    <section class="camera-grid">
+
+        <section
+            id="cameraGrid"
+            class="camera-grid-container"
+        >
+
+            <!-- Dynamic camera cards -->
+
+        </section>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- Selected Camera Information -->
+    <!-- ===================================================== -->
+
+    <section class="camera-details-grid">
+
+        <!-- ============================================= -->
+        <!-- Camera Information -->
+        <!-- ============================================= -->
+
+        <section
+            id="cameraInformationPanel"
+            class="dashboard-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Camera Information</h2>
+
+            </div>
+
+            <div id="cameraInformation"></div>
+
+        </section>
+
+        <!-- ============================================= -->
+        <!-- Live Statistics -->
+        <!-- ============================================= -->
+
+        <section
+            id="cameraStatisticsPanel"
+            class="dashboard-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Live Statistics</h2>
+
+            </div>
+
+            <div id="cameraStatistics"></div>
+
+        </section>
+
+        <!-- ============================================= -->
+        <!-- Weather -->
+        <!-- ============================================= -->
+
+        <section
+            id="cameraWeatherPanel"
+            class="dashboard-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Weather</h2>
+
+            </div>
+
+            <div id="cameraWeather"></div>
+
+        </section>
+
+        <!-- ============================================= -->
+        <!-- Performance -->
+        <!-- ============================================= -->
+
+        <section
+            id="cameraPerformancePanel"
+            class="dashboard-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Performance</h2>
+
+            </div>
+
+            <div id="cameraPerformance"></div>
+
+        </section>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- Camera Analytics -->
+    <!-- ===================================================== -->
+
+    <section class="camera-analytics-grid">
+
+        <section
+            class="dashboard-card"
+            id="cameraPeopleChartPanel"
+        >
+
+            <div class="card-header">
+
+                <h2>People Count</h2>
+
+            </div>
+
+            <canvas id="cameraPeopleChart"></canvas>
+
+        </section>
+
+        <section
+            class="dashboard-card"
+            id="cameraDensityChartPanel"
+        >
+
+            <div class="card-header">
+
+                <h2>Density</h2>
+
+            </div>
+
+            <canvas id="cameraDensityChart"></canvas>
+
+        </section>
+
+        <section
+            class="dashboard-card"
+            id="cameraRiskChartPanel"
+        >
+
+            <div class="card-header">
+
+                <h2>Risk</h2>
+
+            </div>
+
+            <canvas id="cameraRiskChart"></canvas>
+
+        </section>
+
+        <section
+            class="dashboard-card"
+            id="cameraMovementChartPanel"
+        >
+
+            <div class="card-header">
+
+                <h2>Movement</h2>
+
+            </div>
+
+            <canvas id="cameraMovementChart"></canvas>
+
+        </section>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- Camera Event Log -->
+    <!-- ===================================================== -->
+
+    <section
+        id="cameraLogPanel"
+        class="dashboard-card"
+    >
+
+        <div class="card-header">
+
+            <h2>Camera Event Log</h2>
+
+        </div>
+
+        <div id="cameraLogContainer">
+
+            <!-- Dynamic camera events -->
+
+        </div>
+
+    </section>
+
+</main>

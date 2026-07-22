@@ -4,63 +4,220 @@ Astravon Live Arena
 API Client
 
 Purpose:
-    Handles all HTTP communication with the
-    Astravon Live Arena Backend.
+    Centralized HTTP client for all frontend to
+    backend communication.
+
+Features:
+    • Automatic retries
+    • Request timeout
+    • Authentication
+    • Request/Response interceptors
+    • File uploads
+    • Download support
+    • AbortController support
+    • Endpoint helpers
+    • Consistent error handling
 
 Author:
     House of Astravon
-
 Version:
-    1.0.0
+    2.0.0
 ============================================================
 */
 
-export default class API {
+import EventBus from "./event_bus.js";
+import State from "./state.js";
+import {
+    API as API_CONFIG
+} from "./constants.js";
+
+class API {
 
     constructor() {
 
-        /**
-         * --------------------------------------
-         * Backend Configuration
-         * --------------------------------------
-         */
+        /*
+        ======================================================
+        Configuration
+        ======================================================
+        */
 
-        this.baseURL = "http://127.0.0.1:8000/api/v1";
+        this.baseURL =
+            `${API_CONFIG.BASE_URL}${API_CONFIG.VERSION}`;
+
+        this.timeout =
+            API_CONFIG.TIMEOUT;
+
+        this.retryCount = 3;
 
         this.defaultHeaders = {
-
             "Content-Type": "application/json"
+        };
+
+        /*
+        ======================================================
+        Authentication
+        ======================================================
+        */
+
+        this.token = null;
+
+        /*
+        ======================================================
+        Interceptors
+        ======================================================
+        */
+
+        this.requestInterceptors = [];
+
+        this.responseInterceptors = [];
+
+        this.errorInterceptors = [];
+
+    }
+
+    /*
+    ======================================================
+    Authentication
+    ======================================================
+    */
+
+    setToken(token) {
+
+        this.token = token;
+
+    }
+
+    clearToken() {
+
+        this.token = null;
+
+    }
+
+    getHeaders(extra = {}) {
+
+        const headers = {
+            ...this.defaultHeaders,
+            ...extra
+        };
+
+        if (this.token) {
+
+            headers.Authorization =
+                `Bearer ${this.token}`;
+
+        }
+
+        return headers;
+
+    }
+
+    /*
+    ======================================================
+    Interceptors
+    ======================================================
+    */
+
+    useRequest(callback) {
+
+        this.requestInterceptors.push(callback);
+
+    }
+
+    useResponse(callback) {
+
+        this.responseInterceptors.push(callback);
+
+    }
+
+    useError(callback) {
+
+        this.errorInterceptors.push(callback);
+
+    }
+
+    /*
+    ======================================================
+    Timeout
+    ======================================================
+    */
+
+    createTimeout() {
+
+        const controller = new AbortController();
+
+        const timer = setTimeout(
+
+            () => controller.abort(),
+
+            this.timeout
+
+        );
+
+        return {
+
+            controller,
+
+            timer
 
         };
 
     }
 
     /*
-    ==========================================================
+    ======================================================
     Core Request
-    ==========================================================
+    ======================================================
     */
 
     async request(
+
         endpoint,
-        options = {}
+
+        options = {},
+
+        retry = 0
+
     ) {
 
-        const config = {
+        const {
 
-            headers: {
+            controller,
 
-                ...this.defaultHeaders,
+            timer
 
-                ...(options.headers || {})
+        } = this.createTimeout();
 
-            },
+        let config = {
+
+            method: "GET",
+
+            headers: this.getHeaders(
+
+                options.headers
+
+            ),
+
+            signal: controller.signal,
 
             ...options
 
         };
 
+        for (const interceptor of this.requestInterceptors) {
+
+            config = await interceptor(config) || config;
+
+        }
+
         try {
+
+            EventBus.emit("api:request:start", {
+
+                endpoint,
+
+                config
+
+            });
 
             const response = await fetch(
 
@@ -70,19 +227,75 @@ export default class API {
 
             );
 
-            const data = await response.json();
+            clearTimeout(timer);
+
+            let data = null;
+
+            const contentType =
+
+                response.headers.get(
+
+                    "content-type"
+
+                ) || "";
+
+            if (
+
+                contentType.includes(
+
+                    "application/json"
+
+                )
+
+            ) {
+
+                data = await response.json();
+
+            }
+
+            else {
+
+                data = await response.text();
+
+            }
 
             if (!response.ok) {
 
-                throw new Error(
+                throw {
 
-                    data.message ||
+                    status: response.status,
 
-                    `HTTP ${response.status}`
+                    message:
 
-                );
+                        data?.message ||
+
+                        response.statusText,
+
+                    data
+
+                };
 
             }
+
+            for (const interceptor of this.responseInterceptors) {
+
+                data = await interceptor(data) || data;
+
+            }
+
+            EventBus.emit(
+
+                "api:request:success",
+
+                {
+
+                    endpoint,
+
+                    data
+
+                }
+
+            );
 
             return data;
 
@@ -90,11 +303,37 @@ export default class API {
 
         catch (error) {
 
-            console.error(
+            clearTimeout(timer);
 
-                "[API]",
+            if (
 
-                error.message
+                retry < this.retryCount
+
+            ) {
+
+                return this.request(
+
+                    endpoint,
+
+                    options,
+
+                    retry + 1
+
+                );
+
+            }
+
+            for (const interceptor of this.errorInterceptors) {
+
+                interceptor(error);
+
+            }
+
+            EventBus.emit(
+
+                "api:request:error",
+
+                error
 
             );
 
@@ -105,12 +344,12 @@ export default class API {
     }
 
     /*
-    ==========================================================
-    GET
-    ==========================================================
+    ======================================================
+    HTTP Methods
+    ======================================================
     */
 
-    async get(endpoint) {
+    get(endpoint) {
 
         return this.request(
 
@@ -126,15 +365,12 @@ export default class API {
 
     }
 
-    /*
-    ==========================================================
-    POST
-    ==========================================================
-    */
+    post(
 
-    async post(
         endpoint,
+
         body = {}
+
     ) {
 
         return this.request(
@@ -153,15 +389,12 @@ export default class API {
 
     }
 
-    /*
-    ==========================================================
-    PUT
-    ==========================================================
-    */
+    put(
 
-    async put(
         endpoint,
+
         body = {}
+
     ) {
 
         return this.request(
@@ -180,13 +413,31 @@ export default class API {
 
     }
 
-    /*
-    ==========================================================
-    DELETE
-    ==========================================================
-    */
+    patch(
 
-    async delete(endpoint) {
+        endpoint,
+
+        body = {}
+
+    ) {
+
+        return this.request(
+
+            endpoint,
+
+            {
+
+                method: "PATCH",
+
+                body: JSON.stringify(body)
+
+            }
+
+        );
+
+    }
+
+    delete(endpoint) {
 
         return this.request(
 
@@ -203,54 +454,200 @@ export default class API {
     }
 
     /*
-    ==========================================================
-    AI Detection
-    ==========================================================
+    ======================================================
+    Upload
+    ======================================================
     */
 
-    async getLatestDetection() {
+    upload(
 
-        return this.get(
+        endpoint,
 
-            "/ai/detection"
-
-        );
-
-    }
-
-    async sendDetection(
-
-        detection
+        formData
 
     ) {
 
-        return this.post(
+        const headers = {};
 
-            "/ai/detection",
+        if (this.token) {
 
-            detection
+            headers.Authorization =
+
+                `Bearer ${this.token}`;
+
+        }
+
+        return this.request(
+
+            endpoint,
+
+            {
+
+                method: "POST",
+
+                headers,
+
+                body: formData
+
+            }
 
         );
 
     }
 
     /*
-    ==========================================================
-    Statistics
-    ==========================================================
+    ======================================================
+    Download
+    ======================================================
     */
 
-    async getStatistics() {
+    async download(endpoint) {
+
+        const response = await fetch(
+
+            `${this.baseURL}${endpoint}`,
+
+            {
+
+                headers: this.getHeaders()
+
+            }
+
+        );
+
+        return response.blob();
+
+    }
+
+    /*
+    ======================================================
+    Health
+    ======================================================
+    */
+
+    health() {
+
+        return this.get("/status");
+
+    }
+
+    /*
+    ======================================================
+    Dashboard
+    ======================================================
+    */
+
+    getDashboard() {
+
+        return this.get("/dashboard");
+
+    }
+
+    /*
+    ======================================================
+    Cameras
+    ======================================================
+    */
+
+    getCameras() {
+
+        return this.get("/camera");
+
+    }
+
+    getCamera(id) {
+
+        return this.get(`/camera/${id}`);
+
+    }
+
+    getCameraStatus(id) {
 
         return this.get(
 
-            "/statistics"
+            `/camera/${id}/status`
 
         );
 
     }
 
-    async getStatisticsHistory() {
+    connectCamera(id) {
+
+        return this.post(
+
+            `/camera/${id}/connect`
+
+        );
+
+    }
+
+    disconnectCamera(id) {
+
+        return this.post(
+
+            `/camera/${id}/disconnect`
+
+        );
+
+    }
+
+    snapshotCamera(id) {
+
+        return this.post(
+
+            `/camera/${id}/snapshot`
+
+        );
+
+    }
+
+    recordCamera(id) {
+
+        return this.post(
+
+            `/camera/${id}/record`
+
+        );
+
+    }
+
+    /*
+    ======================================================
+    AI
+    ======================================================
+    */
+
+    getDetections() {
+
+        return this.get("/ai/detection");
+
+    }
+
+    sendDetection(data) {
+
+        return this.post(
+
+            "/ai/detection",
+
+            data
+
+        );
+
+    }
+
+    /*
+    ======================================================
+    Statistics
+    ======================================================
+    */
+
+    getStatistics() {
+
+        return this.get("/statistics");
+
+    }
+
+    getStatisticsHistory() {
 
         return this.get(
 
@@ -260,7 +657,7 @@ export default class API {
 
     }
 
-    async getStatisticsSummary() {
+    getStatisticsSummary() {
 
         return this.get(
 
@@ -270,47 +667,23 @@ export default class API {
 
     }
 
-    async sendStatistics(
-
-        statistics
-
-    ) {
-
-        return this.post(
-
-            "/statistics/",
-
-            statistics
-
-        );
-
-    }
-
     /*
-    ==========================================================
+    ======================================================
     Alerts
-    ==========================================================
+    ======================================================
     */
 
-    async getAlerts() {
+    getAlerts() {
 
-        return this.get(
-
-            "/alerts"
-
-        );
+        return this.get("/alerts");
 
     }
 
-    async acknowledgeAlert(
-
-        alertID
-
-    ) {
+    acknowledgeAlert(id) {
 
         return this.put(
 
-            `/alerts/${alertID}`,
+            `/alerts/${id}`,
 
             {
 
@@ -322,71 +695,47 @@ export default class API {
 
     }
 
-    /*
-    ==========================================================
-    Cameras
-    ==========================================================
-    */
+    dismissAlert(id) {
 
-    async getCameras() {
+        return this.delete(
 
-        return this.get(
-
-            "/camera"
-
-        );
-
-    }
-
-    async getCameraStatus() {
-
-        return this.get(
-
-            "/camera/status"
+            `/alerts/${id}`
 
         );
 
     }
 
     /*
-    ==========================================================
-    Dashboard
-    ==========================================================
-    */
-
-    async getDashboard() {
-
-        return this.get(
-
-            "/dashboard"
-
-        );
-
-    }
-
-    /*
-    ==========================================================
+    ======================================================
     Reports
-    ==========================================================
+    ======================================================
     */
 
-    async getReports() {
+    getReports() {
 
-        return this.get(
+        return this.get("/reports");
 
-            "/reports"
+    }
+
+    generateReport(data) {
+
+        return this.post(
+
+            "/reports",
+
+            data
 
         );
 
     }
 
     /*
-    ==========================================================
+    ======================================================
     Event Modes
-    ==========================================================
+    ======================================================
     */
 
-    async getEventModes() {
+    getEventModes() {
 
         return this.get(
 
@@ -396,11 +745,7 @@ export default class API {
 
     }
 
-    async setEventMode(
-
-        mode
-
-    ) {
+    setEventMode(mode) {
 
         return this.post(
 
@@ -417,19 +762,31 @@ export default class API {
     }
 
     /*
-    ==========================================================
-    Health Check
-    ==========================================================
+    ======================================================
+    Dashboard State
+    ======================================================
     */
 
-    async health() {
+    async refreshDashboard() {
 
-        return this.get(
+        const data =
 
-            "/health"
+            await this.getDashboard();
+
+        State.set(
+
+            "dashboard",
+
+            data
 
         );
+
+        return data;
 
     }
 
 }
+
+export const api = new API();
+
+export default api;

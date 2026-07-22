@@ -4,517 +4,305 @@ Astravon Live Arena
 Responsive Styles
 
 Purpose:
-    Handles responsiveness for tablets,
-    laptops, mobile devices and ultra-wide
-    displays.
+    Responsive layout adjustments only.
+
+Contents:
+    • Large Desktop
+    • Desktop
+    • Laptop
+    • Tablet
+    • Mobile
+    • Small Mobile
 
 Author:
     House of Astravon
-
 Version:
     1.0.0
 ============================================================
 */
 
 /*==========================================================
-    Large Screens
-    1600px and below
+    Large Desktop
+    1600px+
 ==========================================================*/
 
-@media (max-width: 1600px){
+@media (min-width:1600px){
 
-    .container{
-
-        max-width:1400px;
-
+    .dashboard-grid{
+        gap:32px;
     }
 
-    .dashboard-layout{
+    .dashboard-overview,
+    .camera-overview,
+    .analytics-overview,
+    .map-overview,
+    .report-overview{
+        grid-template-columns:repeat(4,1fr);
+    }
 
-        grid-template-columns:
-            1.7fr
-            1fr;
-
+    .camera-grid-container{
+        grid-template-columns:repeat(4,1fr);
     }
 
 }
 
 /*==========================================================
-    Standard Laptop
-    1400px and below
+    Desktop
+    1200px - 1599px
 ==========================================================*/
 
-@media (max-width: 1400px){
+@media (max-width:1599px){
 
-    .stats-grid{
-
-        grid-template-columns:
-            repeat(3,1fr);
-
+    .dashboard-grid{
+        gap:24px;
     }
 
-    .grid-4{
-
-        grid-template-columns:
-            repeat(2,1fr);
-
+    .camera-grid-container{
+        grid-template-columns:repeat(3,1fr);
     }
 
 }
 
 /*==========================================================
-    Small Laptop
-    1200px and below
+    Laptop
+    992px - 1199px
 ==========================================================*/
 
-@media (max-width: 1200px){
+@media (max-width:1199px){
 
-    .dashboard-layout{
+    .layout{
+        grid-template-columns:90px 1fr;
+    }
 
+    .sidebar-text{
+        display:none;
+    }
+
+    .dashboard-overview,
+    .camera-overview,
+    .analytics-overview,
+    .map-overview,
+    .report-overview{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .analytics-grid,
+    .reports-grid,
+    .settings-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .camera-grid-container{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .map-layout{
         grid-template-columns:1fr;
-
     }
 
-    .dashboard-left,
-    .dashboard-right{
+    .map-legend-card{
+        order:-1;
+    }
 
+}
+
+/*==========================================================
+    Tablet
+    768px - 991px
+==========================================================*/
+
+@media (max-width:991px){
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    aside{
+        position:fixed;
+        left:-280px;
+        top:0;
+        width:280px;
+        height:100vh;
+        transition:.3s;
+        z-index:2000;
+    }
+
+    aside.active{
+        left:0;
+    }
+
+    #mainContent{
         width:100%;
-
     }
 
-    .analytics-grid{
-
-        grid-template-columns:
-            repeat(2,1fr);
-
-    }
-
-    .stats-grid{
-
-        grid-template-columns:
-            repeat(2,1fr);
-
-    }
-
-    .grid-3{
-
-        grid-template-columns:
-            repeat(2,1fr);
-
-    }
-
-}
-
-/*==========================================================
-    Tablet Landscape
-    1024px and below
-==========================================================*/
-
-@media (max-width: 1024px){
-
-    :root{
-
-        --sidebar-width:240px;
-
-        --content-padding:20px;
-
-    }
-
-    .sidebar{
-
-        transform:translateX(-100%);
-
-    }
-
-    .sidebar.active{
-
-        transform:translateX(0);
-
-    }
-
-    .main-wrapper{
-
-        margin-left:0;
-
-    }
-
-    .navbar{
-
-        padding:0 20px;
-
-    }
-
-    .stats-grid{
-
-        gap:16px;
-
-    }
-
-    .map-container{
-
-        height:400px;
-
-    }
-
-}
-
-/*==========================================================
-    Tablet Portrait
-    768px and below
-==========================================================*/
-
-@media (max-width: 768px){
-
-    .dashboard-header{
-
-        flex-direction:column;
-
-        align-items:flex-start;
-
-        gap:16px;
-
-    }
-
-    .stats-grid{
-
+    .dashboard-grid,
+    .analytics-grid,
+    .reports-grid,
+    .settings-grid,
+    .camera-details-grid,
+    .camera-analytics-grid,
+    .map-analytics-grid,
+    .emergency-grid{
+        display:grid;
         grid-template-columns:1fr;
-
     }
 
-    .analytics-grid{
-
-        grid-template-columns:1fr;
-
+    .dashboard-overview,
+    .camera-overview,
+    .analytics-overview,
+    .map-overview,
+    .report-overview{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .grid-2,
-    .grid-3,
-    .grid-4{
-
-        grid-template-columns:1fr;
-
+    .camera-grid-container{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .navbar{
-
-        height:auto;
-
-        padding:16px;
-
+    .camera-toolbar,
+    .map-toolbar,
+    .report-toolbar{
         flex-wrap:wrap;
-
-        gap:12px;
-
-    }
-
-    .panel-header{
-
-        flex-direction:column;
-
-        align-items:flex-start;
-
         gap:10px;
-
     }
 
-    .camera-feed{
-
-        aspect-ratio:auto;
-
-        min-height:280px;
-
-    }
-
-    .chart-container{
-
-        height:300px;
-
-    }
-
-    .map-container{
-
-        height:350px;
-
-    }
-
-    .dashboard-table{
-
-        display:block;
-
-        overflow-x:auto;
-
-        white-space:nowrap;
-
+    .page-header h1{
+        font-size:2rem;
     }
 
 }
 
 /*==========================================================
-    Mobile Devices
-    576px and below
+    Mobile
+    576px - 767px
 ==========================================================*/
 
-@media (max-width: 576px){
+@media (max-width:767px){
 
-    :root{
-
-        --content-padding:16px;
-
-        --card-padding:16px;
-
+    .dashboard-overview,
+    .camera-overview,
+    .analytics-overview,
+    .map-overview,
+    .report-overview{
+        grid-template-columns:1fr;
     }
 
-    .dashboard-title{
+    .camera-grid-container{
+        grid-template-columns:1fr;
+    }
 
+    .statistics-grid{
+        grid-template-columns:1fr;
+    }
+
+    .analytics-summary{
+        grid-template-columns:1fr;
+    }
+
+    .page-header{
+        text-align:center;
+    }
+
+    .page-header h1{
         font-size:1.8rem;
-
-    }
-
-    .stat-value{
-
-        font-size:2rem;
-
-    }
-
-    .btn{
-
-        width:100%;
-
-    }
-
-    .panel-body{
-
-        padding:16px;
-
-    }
-
-    .card-body{
-
-        padding:16px;
-
     }
 
     .card-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:12px;
+    }
 
+    .dashboard-card{
+        padding:20px;
+    }
+
+    .report-table{
+        display:block;
+        overflow-x:auto;
+        white-space:nowrap;
+    }
+
+    .camera-toolbar,
+    .map-toolbar,
+    .report-toolbar{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .camera-toolbar button,
+    .map-toolbar button,
+    .report-toolbar button{
+        width:100%;
+    }
+
+}
+
+/*==========================================================
+    Small Mobile
+    480px and below
+==========================================================*/
+
+@media (max-width:480px){
+
+    html{
+        font-size:14px;
+    }
+
+    .dashboard-card{
         padding:16px;
+        border-radius:14px;
+    }
 
+    .page-header{
+        margin-bottom:24px;
+    }
+
+    .page-header h1{
+        font-size:1.5rem;
+    }
+
+    .page-header p{
+        font-size:.95rem;
+    }
+
+    .btn{
+        width:100%;
     }
 
     .modal-content{
-
-        width:95vw;
-
+        width:95%;
     }
 
-    .map-container{
-
-        height:300px;
-
+    .toast{
+        width:calc(100vw - 30px);
+        min-width:auto;
     }
 
-    .camera-status{
-
-        left:10px;
-
-        top:10px;
-
-        padding:6px 10px;
-
-        font-size:.8rem;
-
+    #systemStatusBar{
+        flex-wrap:wrap;
+        gap:10px;
+        justify-content:center;
     }
 
 }
 
 /*==========================================================
-    Small Phones
-    420px and below
+    Landscape Phones
 ==========================================================*/
 
-@media (max-width: 420px){
+@media (max-height:600px) and (orientation:landscape){
 
-    .dashboard-title{
-
-        font-size:1.5rem;
-
+    .page-header{
+        margin-bottom:20px;
     }
 
-    .dashboard-subtitle{
-
-        font-size:.9rem;
-
-    }
-
-    .stat-card{
-
-        padding:14px;
-
-    }
-
-    .stat-value{
-
-        font-size:1.7rem;
-
-    }
-
-    .panel-title{
-
-        font-size:1rem;
-
-    }
-
-    .alert-item{
-
-        flex-direction:column;
-
-    }
-
-    .notification{
-
-        flex-direction:column;
-
-        align-items:flex-start;
-
-    }
-
-    .dropdown-menu{
-
-        min-width:180px;
-
-    }
-
-}
-
-/*==========================================================
-    Ultra Wide Displays
-    1920px and above
-==========================================================*/
-
-@media (min-width: 1920px){
-
-    .container{
-
-        max-width:1800px;
-
-    }
-
-    .stats-grid{
-
-        grid-template-columns:
-            repeat(5,1fr);
-
-    }
-
-    .dashboard-layout{
-
-        grid-template-columns:
-            2fr
-            1fr;
-
-    }
-
-}
-
-/*==========================================================
-    Sidebar Overlay
-==========================================================*/
-
-.sidebar-overlay{
-
-    position:fixed;
-
-    inset:0;
-
-    background:rgba(0,0,0,.55);
-
-    backdrop-filter:blur(4px);
-
-    opacity:0;
-
-    visibility:hidden;
-
-    transition:.3s ease;
-
-    z-index:998;
-
-}
-
-.sidebar-overlay.active{
-
-    opacity:1;
-
-    visibility:visible;
-
-}
-
-/*==========================================================
-    Mobile Utility Classes
-==========================================================*/
-
-.mobile-hidden{
-
-    display:block;
-
-}
-
-.mobile-only{
-
-    display:none;
-
-}
-
-@media (max-width:768px){
-
-    .mobile-hidden{
-
-        display:none !important;
-
-    }
-
-    .mobile-only{
-
-        display:block !important;
-
-    }
-
-}
-
-/*==========================================================
-    Print Mode
-==========================================================*/
-
-@media print{
-
-    .sidebar,
-    .navbar,
-    .btn,
-    .sidebar-overlay{
-
-        display:none !important;
-
-    }
-
-    .main-wrapper{
-
-        margin-left:0;
-
-    }
-
-    body{
-
-        background:#ffffff;
-
-        color:#000000;
-
-    }
-
-    .panel,
-    .card{
-
-        box-shadow:none;
-
-        border:1px solid #cccccc;
-
+    .dashboard-overview,
+    .camera-overview,
+    .analytics-overview,
+    .map-overview,
+    .report-overview{
+        grid-template-columns:repeat(2,1fr);
     }
 
 }

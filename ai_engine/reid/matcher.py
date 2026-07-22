@@ -130,6 +130,14 @@ class ReIDMatcher:
 
         self._lock = threading.RLock()
 
+        self.enabled = True
+
+        self.match_history = []
+
+        self.total_confidence = 0.0
+
+        self.similarity_threshold = self.cosine_threshold
+
         logger.info(
             "ReID Matcher initialized successfully."
         )
@@ -462,6 +470,7 @@ class ReIDMatcher:
         Converts similarity into an operator-friendly
         confidence percentage.
         """
+        
 
         if similarity <= self.cosine_threshold:
             return 0.0
@@ -565,6 +574,11 @@ class ReIDMatcher:
 
             similarity = candidate["similarity"]
 
+            print(
+                f"Similarity = {similarity:.4f}, "
+                f"Threshold = {threshold:.4f}"
+            )
+
             if similarity < threshold:
 
                 self.failed_matches += 1
@@ -628,6 +642,10 @@ class ReIDMatcher:
                 self.lowest_similarity,
                 similarity
             )
+
+            self.total_confidence += confidence
+
+            self.match_history.append(result)
 
             return result
 
@@ -721,21 +739,21 @@ class ReIDMatcher:
         Returns runtime statistics.
         """
 
-        average_confidence = (
-            self.total_confidence / self.successful_matches
-            if self.successful_matches > 0
-            else 0.0
-        )
-
         return {
             "total_matches": self.total_matches,
             "successful_matches": self.successful_matches,
             "failed_matches": self.failed_matches,
             "success_rate": round(self.success_rate(), 2),
-            "average_confidence": round(average_confidence, 4),
-            "threshold": round(self.similarity_threshold, 4),
-            "history_size": len(self.match_history),
-            "adaptive_threshold": self.adaptive_threshold
+            "average_similarity": round(self.average_similarity, 4),
+            "highest_similarity": round(self.highest_similarity, 4),
+            "lowest_similarity": (
+                round(self.lowest_similarity, 4)
+                if self.successful_matches
+                else 0.0
+            ),
+            "threshold": self.cosine_threshold,
+            "database_population": self.database.population(),
+            "last_match": self.last_match,
         }
 
     # ============================================================
@@ -794,40 +812,14 @@ class ReIDMatcher:
         """
 
         return {
-
             "module": "ReID Matcher",
-
-            "status": (
-                "Running"
-                if self.enabled
-                else "Disabled"
-            ),
-
-            "algorithm": "Cosine Similarity",
-
-            "adaptive_threshold": (
-                self.adaptive_threshold
-            ),
-
-            "threshold": round(
-                self.similarity_threshold,
-                3
-            ),
-
-            "history_size": len(
-                self.match_history
-            ),
-
-            "total_matches": self.total_matches,
-
-            "successful_matches": (
-                self.successful_matches
-            ),
-
-            "success_rate": round(
-                self.success_rate(),
-                2
-            )
+            "version": "1.0.0",
+            "status": "Running",
+            "algorithm": "OSNet + Cosine Similarity",
+            "threshold": round(self.cosine_threshold, 3),
+            "database_population": self.database.population(),
+            "statistics": self.statistics(),
+            "last_match": self.last_match,
         }
 
     # ============================================================

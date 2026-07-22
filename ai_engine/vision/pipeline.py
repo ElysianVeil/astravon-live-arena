@@ -680,6 +680,10 @@ class VisionPipeline:
 
                 feature_extractor=self.feature_extractor.info(),
 
+                identity_database=identity_database.info(),
+
+                matcher=matcher.info(),
+
                 crowd_counter=self.counter.statistics(),
 
                 density=self.density.statistics(),
@@ -845,6 +849,9 @@ class VisionPipeline:
 
 
         if frame_no % 15 == 0:
+            print("Sending statistics")
+            print(statistics_result["performance"]["identity_database"]["population"])
+            print(statistics_result["performance"]["identity_database"]["identities"])
             self.output.send_statistics(statistics_result)
 
 

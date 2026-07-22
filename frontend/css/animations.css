@@ -1,0 +1,651 @@
+/*
+============================================================
+Astravon Live Arena
+Animations
+
+Purpose:
+    Centralized animations and transitions used
+    throughout the application.
+
+Contents
+    • Fade Animations
+    • Slide Animations
+    • Scale Animations
+    • Loading Animations
+    • Pulse Effects
+    • Glow Effects
+    • Floating
+    • Rotation
+    • Shimmer
+    • Notification Animations
+    • Hover Effects
+    • Utility Animation Classes
+
+Author:
+    House of Astravon
+
+Version:
+    2.0.0
+============================================================
+*/
+
+
+/*==========================================================
+    Global Transitions
+==========================================================*/
+
+*{
+
+    transition:
+        background-color var(--transition-fast),
+        color var(--transition-fast),
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        transform var(--transition-fast);
+
+}
+
+
+/*==========================================================
+    Fade Animations
+==========================================================*/
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+    }
+
+    to{
+
+        opacity:1;
+
+    }
+
+}
+
+@keyframes fadeOut{
+
+    from{
+
+        opacity:1;
+
+    }
+
+    to{
+
+        opacity:0;
+
+    }
+
+}
+
+
+/*==========================================================
+    Slide Animations
+==========================================================*/
+
+@keyframes slideUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(30px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes slideDown{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(-30px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes slideLeft{
+
+    from{
+
+        opacity:0;
+
+        transform:translateX(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+}
+
+@keyframes slideRight{
+
+    from{
+
+        opacity:0;
+
+        transform:translateX(-40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+}
+
+
+/*==========================================================
+    Scale Animations
+==========================================================*/
+
+@keyframes scaleIn{
+
+    from{
+
+        opacity:0;
+
+        transform:scale(.92);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
+}
+
+@keyframes scaleOut{
+
+    from{
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
+    to{
+
+        opacity:0;
+
+        transform:scale(.9);
+
+    }
+
+}
+
+
+/*==========================================================
+    Loading Spinner
+==========================================================*/
+
+@keyframes spin{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+.spin{
+
+    animation:spin .8s linear infinite;
+
+}
+
+
+/*==========================================================
+    Pulse
+==========================================================*/
+
+@keyframes pulse{
+
+    0%{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+    50%{
+
+        transform:scale(1.08);
+
+        opacity:.75;
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+}
+
+.pulse{
+
+    animation:pulse 1.5s infinite;
+
+}
+
+
+/*==========================================================
+    Live Indicator
+==========================================================*/
+
+@keyframes livePulse{
+
+    0%{
+
+        box-shadow:
+            0 0 0 0 rgba(239,68,68,.7);
+
+    }
+
+    70%{
+
+        box-shadow:
+            0 0 0 14px rgba(239,68,68,0);
+
+    }
+
+    100%{
+
+        box-shadow:
+            0 0 0 0 rgba(239,68,68,0);
+
+    }
+
+}
+
+.live-dot{
+
+    animation:livePulse 1.5s infinite;
+
+}
+
+
+/*==========================================================
+    Glow
+==========================================================*/
+
+@keyframes glow{
+
+    0%{
+
+        box-shadow:0 0 8px rgba(212,175,55,.15);
+
+    }
+
+    50%{
+
+        box-shadow:0 0 24px rgba(212,175,55,.45);
+
+    }
+
+    100%{
+
+        box-shadow:0 0 8px rgba(212,175,55,.15);
+
+    }
+
+}
+
+.glow{
+
+    animation:glow 2.5s infinite;
+
+}
+
+
+/*==========================================================
+    Floating
+==========================================================*/
+
+@keyframes floating{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-8px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+.float{
+
+    animation:floating 3.5s ease-in-out infinite;
+
+}
+
+
+/*==========================================================
+    Bounce
+==========================================================*/
+
+@keyframes bounce{
+
+    0%,20%,50%,80%,100%{
+
+        transform:translateY(0);
+
+    }
+
+    40%{
+
+        transform:translateY(-10px);
+
+    }
+
+    60%{
+
+        transform:translateY(-5px);
+
+    }
+
+}
+
+.bounce{
+
+    animation:bounce 2s infinite;
+
+}
+
+
+/*==========================================================
+    Shimmer
+==========================================================*/
+
+@keyframes shimmer{
+
+    0%{
+
+        background-position:-400px 0;
+
+    }
+
+    100%{
+
+        background-position:400px 0;
+
+    }
+
+}
+
+.shimmer{
+
+    background:
+
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.05) 25%,
+            rgba(255,255,255,.15) 50%,
+            rgba(255,255,255,.05) 75%
+        );
+
+    background-size:400px 100%;
+
+    animation:shimmer 1.4s linear infinite;
+
+}
+
+
+/*==========================================================
+    Progress Animation
+==========================================================*/
+
+@keyframes progress{
+
+    from{
+
+        width:0;
+
+    }
+
+}
+
+.progress-fill{
+
+    animation:progress .8s ease;
+
+}
+
+
+/*==========================================================
+    Notification
+==========================================================*/
+
+@keyframes toastIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateX(100%);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+}
+
+@keyframes toastOut{
+
+    from{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+    to{
+
+        opacity:0;
+
+        transform:translateX(100%);
+
+    }
+
+}
+
+
+/*==========================================================
+    Card Hover
+==========================================================*/
+
+.hover-lift{
+
+    transition:all var(--transition-normal);
+
+}
+
+.hover-lift:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:var(--shadow-lg);
+
+}
+
+
+/*==========================================================
+    Button Hover
+==========================================================*/
+
+.hover-scale{
+
+    transition:transform var(--transition-fast);
+
+}
+
+.hover-scale:hover{
+
+    transform:scale(1.05);
+
+}
+
+.hover-scale:active{
+
+    transform:scale(.97);
+
+}
+
+
+/*==========================================================
+    Rotate
+==========================================================*/
+
+.rotate{
+
+    transition:transform var(--transition-normal);
+
+}
+
+.rotate:hover{
+
+    transform:rotate(180deg);
+
+}
+
+
+/*==========================================================
+    Utility Animation Classes
+==========================================================*/
+
+.fade-in{
+
+    animation:fadeIn .4s ease forwards;
+
+}
+
+.fade-out{
+
+    animation:fadeOut .3s ease forwards;
+
+}
+
+.slide-up{
+
+    animation:slideUp .45s ease forwards;
+
+}
+
+.slide-down{
+
+    animation:slideDown .45s ease forwards;
+
+}
+
+.slide-left{
+
+    animation:slideLeft .45s ease forwards;
+
+}
+
+.slide-right{
+
+    animation:slideRight .45s ease forwards;
+
+}
+
+.scale-in{
+
+    animation:scaleIn .3s ease forwards;
+
+}
+
+.scale-out{
+
+    animation:scaleOut .3s ease forwards;
+
+}
+
+
+/*==========================================================
+    Reduced Motion
+==========================================================*/
+
+@media (prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+
+        animation:none !important;
+
+        transition:none !important;
+
+        scroll-behavior:auto !important;
+
+    }
+
+}

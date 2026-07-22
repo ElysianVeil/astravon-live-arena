@@ -1,46 +1,231 @@
-<section class="dashboard-grid">
+<main class="dashboard-page">
 
-    <section
-        id="cameraPanel"
-        class="dashboard-card camera-card"
-    ></section>
+    <!-- ===================================================== -->
+    <!-- Top Summary -->
+    <!-- ===================================================== -->
 
-    <section
-        id="statisticsPanel"
-        class="dashboard-card statistics-card"
-    ></section>
+    <section class="dashboard-overview">
 
-    <section
-        id="chartsPanel"
-        class="dashboard-card charts-card"
-    >
+        <div id="overviewPeople" class="overview-card"></div>
 
-        <div class="card-header">
-            <h2>📈 Analytics</h2>
-        </div>
+        <div id="overviewRisk" class="overview-card"></div>
 
-        <canvas id="statisticsChart"></canvas>
+        <div id="overviewWeather" class="overview-card"></div>
+
+        <div id="overviewPerformance" class="overview-card"></div>
 
     </section>
 
-    <section
-        id="mapPanel"
-        class="dashboard-card map-card"
-    >
 
-        <div class="card-header">
-            <h2>🗺 Crowd Map</h2>
-        </div>
+    <!-- ===================================================== -->
+    <!-- Main Dashboard -->
+    <!-- ===================================================== -->
 
-        <div id="crowdMap">
-            Loading map...
-        </div>
+    <section class="dashboard-grid">
+
+        <!-- ============================================= -->
+        <!-- Camera Grid -->
+        <!-- ============================================= -->
+
+        <section
+            id="cameraPanel"
+            class="dashboard-card camera-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Live Camera Feeds</h2>
+
+                <div class="camera-toolbar">
+
+                    <button id="fullscreenButton">
+                        Fullscreen
+                    </button>
+
+                    <button id="refreshCameraButton">
+                        Refresh
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div id="cameraGrid"></div>
+
+        </section>
+
+
+        <!-- ============================================= -->
+        <!-- Live Statistics -->
+        <!-- ============================================= -->
+
+        <section
+            id="statisticsPanel"
+            class="dashboard-card statistics-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Live Statistics</h2>
+
+            </div>
+
+            <div id="statisticsContainer"></div>
+
+        </section>
+
+
+        <!-- ============================================= -->
+        <!-- Analytics -->
+        <!-- ============================================= -->
+
+        <section
+            id="analyticsPanel"
+            class="dashboard-card analytics-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Analytics</h2>
+
+            </div>
+
+            <div class="chart-grid">
+
+                <canvas id="peopleChart"></canvas>
+
+                <canvas id="densityChart"></canvas>
+
+                <canvas id="riskChart"></canvas>
+
+                <canvas id="movementChart"></canvas>
+
+            </div>
+
+        </section>
+
+
+        <!-- ============================================= -->
+        <!-- Crowd Map -->
+        <!-- ============================================= -->
+
+        <section
+            id="mapPanel"
+            class="dashboard-card map-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Venue Map</h2>
+
+            </div>
+
+            <div id="venueMap"></div>
+
+        </section>
+
+
+        <!-- ============================================= -->
+        <!-- Risk -->
+        <!-- ============================================= -->
+
+        <section
+            id="riskPanel"
+            class="dashboard-card risk-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Risk Assessment</h2>
+
+            </div>
+
+            <div id="riskGauge"></div>
+
+            <div id="riskDetails"></div>
+
+        </section>
+
+
+        <!-- ============================================= -->
+        <!-- Weather -->
+        <!-- ============================================= -->
+
+        <section
+            id="weatherPanel"
+            class="dashboard-card weather-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Weather</h2>
+
+            </div>
+
+            <div id="weatherContainer"></div>
+
+        </section>
+
+
+        <!-- ============================================= -->
+        <!-- ReID -->
+        <!-- ============================================= -->
+
+        <section
+            id="identityPanel"
+            class="dashboard-card identity-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Person Re-Identification</h2>
+
+            </div>
+
+            <div id="identityContainer"></div>
+
+        </section>
+
+
+        <!-- ============================================= -->
+        <!-- Alerts -->
+        <!-- ============================================= -->
+
+        <section
+            id="alertPanel"
+            class="dashboard-card alert-card"
+        >
+
+            <div class="card-header">
+
+                <h2>Live Alerts</h2>
+
+            </div>
+
+            <div id="alertContainer"></div>
+
+        </section>
+
+
+        <!-- ============================================= -->
+        <!-- System Status -->
+        <!-- ============================================= -->
+
+        <section
+            id="systemPanel"
+            class="dashboard-card system-card"
+        >
+
+            <div class="card-header">
+
+                <h2>AI Engine Status</h2>
+
+            </div>
+
+            <div id="systemStatus"></div>
+
+        </section>
 
     </section>
 
-    <section
-        id="alertPanel"
-        class="dashboard-card alert-card"
-    ></section>
-
-</section>
+</main>
